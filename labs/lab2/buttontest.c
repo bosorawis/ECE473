@@ -25,9 +25,9 @@
 //               white  Vss
 
 #include <avr/io.h>
-static uint16_t state = 0; //holds present state
 
 int8_t debounce_switch(){
+    static uint16_t state = 0; //holds present state
     state = (state << 1) | (! bit_is_clear(PINA, 0)) | 0xE000;
     if (state == 0xF000) return 1;
     return 0;
@@ -51,7 +51,7 @@ int main()
 
     while(1){
 	PORTB = 0x70; // Turn button board on
-	DDRA = 0x00;  //PortA input mode
+	DDRA  = 0x00;  //PortA input mode
 	PORTA = 0xFF;  // PORTA input mode
 	__asm__ __volatile__ ("nop"); //buffer
 	__asm__ __volatile__ ("nop"); //buffer

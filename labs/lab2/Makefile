@@ -1,4 +1,4 @@
-PRG            = buttontest
+PRG            = lab2_skel
 
 OBJ            = $(PRG).o
 
