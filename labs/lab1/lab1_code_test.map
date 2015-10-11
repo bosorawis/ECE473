@@ -366,9 +366,9 @@ END GROUP
  *(.stab)
  .stab          0x0000000000000000      0x5dc lab1_code_test.o
 
-.stabstr        0x0000000000000000      0xc08
+.stabstr        0x0000000000000000      0xc07
  *(.stabstr)
- .stabstr       0x0000000000000000      0xc08 lab1_code_test.o
+ .stabstr       0x0000000000000000      0xc07 lab1_code_test.o
 
 .stab.excl
  *(.stab.excl)
