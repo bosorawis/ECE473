@@ -15,7 +15,7 @@
 #define SELECT_BIT_BUTTON_BOARD 0x70
 #include <avr/io.h>
 #include <util/delay.h>
-
+#include <math.h>
 #define ONE	 0xf9
 #define TWO	 0xa4
 #define THREE	 0xb0
@@ -47,14 +47,30 @@ uint8_t dec_to_7seg[12];
 //Expects active low pushbuttons on PINA port.  Debounce time is determined by 
 //external loop delay times 12. 
 //
-uint8_t chk_buttons(uint8_t button) {
-    //******************************************************************************
-    static uint16_t state = 0; //holds present state
-    state = (state << 1) | (! bit_is_clear(PIND, 0)) | 0xE000;
-    if (state == 0xF000) return 1;
+int8_t chk_buttons(uint8_t button){
+    static uint16_t state = 0;
+    state = (state << 1) | (bit_is_clear(PINA, button) | 0xE000);
+    if (state == 0xF000){
+	return 1;
+    }
     return 0;
 
 }
+/*
+uint8_t chk_buttons(){
+    uint8_t button;
+    for(button = 0 ; button < BUTTON_COUNT ; button++){
+	if (!bit_is_clear(PINA, button)){
+	    if(debounce_switch(button)){
+		return pow(2, button);
+	    }
+	    else {
+		return 0;
+	    }
+	}
+    }
+}
+*/
 //***********************************************************************************
 // int2seg
 // return the 7-segment code for each digit
@@ -147,9 +163,9 @@ int main()
 {
     //set port bits 4-7 B as outputs
     DDRB = 0x70;
-    uint16_t value;
+    uint16_t value = 0;
     int display_segment;
-    int button = 0;
+    int button;
     segment_data[2] = OFF;
     while(1){
 	//insert loop delay for debounce 
@@ -164,15 +180,17 @@ int main()
 	__asm__ __volatile__ ("nop");
 	__asm__ __volatile__ ("nop");
 	//now check each button and increment the count as needed
-	for(button = 0 ; buttons < MAX_BUTTONS ; button++){
-        	chk_buttons(button);
+	for (button = 0 ; button < BUTTON_COUNT ; button++){
+	    if (chk_buttons(button)){
+		value = value + (1 << button);
+	    }
 	}
 	//bound the count to 0 - 1023
 	if (value >= MAX_SUM){
 	    value = 0;
 	}
 	//break up the disp_value to 4, BCD digits in the array: call (segsum)
-	value = 20;
+	//value = 20;
 	segsum(value);
 	//bound a counter (0-4) to keep track of digit to display 
 	//make PORTA an output
