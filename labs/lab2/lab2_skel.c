@@ -37,7 +37,6 @@ uint8_t segment_data[5];
 //decimal to 7-segment LED display encodings, logic "0" turns on segment
 uint8_t dec_to_7seg[12];
 
-
 //******************************************************************************
 //                            chk_buttons                                      
 //Checks the state of the button number passed to it. It shifts in ones till   
@@ -56,21 +55,6 @@ int8_t chk_buttons(uint8_t button){
     return 0;
 
 }
-/*
-uint8_t chk_buttons(){
-    uint8_t button;
-    for(button = 0 ; button < BUTTON_COUNT ; button++){
-	if (!bit_is_clear(PINA, button)){
-	    if(debounce_switch(button)){
-		return pow(2, button);
-	    }
-	    else {
-		return 0;
-	    }
-	}
-    }
-}
-*/
 //***********************************************************************************
 // int2seg
 // return the 7-segment code for each digit
@@ -118,6 +102,7 @@ uint8_t int2seg(uint8_t number){
 void segsum(uint16_t sum) {
     //determine how many digits there are 
     int digit;
+    // Break down the digits
     if(sum >= 1000){
 	digit = 4;
     }
@@ -169,6 +154,7 @@ int main()
     segment_data[2] = OFF;
     while(1){
 	//insert loop delay for debounce 
+	PORTA = OFF;
 	_delay_ms(2);
 	//make PORTA an input port with pullups 
 	DDRA  = 0x00; // PORTA input mode
@@ -203,7 +189,6 @@ int main()
 	    //send 7 segment code to LED segments
 	    //update digit to display
 	    PORTA = segment_data[display_segment];	
-	    //    PORTA = ONE;
 	    _delay_ms(1);
 	}	
     }//while
