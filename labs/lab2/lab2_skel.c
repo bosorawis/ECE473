@@ -30,7 +30,7 @@
 
 #define MAX_SEGMENT 5
 #define BUTTON_COUNT 8
-#define MAX_SUM 1024
+#define MAX_SUM 1023
 //holds data to be sent to the segments. logic zero turns segment on
 uint8_t segment_data[5];
 
@@ -172,8 +172,8 @@ int main()
 	    }
 	}
 	//bound the count to 0 - 1023
-	if (value >= MAX_SUM){
-	    value = 0;
+	if (value > MAX_SUM){
+	    value = value - MAX_SUM;
 	}
 	//break up the disp_value to 4, BCD digits in the array: call (segsum)
 	//value = 20;
