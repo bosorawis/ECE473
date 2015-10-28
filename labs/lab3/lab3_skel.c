@@ -304,50 +304,50 @@ int decode_spi_knob(){
 	    right_encoder_state = 1;
 	}
 
-    }
+    }                            
+    //value =  ENCODE_LEFT_KNOB(spi_read); 
     switch (left_encoder_state){
 	case 0:		//When starting
-	    return 0;
+	    return 25;
 	case 1: //When detecting a spin
 	    if(ENCODE_LEFT_KNOB(spi_read) == 0x02){ //CW spin
-		value = value+dif;
 		left_encoder_dir = 1;     //Direction = positive
 		left_encoder_state += 1;  //Go to next state
 		previous_state = 0x02;  //Save value
-		return 0;
+		return 1;
 	    }
 	    else if(ENCODE_LEFT_KNOB(spi_read) == 0x01){ //CCW spin
 		left_encoder_dir = -1;   //Direction = negative
 		left_encoder_state +=1;  //Go to next state
 		previous_state = 0x01;//Save for next state
-		return 0;
+		return 2;
 	    }
 	    else{
-		left_encoder_dir = 0;   //Reset direction to 0
-		left_encoder_state = 0; //Reset state to 0   
-		previous_state = 0xFF; //Reset previous to default
-		return 0;
+		//left_encoder_dir = 0;   //Reset direction to 0
+		//left_encoder_state = 0; //Reset state to 0   
+	       // previous_state = 0xFF; //Reset previous to default
+		return 3;
 	    }    
 	case 2: //Next stage of spin
-		//Last stage is coming towart CW
+	    //Last stage is coming towart CW
 	    if((ENCODE_LEFT_KNOB(spi_read) == 0x00) && (previous_state == 0x02)){
 		left_encoder_dir = 1;  //Ensure the direction is CW
 		left_encoder_state += 1;  //Next state
 		previous_state =  0x00;
-		return 0;
+		return 4;
 	    }
-		//Last stage is coming towart CCW
+	    //Last stage is coming towart CCW
 	    else if((ENCODE_LEFT_KNOB(spi_read) == 0x00) && previous_state == 0x01){
 		left_encoder_dir = -1;      //Ensure CCW
 		left_encoder_state +=1;     //Next state
 		previous_state =  0x00;
-		return 0;
+		return 5;
 	    }
 	    else{
-		left_encoder_dir = 0;       //Reset Left encoder direction
-		left_encoder_state = 0;     //Reset Left state
-		previous_state = 0xFF; //Reset previous to default
-		return 0;
+		//left_encoder_dir = 0;       //Reset Left encoder direction
+		//left_encoder_state = 0;     //Reset Left state
+		//previous_state = 0xFF; //Reset previous to default
+		return 6;
 	    }
 	case 3: //Almost last stae 
 	    //Last stage is coming towart CW
@@ -355,22 +355,22 @@ int decode_spi_knob(){
 		left_encoder_dir = 1;  //Ensure the direction is CW
 		left_encoder_state += 1;  //Next state
 		previous_state =  0x01;
-		return 0;
+		return 7;
 	    }
-		//Last stage is coming towart CCW
+	    //Last stage is coming towart CCW
 	    else if((ENCODE_LEFT_KNOB(spi_read) == 0x02) && previous_state == 0x00){
 		left_encoder_dir = -1;      //Ensure CCW
 		left_encoder_state +=1;     //Next state
 		previous_state =  0x02;
-		return 0;
+		return 8;
 	    }
 	    else{
-		left_encoder_dir = 0;       //Reset Left encoder direction
-		left_encoder_state = 0;     //Reset Left state
-		previous_state = 0xFF; //Reset previous to default
-		return 0;
+		//left_encoder_dir = 0;       //Reset Left encoder direction
+		//left_encoder_state = 0;     //Reset Left state
+		//previous_state = 0xFF; //Reset previous to default
+		return 9;
 	    }              
-	    return 0;
+	    return 10;
 
 	case 4:   //Almost last stae 
 	    //Last stage is coming towart CW
@@ -378,22 +378,22 @@ int decode_spi_knob(){
 		left_encoder_dir = 0;  //Ensure the direction is CW
 		left_encoder_state = 0;  //Next state = back to 0
 		previous_state =  0xFF;
-		return 1;
+		return 11;
 	    }
 	    //Last stage is coming towart CCW
 	    else if((ENCODE_LEFT_KNOB(spi_read) == 0x03) && previous_state == 0x02){
 		left_encoder_dir = 0;      //Ensure CCW
 		left_encoder_state = 0;     //Next state = back to 0
 		previous_state =  0xFF;
-		return -1;
+		return 12;
 	    }
 	    else{
-		left_encoder_dir = 0;       //Reset Left encoder direction
-		left_encoder_state = 0;     //Reset Left state
-		previous_state = 0xFF; //Reset previous to default
-		return 0;
+		//left_encoder_dir = 0;       //Reset Left encoder direction
+		//left_encoder_state = 0;     //Reset Left state
+		//previous_state = 0xFF; //Reset previous to default
+		return 13;
 	    }     
-	    return 0;
+	    return 14;
     }
 }
 
@@ -431,7 +431,8 @@ int main()
 	//value = SPI_Receive();
 	//spi_read = SPI_Receive();
 	decode_spi_knob();
-	value = value+ (dif * (decode_spi_knob()));
+        //value = value+ (dif * (decode_spi_knob()));
+	value = decode_spi_knob();
 	//update_number();
 
 	display_update();
