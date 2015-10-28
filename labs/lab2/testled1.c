@@ -36,10 +36,10 @@ PORTA = 0xFF;   //set port A to all ones  (off, active low)
 
 while(1){
   PORTB = 0x00; //digit zero  on 
-//  PORTB = 0x10; //digit one   on 
-//  PORTB = 0x20; //colon, indicator leds  on
-//  PORTB = 0x30; //digit two   on 
-//  PORTB = 0x40; //digit three on 
+  PORTB = 0x10; //digit one   on 
+  PORTB = 0x20; //colon, indicator leds  on
+  PORTB = 0x30; //digit two   on 
+  PORTB = 0x40; //digit three on 
 
   PORTA = PIND; //push button determines which segment is on
   } //while

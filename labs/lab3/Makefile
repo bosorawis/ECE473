@@ -1,4 +1,4 @@
-PRG            =lab1_code_test
+PRG            = lab3_skel
 
 OBJ            = $(PRG).o
 
