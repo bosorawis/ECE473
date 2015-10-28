@@ -184,44 +184,42 @@ void button_routine(){
     //now check each button and increment the count as needed
     for (button = 0 ; button < BUTTON_COUNT ; button++){
 	if (chk_buttons(button)){
+	    //Check the state of buttons
 	    if(button == 0){
-		modeA = !modeA;
+		modeA = !modeA;   //Inverse everytime button0 is pressed
 		//value = 1;
 	    }
-	    else if( button == 1){
+	    else if( button == 1){  //Inverse everytime button1 is pressed  
 		modeB = !modeB;
 		//value = 2;
 	    } 
-	    else if (button == 2){
-		//value = value + 100;
-		if (modeA && modeB){
-		    //value = 4;
-		    dif = 0;
-		}
-		else if(modeA && !modeB){
-		    //value = modeA;
-		    // value = 4;
-		    dif =  1;
-		}
-		else if (modeB && !modeA){
-		    //value = modeB;
-		    dif =  2;
-		}
-
+	    //value = value + 100;
+	    if (modeA && modeB){    //If both modes are on, add 0
+		//value = 4;
+		dif = 0;
 	    }
+	    else if(modeA && !modeB){ //1-on 2-off add 2
+		//value = modeA;
+		// value = 4;
+		dif =  2;
+	    }
+	    else if (modeB && !modeA){ //1-off 2-on add 4
+		//value = modeB;
+		dif =  4;
+	    }
+	    else {               //both off add 1
+		dif = 1;
+	    }
+
 	}
     }
     //bound the count to 0 - 1023
-    if (value > MAX_SUM){
-	value = value - MAX_SUM;
-    }
     //break up the disp_value to 4, BCD digits in the array: call (segsum)
     //value = 20;
     //bound a counter (0-4) to keep track of digit to display 
     //make PORTA an output
     //value = value+1;
-
-    checkButtonNow = 0;
+    checkButtonNow = 0; //reset the flat
 }
 
 ISR(TIMER0_OVF_vect){
@@ -243,11 +241,11 @@ void SPI_Transmit(uint8_t data){
 }
 
 uint8_t SPI_Receive(void){
-    PORTE &= 0;
+    PORTE &= 0;       //Write 0 to PE6 to trigger SPI on radio board
     __asm__ __volatile__ ("nop");
     __asm__ __volatile__ ("nop");
     // Wait until 8 clock cycles are done 
-    SPDR = 0x00;
+    SPDR = 0x00;     //Write 1 to set the SPI slave input to one (wait for read)
     PORTE |= (1 << PE6);  
     __asm__ __volatile__ ("nop");
     __asm__ __volatile__ ("nop");
@@ -256,24 +254,31 @@ uint8_t SPI_Receive(void){
     return(SPDR);  
 }
 
+/**void bar_graph()
+**show selected modes on the bar graph
+
+*/
 void bar_graph(){
 
     uint8_t write = 0;
-
+    //If mode A is selected -> xxxxxxx1
     if(modeA){
 	write |= 0x01;  
     }
 
+    //If mode A is not selected -> xxxxxxx0
     else if(!modeA){
 	write &= 0xFE;
     }
-
+    //If mode b is selected -> xxxxxxx1x
     if(modeB){
 	write |= 0x02;
     }
+    //If mode b is not selected -> xxxxxxx0x
     else if(!modeB){
 	write &= 0xFD;
     }
+    //Write the bargraph to SPI
     SPI_Transmit(write);
     PORTD = (1 << PD2);
     __asm__ __volatile__ ("nop");
@@ -289,7 +294,7 @@ void display_update(){
     int display_segment;
 
     segsum(value);
-    DDRA = 0xFF;
+    DDRA = 0xFF;  //switch PORTA to output
     __asm__ __volatile__ ("nop"); //Buffer
     __asm__ __volatile__ ("nop"); //Buffer 
     for(display_segment = 0 ; display_segment < MAX_SEGMENT ; display_segment++){
@@ -304,314 +309,76 @@ void display_update(){
 	_delay_ms(1);
     }
 }
+/* Decode the knobs encoder using table method
+
+*/
 void decode_spi_left_knob(void){
-
-}
-
-void decode_spi_right_knob(){
     static uint8_t sw_table[] = {0, 1, 2, 0, 2, 0, 0, 1, 1, 0, 0, 2, 0, 2, 1, 0};
     uint8_t sw_index = 0;
     static uint8_t acount1 = 0;
     static uint8_t previous_encoder1 = 0;
-    static uint8_t acount2 = 0;
-    static uint8_t previous_encoder2 = 0;
     uint8_t direction = 0;
-    uint8_t encoder = SPI_Receive();
-    uint8_t encoder1, encoder2; 
-    encoder1 = ENCODE_LEFT_KNOB(encoder);
-    encoder2 = ENCODE_RIGHT_KNOB(encoder);
-
-    //Encode left knob
+    uint8_t encoder1 = SPI_Receive();     
+    encoder1 = ENCODE_LEFT_KNOB(encoder1);
     sw_index = (previous_encoder1 << 2) | encoder1;
     direction = sw_table[sw_index];
     //value = acount2;
     if(direction == CW){
-	value = value + 1;
 	acount1++;
     }	
     if(direction == CCW){
 	acount1--;
     }
     if(encoder1 == 3){
-	if((acount1 > 1) && (acount1 < 3)){
+	if((acount1 > 1) && (acount1 < 100)){
 	    value = value + dif;
 	}
 	if ((acount1 <= 0xFF) && (acount1 > 0x90)){
-	    value = value - 1;
+	    value = value - dif;
 	}
+	update_number();
 	acount1 = 0;
     }
     previous_encoder1 = encoder1;
+}
 
-    //Encoder 2 (right knob)
+void decode_spi_right_knob(void){
+    static uint8_t sw_table[] = {0, 1, 2, 0, 2, 0, 0, 1, 1, 0, 0, 2, 0, 2, 1, 0};
+    uint8_t sw_index = 0;
+    static uint8_t acount2 = 0;
+    static uint8_t previous_encoder2 = 0;
+    uint8_t direction = 0;
+    uint8_t encoder2 = SPI_Receive();
+    encoder2 = ENCODE_RIGHT_KNOB(encoder2);
     sw_index = (previous_encoder2 << 2) | encoder2;
     direction = sw_table[sw_index];
-    //value = acount2;
+    //value = modeA;
     if(direction == CW){
-	value = value + 1;
 	acount2++;
     }	
     if(direction == CCW){
 	acount2--;
     }
     if(encoder2 == 3){
-	if((acount2 > 1) && (acount2 < 3)){
-	    value = value + 1;
+	if((acount2 > 1) && (acount2 < 100)){
+	    value = value + dif;
 	}
 	if ((acount2 <= 0xFF) && (acount2 > 0x90)){
-	    value = value - 1;
+	    value = value - dif;
 	}
+	update_number();
 	acount2 = 0;
     }
     previous_encoder2 = encoder2;
 }
 
-
-
-
-int decode_spi_knob_2(){
-    uint8_t spi_read;
-    static int left_encoder_dir;
-    static int right_encoder_dir;
-    static uint16_t counter = 0;
-    uint8_t left_data, right_data;
-    spi_read = SPI_Receive();
-    left_data = ENCODE_LEFT_KNOB(spi_read); 
-    //value = left_data;
-    /*if (left_data != NOT_SPIN){
-      left_encoder_state = 1;	
-      left_previous_state = left_data;
-      /value = value + 1;
-      } */
-    //value = left_previous_state;
-    /*    
-	  if ((left_data == CW_INIT) && left_previous_state == NOT_SPIN){
-    //value = value + 1;
-    left_previous_state = CW_INIT;
+void update_number(void){
+    if (value > (0-MAX_SUM)){
+	value = MAX_SUM - (dif-1);                       	
     }
-
-    else if ((left_data == CW_MID) &&  (left_previous_state == CW_INIT)){
-    left_previous_state = CW_MID;
+    else if (value > MAX_SUM){
+	value = value - MAX_SUM;
     }
-    else if ((left_data == CW_END) &&  (left_previous_state == CW_MID)){
-    // value = value + 10;
-    left_previous_state = CW_END;
-    }
-    else if ((left_data == NOT_SPIN) &&  (left_previous_state == CW_MID)){
-    left_previous_state = NOT_SPIN;
-    // value = value + 10;
-    }
-    else{
-    if(counter >= 20000){
-    left_previous_state = NOT_SPIN;
-    counter = 0;
-    }
-    else{
-    counter++;
-    }
-    }
-     */
-    // Left CCW
-
-    //value = read_dir;
-    if (read_dir == 99){
-	if ((left_data == CCW_INIT) && left_previous_state == NOT_SPIN){
-	    //value = value + 1;
-	    left_previous_state = CCW_INIT;
-	    read_dir = 0; //CCW
-	}
-	else if((left_data == CW_INIT) && (left_previous_state == NOT_SPIN)){
-	    left_previous_state = CW_INIT;
-	    read_dir = 1; //CW
-	}
-    }
-    else if (read_dir == 0){
-	if ((left_data == CCW_MID) &&  (left_previous_state == CCW_INIT)){
-	    left_previous_state = CCW_MID;
-	}
-
-	else if ((left_data == CCW_END) &&  (left_previous_state == CCW_MID)){
-	    // value = value + 10;
-	    left_previous_state = CCW_END;
-	}
-
-	else if ((left_data == NOT_SPIN) &&  (left_previous_state == CCW_END)){
-	    left_previous_state = NOT_SPIN;
-	    value = value - 10;
-	}
-	else {
-	    if(counter >= 200){
-		left_previous_state = NOT_SPIN;
-		counter = 0;
-		read_dir = 99;
-	    }
-	    else{
-		counter++;
-	    }
-	}
-    }
-    else if (read_dir == 1){
-	if ((left_data == CW_MID) &&  (left_previous_state == CW_INIT)){
-	    left_previous_state = CW_MID;
-	}
-
-	else if ((left_data == CW_END) &&  (left_previous_state == CW_MID)){
-	    value = value + 10;
-	    left_previous_state = CW_END;
-	}
-
-	//else if ((left_data == NOT_SPIN) &&  (left_previous_state == CW_END)){
-	//    left_previous_state = NOT_SPIN;
-	//    value = value + 10;
-	//}
-	else {
-	    if(counter >= 10){
-		left_previous_state = NOT_SPIN;
-		counter = 0;
-		read_dir = 99;
-	    }
-	    else{
-		counter++;
-	    }
-	}
-    } 
-}
-/*       
-	 value = left_data;
-	 if(left_previous_state = 0xff){	
-	 if(ENCODE_LEFT_KNOB(spi_read) != 0b11){ //left knob was turned
-	 left_encoder_state = 1;
-	 }
-	 if(ENCODE_RIGHT_KNOB(spi_read) != 0b11){ //right knob was turned
-	 right_encoder_state = 1;
-	 }
-
-	 }
-//value =  ENCODE_LEFT_KNOB(spi_read); 
-switch (left_encoder_state){
-case 1: //When detecting a spin
-if( ENCODE_LEFT_KNOB(spi_read) == left_previous_state){
-return 0;
-}	
-if(ENCODE_LEFT_KNOB(spi_read) == 0x02){ //CW spin
-left_encoder_dir = 1;     //Direction = positive
-
-value = left_data;
-if(left_previous_state = 0xff){	
-if(ENCODE_LEFT_KNOB(spi_read) != 0b11){ //left knob was turned
-left_encoder_state = 1;
-}
-if(ENCODE_RIGHT_KNOB(spi_read) != 0b11){ //right knob was turned
-right_encoder_state = 1;
-}
-
-}
-//value =  ENCODE_LEFT_KNOB(spi_read); 
-switch (left_encoder_state){
-case 1: //When detecting a spin
-if( ENCODE_LEFT_KNOB(spi_read) == left_previous_state){
-return 0;
-}	
-if(ENCODE_LEFT_KNOB(spi_read) == 0x02){ //CW spin
-left_encoder_dir = 1;     //Direction = positive
-left_encoder_state += 1;  //Go to next state
-left_previous_state = 0x02;  //Save value
-return 0;
-}
-else if(ENCODE_LEFT_KNOB(spi_read) == 0x01){ //CCW spin
-left_encoder_dir = -1;   //Direction = negative
-left_encoder_state +=1;  //Go to next state
-left_previous_state = 0x01;//Save for next state
-return 0;
-}
-else{
-//left_encoder_dir = 0;   //Reset direction to 0
-//left_encoder_state = 0; //Reset state to 0   
-//previous_state = 0xFF; //Reset previous to default
-return 0;
-}    
-case 2: //Next stage of spin
-//Last stage is coming towart CW
-if( ENCODE_LEFT_KNOB(spi_read) == left_previous_state){
-return 0;
-}	
-if((ENCODE_LEFT_KNOB(spi_read) == 0x00) && (left_previous_state == 0x02)){
-left_encoder_dir = 1;  //Ensure the direction is CW
-left_encoder_state += 1;  //Next state
-left_previous_state =  0x00;
-return 0;
-}
-//Last stage is coming towart CCW
-else if((ENCODE_LEFT_KNOB(spi_read) == 0x00) && left_previous_state == 0x01){
-left_encoder_dir = -1;      //Ensure CCW
-left_encoder_state +=1;     //Next state
-left_previous_state =  0x00;
-return 0;
-}
-else{
-    //left_encoder_dir = 0;       //Reset Left encoder direction
-    //left_encoder_state = 0;     //Reset Left state
-    //previous_state = 0xFF; //Reset previous to default
-    return 0;
-}
-case 3: //Almost last stae 
-//Last stage is coming towart CW
-if( ENCODE_LEFT_KNOB(spi_read) == left_previous_state){
-    return 0;
-}	
-if((ENCODE_LEFT_KNOB(spi_read) == 0x01) && (left_previous_state == 0x00)){
-    left_encoder_dir = 1;  //Ensure the direction is CW
-    left_encoder_state += 1;  //Next state
-    left_previous_state =  0x01;
-    return 0;
-}
-//Last stage is coming towart CCW
-else if((ENCODE_LEFT_KNOB(spi_read) == 0x02) && left_previous_state == 0x00){
-    left_encoder_dir = -1;      //Ensure CCW
-    left_encoder_state +=1;     //Next state
-    left_previous_state =  0x02;
-    return 0;
-}
-else{
-    //left_encoder_dir = 0;       //Reset Left encoder direction
-    //left_encoder_state = 0;     //Reset Left state
-    //previous_state = 0xFF; //Reset previous to default
-    return 0;
-}              
-return 0;
-
-case 4:   //Almost last stae 
-//Last stage is coming towart CW
-if( ENCODE_LEFT_KNOB(spi_read) == left_previous_state){
-    return 0;
-}	
-if((ENCODE_LEFT_KNOB(spi_read) == 0x03) && (left_previous_state == 0x01)){
-    left_encoder_dir = 0;  //Ensure the direction is CW
-    left_encoder_state = 0;  //Next state = back to 0
-    left_previous_state =  0xFF;
-    return 1;
-}
-//Last stage is coming towart CCW
-else if((ENCODE_LEFT_KNOB(spi_read) == 0x03) && left_previous_state == 0x02){
-    left_encoder_dir = 0;      //Ensure CCW
-    left_encoder_state = 0;     //Next state = back to 0
-    left_previous_state =  0xFF;
-    return -1;
-}
-else{
-    //left_encoder_dir = 0;       //Reset Left encoder direction
-    //left_encoder_state = 0;     //Reset Left state
-    //previous_state = 0xFF; //Reset previous to default
-    return 0;
-}     
-return 0;
-}
-*/
-
-
-int16_t update_number(int sign){
-    return sign*dif;
-
 }
 
 //***********************************************************************************
@@ -641,7 +408,8 @@ int main()
 	bar_graph();
 	//value = SPI_Receive();
 	//spi_read = SPI_Receive();
-	decode_spi_knob();
+	decode_spi_left_knob();
+	decode_spi_right_knob();
 	//value = value+ (dif * (decode_spi_knob()));
 	//value = decode_spi_knob();
 	//update_number();
