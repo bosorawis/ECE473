@@ -227,7 +227,14 @@ void SPI_Transmit(uint8_t data){
 }
 
 uint8_t SPI_Receive(void){
+    PORTE &= 0;
+    __asm__ __volatile__ ("nop");
+    __asm__ __volatile__ ("nop");
     // Wait until 8 clock cycles are done 
+    SPDR = 0x00;
+    PORTE |= (1 << PE6);  
+    __asm__ __volatile__ ("nop");
+    __asm__ __volatile__ ("nop");
     while (bit_is_clear(SPSR,SPIF)){} 
     // Return incoming data from SPDR
     return(SPDR);  
