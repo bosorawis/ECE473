@@ -29,19 +29,26 @@
 #define ZERO  	 0xc0
 #define OFF	 0xff
 
+
 #define MAX_SEGMENT 5
 #define BUTTON_COUNT 3
 #define MAX_SUM 1023
+#define ENCODE_LEFT_KNOB(read)   (read & 0x0C) >> 2
+#define ENCODE_RIGHT_KNOB(read)  (read & 0x03) 
+#define CHECK_LEFT_KNOB   0x03
+#define CHECK_RIGHT_KNOB  0x0c
 //holds data to be sent to the segments. logic zero turns segment on
 uint8_t segment_data[5];
 
 //decimal to 7-segment LED display encodings, logic "0" turns on segment
 uint8_t dec_to_7seg[12];
-
+uint8_t dif;
 uint8_t modeA = 0;
 uint8_t modeB = 0;
 uint16_t value = 0;
 uint8_t checkButtonNow = 0;
+uint8_t previous_spi_value;
+uint8_t current_spi_value;
 //******************************************************************************
 //                            chk_buttons                                      
 //Checks the state of the button number passed to it. It shifts in ones till   
@@ -155,7 +162,7 @@ void button_routine(){
     __asm__ __volatile__ ("nop");
     __asm__ __volatile__ ("nop");
     //enable tristate buffer for pushbutton switches
-    PORTB = 0x70; //Set S2,S1,S0 to 111
+    PORTB |= 0x70; //Set S2,S1,S0 to 111
     __asm__ __volatile__ ("nop");
     __asm__ __volatile__ ("nop");
     //now check each button and increment the count as needed
@@ -163,25 +170,26 @@ void button_routine(){
 	if (chk_buttons(button)){
 	    if(button == 0){
 		modeA = !modeA;
-		value = 1;
+		//value = 1;
 	    }
 	    else if( button == 1){
 		modeB = !modeB;
-		value = 2;
+		//value = 2;
 	    } 
 	    else if (button == 2){
+		//value = value + 100;
 		if (modeA && modeB){
 		    //value = 4;
-		    value = value;
+		    dif = 0;
 		}
 		else if(modeA && !modeB){
 		    //value = modeA;
 		    // value = 4;
-		    value = value + 1;
+		    dif =  1;
 		}
 		else if (modeB && !modeA){
 		    //value = modeB;
-		    value = value + 2;
+		    dif =  2;
 		}
 
 	    }
@@ -193,48 +201,155 @@ void button_routine(){
     }
     //break up the disp_value to 4, BCD digits in the array: call (segsum)
     //value = 20;
-    segsum(value);
     //bound a counter (0-4) to keep track of digit to display 
     //make PORTA an output
-    DDRA = 0xFF;
-    __asm__ __volatile__ ("nop"); //Buffer
-    __asm__ __volatile__ ("nop"); //Buffer / Start the button check
+    //value = value+1;
+    
     checkButtonNow = 0;
 }
 
 ISR(TIMER0_OVF_vect){
     checkButtonNow = 1;
 }
+void SPI_init(){
+    /* Set MOSI and SCK output, all others input */
+    //DDRB = (1<<PB3)|(1<<PB1);
+	
+    /* Enable SPI, Master, set clock rate fck/16 */
+    SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);
+}
+
+void SPI_Transmit(uint8_t data){
+   
+   SPDR = data;
+   while(!(SPSR & (1<<SPIF))){}
+
+}
+
+uint8_t SPI_Receive(void){
+    // Wait until 8 clock cycles are done 
+    while (bit_is_clear(SPSR,SPIF)){} 
+    // Return incoming data from SPDR
+    return(SPDR);  
+}
+
+void bar_graph(){
+    
+    uint8_t write = 0;
+
+    if(modeA){
+      write |= 0x01;  
+    }
+
+    else if(!modeA){
+      write &= 0xFE;
+    }
+
+    if(modeB){
+      write |= 0x02;
+    }
+    else if(!modeB){
+      write &= 0xFD;
+    }
+    SPI_Transmit(write);
+    PORTD = (1 << PD2);
+    __asm__ __volatile__ ("nop");
+    __asm__ __volatile__ ("nop");
+  
+
+    PORTD = (2 << PD2);
+    __asm__ __volatile__ ("nop");
+    __asm__ __volatile__ ("nop");
+}
+
+void display_update(){
+    int display_segment;
+
+    segsum(value);
+    DDRA = 0xFF;
+    __asm__ __volatile__ ("nop"); //Buffer
+    __asm__ __volatile__ ("nop"); //Buffer 
+    for(display_segment = 0 ; display_segment < MAX_SEGMENT ; display_segment++){
+	//send PORTB the digit to display
+	//value = 1;
+	//segsum(value);
+	PORTB &= 0x8F;
+	PORTB |= display_segment << 4;
+	//send 7 segment code to LED segments
+	//update digit to display
+	PORTA = segment_data[display_segment];	
+	_delay_ms(1);
+    }
+}
+
+int decode_spi_knob(){
+    uint8_t spi_read, spi_value_1, spi_value_2;
+    spi_read = SPI_Receive();
+    value = spi_read;
+
+    if(ENCODE_LEFT_KNOB(spi_read) != 0b11){ //left knob was turned
+	spi_value_1 = ENCODE_LEFT_KNOB(spi_read); //Save the value for comparision
+        spi_read  = SPI_Receive();
+	if(!ENCODE_LEFT_KNOB(spi_read)){ //0 if the cycle is completed
+		if(spi_value_1 == 0b01){  
+			value = value+1;
+                       // return -1; //CCW
+		}
+		else if(spi_value_1 == 0b10){ //CW
+                	//return 1;
+		}
+		else{
+                 	//return 0; //Unknown
+		}
+	} 
+	
+    }
+
+    else if(ENCODE_RIGHT_KNOB(spi_read) != 0b11){
+	previous_spi_value = ENCODE_RIGHT_KNOB(spi_read); 
+
+    }
+}
+
+
+uint16_t update_number(int sign){
+	return value*sign*dif;
+
+}
 
 //***********************************************************************************
 int main()
 {
     //set port bits 4-7 B as outputs
+    DDRE = 0xc0;
+    PORTE &= 0x7F;
+    DDRB = 0xF7;
+    DDRD |= (1 << PB2);
 
-    DDRB = 0x70;
-    int display_segment;
     segment_data[2] = OFF;
 
     TIMSK |= (1<<TOIE0);             //enable interrupts
     TCCR0 |= (1<<CS02) | (1<<CS00);  //normal mode, prescale by 128
-
+    SPI_init();
     sei();
     while(1){
 	//insert loop delay for debounce 
 	//PORTA = OFF;
 	_delay_ms(2);
 	//make PORTA an input port with pullups 
+	//bar_graph();
 	if(checkButtonNow){
 	    button_routine();
 	}
-	for(display_segment = 0 ; display_segment < MAX_SEGMENT ; display_segment++){
-	    //send PORTB the digit to display
-	    PORTB = display_segment << 4;
-	    //send 7 segment code to LED segments
-	    //update digit to display
-	    PORTA = segment_data[display_segment];	
-	    _delay_ms(1);
-	}	
+	bar_graph();
+	value = SPI_Receive();
+	//spi_read = SPI_Receive();
+	//decode_spi_knob();
+	//value = value+update_number(decode_spi_knob());
+	//update_number();
+
+	display_update();
+
     }//while
     return 0;
 }//main
