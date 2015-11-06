@@ -44,9 +44,10 @@
 #define CHECK_LEFT_KNOB   0x03
 #define CHECK_RIGHT_KNOB  0x0c
 
+#define SECOND_MULTIPLIER 4999
 
 #define CW  1
-#define CCW 2
+#define CCW 2                 
 
 //holds data to be sent to the segments. logic zero turns segment on
 uint8_t segment_data[5];
@@ -215,6 +216,7 @@ void button_routine(){
   LED dims
  ****************************************************************************/
 ISR(TIMER0_OVF_vect){
+    update_time();
     check_knobs();
     display_update();
     button_routine();
@@ -225,6 +227,24 @@ ISR(TIMER0_OVF_vect){
 /***************************************************************************
   Initialize SPI 
  ****************************************************************************/
+void update_time(void){
+	static uint32_t counter = 0;
+	static uint8_t second = 0;
+	static uint8_t minute = 0;
+	static uint8_t hour = 0;
+	counter++;
+	//value++;
+	//value = counter;
+	
+	if(counter >= SECOND_MULTIPLIER){
+        	//second++;
+		value++;
+		counter = 0;
+	}
+
+	
+}
+
 void SPI_init(){
     /* Set MOSI and SCK output, all others input */
     //DDRB = (1<<PB3)|(1<<PB1);
@@ -423,9 +443,9 @@ int main()
     segment_data[2] = OFF;
 
     TIMSK |= (1<<TOIE0);             //enable interrupts
-    TCCR0 |= (1<<CS00) | (1<<CS10);  //normal mode, prescale by 128
+    TCCR0 |= (1<<CS00) | (1<<CS10);  //normal mode, prescale by 32
     SPI_init();
-    //sei();
+    sei();
     while(1){
 	//display_update();
 	bar_graph();
