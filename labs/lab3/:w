@@ -167,6 +167,8 @@ void segsum(uint16_t sum) {
 //***********************************************************************************
 void button_routine(){
     uint8_t button;
+
+
     DDRA  = 0x00; // PORTA input mode
     PORTA = 0xFF; //Pull ups
     __asm__ __volatile__ ("nop");
@@ -207,6 +209,12 @@ void button_routine(){
 
 	}
     }
+    //bound the count to 0 - 1023
+    //break up the disp_value to 4, BCD digits in the array: call (segsum)
+    //value = 20;
+    //bound a counter (0-4) to keep track of digit to display 
+    //make PORTA an output
+    //value = value+1;
 }
 /***************************************************************************
   Interrupt routine: set flag for checking button in main
@@ -214,8 +222,10 @@ void button_routine(){
   polling instead of interrupt. Tried putting button routine in the ISR,
   LED dims
  ****************************************************************************/
+
 ISR(TIMER0_OVF_vect){
     check_knobs();
+    update_number();     
     display_update();
     button_routine();
 }
@@ -317,7 +327,7 @@ void display_update(){
 	//send 7 segment code to LED segments
 	//update digit to display
 	PORTA = segment_data[display_segment];	
-	_delay_us(200);
+	_delay_ms(1);
     }
 }
 /**************************************************************************

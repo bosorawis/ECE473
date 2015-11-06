@@ -1,4 +1,4 @@
-PRG            = bar_graph_demo_skel
+PRG            = lab4
 
 OBJ            = $(PRG).o
 

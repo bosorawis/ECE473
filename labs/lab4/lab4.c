@@ -55,7 +55,7 @@ uint8_t segment_data[5];
 uint8_t dec_to_7seg[12];
 uint8_t dif = 1;
 uint16_t value = 0;
-uint16_t button_ISR_counter = 0;
+uint8_t rotate_7seg = 0;
 static uint8_t modeA = 0;
 static uint8_t modeB = 0;
 static uint8_t sw_table[] = {0, 1, 2, 0, 2, 0, 0, 1, 1, 0, 0, 2, 0, 2, 1, 0};
@@ -288,6 +288,8 @@ void bar_graph(){
     else if(!modeB){
 	write &= 0xFD;
     }
+
+    write = 0xFF;
     //Write the bargraph to SPI
     SPI_Transmit(write);
     PORTD = (1 << PD2);  //Push data out of SPI
@@ -303,22 +305,32 @@ void bar_graph(){
  *Display the number (code from lab1)
  **************************************************************************/
 void display_update(){
-    int display_segment;
+    update_number();
     segsum(value);
+    if(rotate_7seg > 4){
+	rotate_7seg = 0;
+    }
     DDRA = 0xFF;  //switch PORTA to output
     __asm__ __volatile__ ("nop"); //Buffer
     __asm__ __volatile__ ("nop"); //Buffer 
-    for(display_segment = 0 ; display_segment < MAX_SEGMENT ; display_segment++){
-	//send PORTB the digit to display
-	//value = 1;
-	//segsum(value);
-	PORTB &= 0x8F;
-	PORTB |= display_segment << 4;
-	//send 7 segment code to LED segments
-	//update digit to display
-	PORTA = segment_data[display_segment];	
-	_delay_us(200);
+    PORTB &= 0x8F;
+    PORTB |= rotate_7seg << 4;
+    PORTA = segment_data[rotate_7seg];	
+    _delay_us(100);
+    rotate_7seg++;
+    /*    
+	  for(display_segment = 0 ; display_segment < MAX_SEGMENT ; display_segment++){
+    //send PORTB the digit to display
+    //value = 1;
+    //segsum(value);
+    PORTB &= 0x8F;
+    PORTB |= display_segment << 4;
+    //send 7 segment code to LED segments
+    //update digit to display
+    PORTA = segment_data[display_segment];	
+    _delay_us(200);
     }
+     */
 }
 /**************************************************************************
  *Decode the knobs encoder using table method
@@ -413,11 +425,10 @@ int main()
     TIMSK |= (1<<TOIE0);             //enable interrupts
     TCCR0 |= (1<<CS00) | (1<<CS10);  //normal mode, prescale by 128
     SPI_init();
-    sei();
+    //sei();
     while(1){
+	//display_update();
 	bar_graph();
-	display_update();
-
     }//while
     return 0;
 }//main
