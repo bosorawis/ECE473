@@ -1,0 +1,218 @@
+
+heartint_skeleton.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000028  00800100  00000168  000001fc  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000168  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000001  00800128  00800128  00000224  2**0
+                  ALLOC
+  3 .stab         000005b8  00000000  00000000  00000224  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000c17  00000000  00000000  000007dc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      00000011  00000000  00000000  000013f3  2**0
+                  CONTENTS, READONLY
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 46 00 	jmp	0x8c	; 0x8c <__ctors_end>
+   4:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+   8:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+   c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  10:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  14:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  18:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  1c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  20:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  24:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  28:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  2c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  30:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  34:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  38:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  3c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  40:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  44:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  48:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  4c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  50:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  54:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  58:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  5c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  60:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  64:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  68:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  6c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  70:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  74:	0c 94 67 00 	jmp	0xce	; 0xce <__vector_29>
+  78:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  7c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  80:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  84:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  88:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+
+0000008c <__ctors_end>:
+  8c:	11 24       	eor	r1, r1
+  8e:	1f be       	out	0x3f, r1	; 63
+  90:	cf ef       	ldi	r28, 0xFF	; 255
+  92:	d0 e1       	ldi	r29, 0x10	; 16
+  94:	de bf       	out	0x3e, r29	; 62
+  96:	cd bf       	out	0x3d, r28	; 61
+
+00000098 <__do_copy_data>:
+  98:	11 e0       	ldi	r17, 0x01	; 1
+  9a:	a0 e0       	ldi	r26, 0x00	; 0
+  9c:	b1 e0       	ldi	r27, 0x01	; 1
+  9e:	e8 e6       	ldi	r30, 0x68	; 104
+  a0:	f1 e0       	ldi	r31, 0x01	; 1
+  a2:	00 e0       	ldi	r16, 0x00	; 0
+  a4:	0b bf       	out	0x3b, r16	; 59
+  a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
+  a8:	07 90       	elpm	r0, Z+
+  aa:	0d 92       	st	X+, r0
+  ac:	a8 32       	cpi	r26, 0x28	; 40
+  ae:	b1 07       	cpc	r27, r17
+  b0:	d9 f7       	brne	.-10     	; 0xa8 <__do_copy_data+0x10>
+
+000000b2 <__do_clear_bss>:
+  b2:	21 e0       	ldi	r18, 0x01	; 1
+  b4:	a8 e2       	ldi	r26, 0x28	; 40
+  b6:	b1 e0       	ldi	r27, 0x01	; 1
+  b8:	01 c0       	rjmp	.+2      	; 0xbc <.do_clear_bss_start>
+
+000000ba <.do_clear_bss_loop>:
+  ba:	1d 92       	st	X+, r1
+
+000000bc <.do_clear_bss_start>:
+  bc:	a9 32       	cpi	r26, 0x29	; 41
+  be:	b2 07       	cpc	r27, r18
+  c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
+  c2:	0e 94 98 00 	call	0x130	; 0x130 <main>
+  c6:	0c 94 b2 00 	jmp	0x164	; 0x164 <_exit>
+
+000000ca <__bad_interrupt>:
+  ca:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000ce <__vector_29>:
+//the array and make the control easier.  Values from 0x0100 thru 0xEF00 work 
+//well for setting the brightness level.
+
+uint16_t brightness[20] = {300, 1000, 5000, 9000, 15000, 30000, 40000, 45000, 47000, 50000, 50000, 47000,
+				45000, 40000, 30000, 15000, 9000, 5000, 1000, 300} ;
+ISR(TIMER3_OVF_vect) {
+  ce:	1f 92       	push	r1
+  d0:	0f 92       	push	r0
+  d2:	0f b6       	in	r0, 0x3f	; 63
+  d4:	0f 92       	push	r0
+  d6:	11 24       	eor	r1, r1
+  d8:	0b b6       	in	r0, 0x3b	; 59
+  da:	0f 92       	push	r0
+  dc:	2f 93       	push	r18
+  de:	8f 93       	push	r24
+  e0:	9f 93       	push	r25
+  e2:	ef 93       	push	r30
+  e4:	ff 93       	push	r31
+	for(i = 9; i<=0 ; i--){
+        	OCR1A = brightness[8];
+	}
+	  */
+        static uint8_t temp;
+	OCR1A = brightness[temp%20];
+  e6:	20 91 28 01 	lds	r18, 0x0128
+  ea:	8d ec       	ldi	r24, 0xCD	; 205
+  ec:	28 9f       	mul	r18, r24
+  ee:	81 2d       	mov	r24, r1
+  f0:	11 24       	eor	r1, r1
+  f2:	82 95       	swap	r24
+  f4:	8f 70       	andi	r24, 0x0F	; 15
+  f6:	e2 2f       	mov	r30, r18
+  f8:	94 e1       	ldi	r25, 0x14	; 20
+  fa:	89 9f       	mul	r24, r25
+  fc:	e0 19       	sub	r30, r0
+  fe:	11 24       	eor	r1, r1
+ 100:	f0 e0       	ldi	r31, 0x00	; 0
+ 102:	ee 0f       	add	r30, r30
+ 104:	ff 1f       	adc	r31, r31
+ 106:	e0 50       	subi	r30, 0x00	; 0
+ 108:	ff 4f       	sbci	r31, 0xFF	; 255
+ 10a:	80 81       	ld	r24, Z
+ 10c:	91 81       	ldd	r25, Z+1	; 0x01
+ 10e:	9b bd       	out	0x2b, r25	; 43
+ 110:	8a bd       	out	0x2a, r24	; 42
+	temp++;                           
+ 112:	2f 5f       	subi	r18, 0xFF	; 255
+ 114:	20 93 28 01 	sts	0x0128, r18
+}
+ 118:	ff 91       	pop	r31
+ 11a:	ef 91       	pop	r30
+ 11c:	9f 91       	pop	r25
+ 11e:	8f 91       	pop	r24
+ 120:	2f 91       	pop	r18
+ 122:	0f 90       	pop	r0
+ 124:	0b be       	out	0x3b, r0	; 59
+ 126:	0f 90       	pop	r0
+ 128:	0f be       	out	0x3f, r0	; 63
+ 12a:	0f 90       	pop	r0
+ 12c:	1f 90       	pop	r1
+ 12e:	18 95       	reti
+
+00000130 <main>:
+
+int main() {
+  DDRB    = (1 << PB5);                          //set port B bit five to output
+ 130:	80 e2       	ldi	r24, 0x20	; 32
+ 132:	87 bb       	out	0x17, r24	; 23
+
+//setup timer counter 1 as the pwm source
+
+  TCCR1A |= 0 | (1 << WGM11) | (1 << COM1A1) | (1 << COM1A0); //fast pwm, set on match, clear@bottom, 
+ 134:	8f b5       	in	r24, 0x2f	; 47
+ 136:	82 6c       	ori	r24, 0xC2	; 194
+ 138:	8f bd       	out	0x2f, r24	; 47
+                                        		  //(inverting mode) ICR1 holds TOP
+
+  TCCR1B |= 0 | (1 << WGM13) | (1 << WGM12)  | (1 << CS10);//use ICR1 as source for TOP, use clk/1
+ 13a:	8e b5       	in	r24, 0x2e	; 46
+ 13c:	89 61       	ori	r24, 0x19	; 25
+ 13e:	8e bd       	out	0x2e, r24	; 46
+
+  TCCR1C  = 0;                            //no forced compare 
+ 140:	10 92 7a 00 	sts	0x007A, r1
+
+  ICR1    = 0xF000;                            //clear at 0xF000                               
+ 144:	80 e0       	ldi	r24, 0x00	; 0
+ 146:	90 ef       	ldi	r25, 0xF0	; 240
+ 148:	97 bd       	out	0x27, r25	; 39
+ 14a:	86 bd       	out	0x26, r24	; 38
+
+  
+//setup timer counter 3 as the interrupt source, 30 interrupts/sec
+// (16,000,000)/(8 * 2^16) = 30 cycles/sec
+
+  TCCR3A = 0;                             //normal mode
+ 14c:	10 92 8b 00 	sts	0x008B, r1
+
+  TCCR3B = (1 << CS31);                   //use clk/8  (15hz)  
+ 150:	82 e0       	ldi	r24, 0x02	; 2
+ 152:	80 93 8a 00 	sts	0x008A, r24
+
+  TCCR3C = 0;                             //no forced compare 
+ 156:	10 92 8c 00 	sts	0x008C, r1
+
+  ETIMSK = (1 << TOIE3);                  //enable timer 3 interrupt on TOV
+ 15a:	84 e0       	ldi	r24, 0x04	; 4
+ 15c:	80 93 7d 00 	sts	0x007D, r24
+
+  sei();                                //set GIE to enable interrupts
+ 160:	78 94       	sei
+ 162:	ff cf       	rjmp	.-2      	; 0x162 <main+0x32>
+
+00000164 <_exit>:
+ 164:	f8 94       	cli
+
+00000166 <__stop_program>:
+ 166:	ff cf       	rjmp	.-2      	; 0x166 <__stop_program>
