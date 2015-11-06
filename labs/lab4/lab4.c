@@ -147,23 +147,7 @@ void segsum(uint16_t sum) {
     segment_data[3] = int2seg((sum % 1000)/100); //hundreds
     segment_data[4] = int2seg(sum/1000); //thousands
     //blank out leading zero digits 
-    switch (digit){
-	case 3:
-	    segment_data[4] = OFF;
-	    break;
-	case 2:
-	    segment_data[4] = OFF;  	
-	    segment_data[3] = OFF;  	
-	    break;
-	case 1:
-	    segment_data[4] = OFF;  	
-	    segment_data[3] = OFF;  	
-	    segment_data[1] = OFF;  	
-	    break;
-	default:
-	    break;
-    }
-    //now move data to right place for misplaced colon position
+//now move data to right place for misplaced colon position
 }//segment_sum
 //***********************************************************************************
 void button_routine(){
@@ -222,27 +206,40 @@ ISR(TIMER0_OVF_vect){
     button_routine();
 }
 
-
-
 /***************************************************************************
   Initialize SPI 
  ****************************************************************************/
 void update_time(void){
-	static uint32_t counter = 0;
-	static uint8_t second = 0;
-	static uint8_t minute = 0;
-	static uint8_t hour = 0;
-	counter++;
-	//value++;
-	//value = counter;
-	
-	if(counter >= SECOND_MULTIPLIER){
-        	//second++;
-		value++;
-		counter = 0;
-	}
+    static uint32_t counter = 0;
+    static uint8_t second = 0;
+    static uint8_t minute = 0;
+    static uint8_t hour = 0;
+    counter++;
+    //value++;
+    //value = counter;
 
-	
+    if(counter >= SECOND_MULTIPLIER){
+	second++;
+	counter = 0;
+    }
+    if (second >= 60){
+	minute++;
+	second = 0;
+    }             
+    if(minute >=60){
+	hour++;
+	minute = 0;
+    }
+    if(hour >= 24){
+	hour = 0;
+    }    
+    if(second%2 == 1){
+	segment_data[2] = 0xFC;
+    }
+    else{
+	segment_data[2] = 0xFF;
+    }  
+    value = (minute * 100) + second;
 }
 
 void SPI_init(){
@@ -257,7 +254,6 @@ void SPI_init(){
   Transmit data to SPI
  ****************************************************************************/
 void SPI_Transmit(uint8_t data){
-
     SPDR = data;    //Write data to SPDR
     while(!(SPSR & (1<<SPIF))){} //SPIN write
 }
@@ -338,19 +334,6 @@ void display_update(){
     PORTA = segment_data[rotate_7seg];	
     _delay_us(100);
     rotate_7seg++;
-    /*    
-	  for(display_segment = 0 ; display_segment < MAX_SEGMENT ; display_segment++){
-    //send PORTB the digit to display
-    //value = 1;
-    //segsum(value);
-    PORTB &= 0x8F;
-    PORTB |= display_segment << 4;
-    //send 7 segment code to LED segments
-    //update digit to display
-    PORTA = segment_data[display_segment];	
-    _delay_us(200);
-    }
-     */
 }
 /**************************************************************************
  *Decode the knobs encoder using table method
