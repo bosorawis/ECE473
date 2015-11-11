@@ -1,4 +1,4 @@
-// lab3_skel.c 
+//// lab3_skel.c 
 // Sorawis Nilparuk
 // 10/29/2015
 
@@ -55,7 +55,7 @@ uint8_t segment_data[5];
 //decimal to 7-segment LED display encodings, logic "0" turns on segment
 uint8_t dec_to_7seg[12];
 uint8_t brightness_level = 9;
-uint8_t brightness[10] = {300, 1000, 5000, 9000, 15000, 30000, 40000, 45000, 47000, 50000};
+int delay_time[10] = {50, 60, 70, 80, 90, 100, 110, 120, 130, 150};
 uint16_t value = 0;       
 uint16_t time = 0;
 uint16_t alarm_time = 0;
@@ -69,7 +69,7 @@ static uint8_t hour = 0;
 static uint8_t alarm_minute = 0;
 static uint8_t alarm_hour = 0;
 static uint8_t ticker = 0;
-
+uint8_t blink = 0;
 void left_inc();
 void right_inc();
 void left_dec();
@@ -95,6 +95,7 @@ int8_t chk_buttons(uint8_t button){
 //***********************************************************************************
 // int2seg
 // return the 7-segment code for each digit
+//***********************************************************************************
 uint8_t int2seg(uint8_t number){
     if(number == 0 ){
 	return ZERO;
@@ -136,20 +137,22 @@ uint8_t int2seg(uint8_t number){
 //takes a 16-bit binary input value and places the appropriate equivalent 4 digit 
 //BCD segment code in the array segment_data for display.                       
 //array is loaded at exit as:  |digit3|digit2|colon|digit1|digit0|
+//***********************************************************************************
 
 void segsum(uint16_t sum) {
     //determine how many digits there are 
     //int digit;
     // Break down the digits
-   
+    
     if(ticker%2 == 1){
 	segment_data[2] = 0xFC;
     }
     else{
 	segment_data[2] = 0xFF;
     } 
-    
+    //When setting alarm is on)
     //break up decimal sum into 4 digit-segments
+    
     segment_data[0] = int2seg(sum % 10); //ones
     segment_data[1] = int2seg((sum % 100)/10); //tens
     //segment_data[2] = 1; //decimal
@@ -163,8 +166,14 @@ void segsum(uint16_t sum) {
 	segment_data[2] = 0xFF;
     }
 
-    if(mode == 2){
-	segment_data[2] = 0xFC;
+    else if(mode == 2){
+	segment_data[2] = 0x00;
+    }                                         
+    else if(mode == 1 && blink){
+	segment_data[4] = 0xFF;
+	segment_data[3] = 0xFF;
+	segment_data[1] = 0xFF;
+	segment_data[0] = 0xFF;
     }
 }//segment_sum
 //***********************************************************************************
@@ -189,16 +198,20 @@ void button_routine(){
 		return;
 	    }
 	    if(button == 0){
-		mode = 1;   //Inverse everytime button0 is pressed
+		mode = 1;   
 	    }
-	    else if(button == 1){  //Inverse everytime button1 is pressed  
+	    else if(button == 1){  
 		mode = 2;
 	    }
-	    else if(button == 3){
+	    else if(button == 2){
 		mode = 3;
 	    } 
 	}
     }
+    DDRA = 0xFF;  //switch PORTA to output
+    __asm__ __volatile__ ("nop"); //Buffer
+    __asm__ __volatile__ ("nop"); //Buffer 
+
 }
 /***************************************************************************
   Interrupt routine: set flag for checking button in main
@@ -207,14 +220,24 @@ void button_routine(){
   LED dims
  ****************************************************************************/
 ISR(TIMER0_OVF_vect){
+    static uint8_t count = 0;
+    count++;
     update_time();
-    bar_graph();
+    if((count%32) == 0){
+	blink = !blink;
+    }
+    if((count%128)==0){
+	ticker++;     
+	second++;    
+    }
+
 }
 
 ISR(TIMER2_OVF_vect){
     button_routine();
     check_knobs();
-    display_update(); 
+    //display_update(); 
+    //bar_graph();
     //OCR2 = brightness[brightness_level];
 }
 
@@ -226,12 +249,7 @@ ISR(TIMER2_OVF_vect){
   Initialize SPI 
  ****************************************************************************/
 void update_time(void){
-    counter++;
-    if(counter >= SECOND_MULTIPLIER){
-	ticker++;     
-	second++;
-	counter = 0;
-    }
+
     if (second >= 60){
 	minute++;
 	second = 0;
@@ -291,7 +309,7 @@ uint8_t SPI_Receive(void){
 }
 void check_knobs(void){
     static uint8_t encoder;
-    encoder  = SPI_Receive();
+    encoder = SPI_Receive();
     decode_spi_left_knob(encoder);
     decode_spi_right_knob(encoder);
 }
@@ -321,7 +339,7 @@ void bar_graph(){
     write &= 0xFD;
     }
      */
-    //write = 0xFF;
+    write = 0x01;
     //Write the bargraph to SPI
     SPI_Transmit(write);
     PORTD = (1 << PD2);  //Push data out of SPI
@@ -337,7 +355,8 @@ void bar_graph(){
  *Display the number (code from lab1)
  **************************************************************************/
 void display_update(){
-    //update_number();
+    uint8_t display_segment = 0;
+
     switch(mode){
 	case 0:
 	    segsum(time);
@@ -352,20 +371,21 @@ void display_update(){
 	    segsum(brightness_level+1);
 	    break;
 	default:
-	    segsum(alarm_time);
+	    //segsum(time);
 	    break;
     }
-    if(rotate_7seg > 4){
-	rotate_7seg = 0;
+
+    for(display_segment = 0 ; display_segment < 5 ; display_segment++){
+	PORTB = display_segment << 4;
+	PORTA = segment_data[display_segment];
+	_delay_us(10);
+	PORTA = OFF;
     }
-    DDRA = 0xFF;  //switch PORTA to output
-    __asm__ __volatile__ ("nop"); //Buffer
-    __asm__ __volatile__ ("nop"); //Buffer 
-    PORTB &= 0x8F;
-    PORTB |= rotate_7seg << 4;
-    PORTA = segment_data[rotate_7seg];	
-    _delay_us(100);
-    rotate_7seg++;
+    //PORTB &= 0x8F;
+    //PORTB |= rotate_7seg << 4;
+    //PORTA = segment_data[rotate_7seg];	
+    //rotate_7seg++;
+    //_delay_us(100);
 }
 /**************************************************************************
  *Decode the knobs encoder using table method
@@ -387,7 +407,6 @@ void decode_spi_left_knob(uint8_t encoder1){
       Which way it is turning*/
     direction = sw_table[sw_index];
     //Read out the direction from table
-    //value = acount2;
     if(direction == CW){  //If CW, add counter
 	acount1++;
     }	
@@ -396,16 +415,11 @@ void decode_spi_left_knob(uint8_t encoder1){
     }
     if(encoder1 == 3){    //encoder1 = 3 (stop spinning)
 	if((acount1 > 1) && (acount1 < 10)){   //Check if the counter for CW
-	    //value = value + dif;
-	    //minute++;
 	    left_inc();
 	}
 	if ((acount1 <= 0xFF) && (acount1 > 0xF0)){    //Check counter for CCW
-	    //value = value - dif;
-	    //minute--;
 	    left_dec();
 	}
-	//update_number();                 //Check number in the routine
 	acount1 = 0;                     //Reset counter
     }
     previous_encoder1 = encoder1;
@@ -430,14 +444,10 @@ void decode_spi_right_knob(uint8_t encoder2){
     }
     if(encoder2 == 3){
 	if((acount2 > 1) && (acount2 < 10)){
-	    //value = value + dif;
-	    //second++;
 	    right_inc();
 	}
 	if ((acount2 <= 0xFF) && (acount2 > 0xF0)){
-	    //value = value - dif;
 	    right_dec();
-	    // second--;
 	}
 	//update_number();
 	acount2 = 0;
@@ -467,8 +477,6 @@ void set_brightness(int setting){
 	if(brightness_level >= 240){
 	    brightness_level = 0;
 	}
-
-
     }
 }
 
@@ -484,6 +492,9 @@ void right_inc(){
 	    break;
 	case 1:
 	    second++;
+	    if(second >= 60){
+		second = 0;	    
+	    }
 	    break;
 	case 2: 
 	    alarm_minute++;
@@ -504,6 +515,9 @@ void right_dec(){
 	    break;
 	case 1:
 	    second--;
+	    if(second >= 240){
+		second = 59;	    
+	    }   
 	    break;
 	case 2: 
 	    alarm_minute--;
@@ -525,6 +539,9 @@ void left_inc(){
 	    break;
 	case 1:
 	    minute++;
+	    if(minute >= 60){
+		minute = 0;	    
+	    }   
 	    break;
 	case 2: 
 	    alarm_hour++;
@@ -541,7 +558,10 @@ void left_dec(){
 	case 0: 
 	    break;
 	case 1:
-	    minute--;
+	    minute--;    
+	    if(minute >= 240){
+		minute = 59;	    
+	    }   
 	    break;
 	case 2:
 	    alarm_hour--;
@@ -569,12 +589,11 @@ void left_dec(){
  *****************************************************************/
 
 void timer_init(void){
-
-    TCCR0 |= (1<<CS00) | (1<<CS10);  //normal mode, prescale by 32
-
+    TCCR0 |= (1<<CS00) ;  //normal mode, prescale by 32
+    ASSR  |= (1<<AS0);
     TCCR2 |= (1<<CS21) | (1<<CS20); //| (1<<CS20);  //normal mode, prescale by 32
     TIMSK |= (1<<TOIE0)| (1<<TOIE2);// | (1<<OCIE2);             //enable interrupts
-    TIFR |= (1 << TOV2);
+    TIFR  |= (1 << TOV2);
     /*      
     //TIMER 3 for dimming light
     TCCR3A = 0;                             //normal mode
@@ -586,7 +605,6 @@ void timer_init(void){
 
 }
 
-//***********************************************************************************
 int main()
 {
     //set port bits 4-7 B as outputs
@@ -599,7 +617,8 @@ int main()
     timer_init();
     sei();
     while(1){
-	//display_update();
+	display_update();
+
     }//while
     return 0;
 }//main

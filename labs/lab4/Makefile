@@ -1,4 +1,4 @@
-PRG            = lab4
+PRG            = test_prog
 
 OBJ            = $(PRG).o
 
