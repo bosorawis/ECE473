@@ -54,12 +54,10 @@ uint8_t segment_data[5];
 
 //decimal to 7-segment LED display encodings, logic "0" turns on segment
 uint8_t dec_to_7seg[12];
-uint8_t brightness_level = 9;
-int delay_time[10] = {50, 60, 70, 80, 90, 100, 110, 120, 130, 150};
-uint16_t value = 0;       
+uint8_t brightness_level;
+//int delay_time[10] = {50, 60, 70, 80, 90, 100, 110, 120, 130, 150};
 uint16_t time = 0;
 uint16_t alarm_time = 0;
-uint8_t rotate_7seg = 0;
 static uint8_t mode = 0;
 static uint8_t sw_table[] = {0, 1, 2, 0, 2, 0, 0, 1, 1, 0, 0, 2, 0, 2, 1, 0};
 static uint32_t counter = 0;
@@ -70,10 +68,6 @@ static uint8_t alarm_minute = 0;
 static uint8_t alarm_hour = 0;
 static uint8_t ticker = 0;
 uint8_t blink = 0;
-void left_inc();
-void right_inc();
-void left_dec();
-void right_dec();
 //******************************************************************************
 //                            chk_buttons                                      
 //Checks the state of the button number passed to it. It shifts in ones till   
@@ -162,7 +156,7 @@ void segsum(uint16_t sum) {
     //now move data to right place for misplaced colon position
     if(mode == 3){
 	segment_data[4] = 0xFF;
-	segment_data[3] = 0xFF;
+       // segment_data[3] = 0xFF;
 	segment_data[2] = 0xFF;
     }
 
@@ -241,6 +235,14 @@ ISR(TIMER2_OVF_vect){
     //OCR2 = brightness[brightness_level];
 }
 
+ISR(ADC_vect){
+    //brightness_level = 255 - ADC;
+    
+    OCR2 = 10;// brightness_level;
+    //second++;
+    //ADCSRA |= (1<<ADSC);
+    //second++;
+}
 //ISR(TIMER3_OVF_vect){
 //	OCR1A = brightness[brightness_level+1];
 //}
@@ -591,7 +593,7 @@ void left_dec(){
 void timer_init(void){
     TCCR0 |= (1<<CS00) ;  //normal mode, prescale by 32
     ASSR  |= (1<<AS0);
-    TCCR2 |= (1<<CS21) | (1<<CS20); //| (1<<CS20);  //normal mode, prescale by 32
+    TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<COM20) |(1<<CS21) | (1<<CS20); //| (1<<CS20);  //normal mode, prescale by 32
     TIMSK |= (1<<TOIE0)| (1<<TOIE2);// | (1<<OCIE2);             //enable interrupts
     TIFR  |= (1 << TOV2);
     /*      
@@ -605,6 +607,15 @@ void timer_init(void){
 
 }
 
+void ADC_init(void){
+    DDRF |= (1<<PF0);
+    PORTF = 0x00;
+    ADMUX  |= (1<<ADLAR) | (1<<REFS0);
+    ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADFR) | (1<<ADIE)\
+	      |(1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
+
+}
+
 int main()
 {
     //set port bits 4-7 B as outputs
@@ -615,6 +626,7 @@ int main()
 
     SPI_init();
     timer_init();
+    ADC_init();
     sei();
     while(1){
 	display_update();
