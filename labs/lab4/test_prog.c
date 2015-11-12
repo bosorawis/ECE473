@@ -155,7 +155,7 @@ void segsum(uint16_t sum) {
     //blank out leading zero digits 
     //now move data to right place for misplaced colon position
     if(mode == 3){
-	segment_data[4] = 0xFF;
+	//segment_data[4] = 0xFF;
        // segment_data[3] = 0xFF;
 	segment_data[2] = 0xFF;
     }
@@ -230,7 +230,7 @@ ISR(TIMER0_OVF_vect){
 ISR(TIMER2_OVF_vect){
     button_routine();
     check_knobs();
-    //display_update(); 
+    display_update(); 
     //bar_graph();
     //OCR2 = brightness[brightness_level];
 }
@@ -238,7 +238,13 @@ ISR(TIMER2_OVF_vect){
 ISR(ADC_vect){
     //brightness_level = 255 - ADC;
     
-    OCR2 = 10;// brightness_level;
+    if(ADCH < 100){
+       OCR2 = 100-ADCH;
+    }  
+    else{
+	OCR2 = 1;// brightness_level;
+    }
+    //OCR2 =150;
     //second++;
     //ADCSRA |= (1<<ADSC);
     //second++;
@@ -358,7 +364,7 @@ void bar_graph(){
  **************************************************************************/
 void display_update(){
     uint8_t display_segment = 0;
-
+    static uint8_t rotate_7seg = 0;
     switch(mode){
 	case 0:
 	    segsum(time);
@@ -370,24 +376,28 @@ void display_update(){
 	    segsum(alarm_time);
 	    break;
 	case 3:
-	    segsum(brightness_level+1);
+	    segsum(ADCH);
 	    break;
 	default:
 	    //segsum(time);
 	    break;
     }
-
-    for(display_segment = 0 ; display_segment < 5 ; display_segment++){
-	PORTB = display_segment << 4;
-	PORTA = segment_data[display_segment];
-	_delay_us(10);
-	PORTA = OFF;
+    /*
+       for(display_segment = 0 ; display_segment < 5 ; display_segment++){
+       PORTB = display_segment << 4;
+       PORTA = segment_data[display_segment];
+       _delay_us(10);
+       PORTA = OFF;
+       }
+     */
+    if(rotate_7seg > 4){
+	rotate_7seg = 0;
     }
-    //PORTB &= 0x8F;
-    //PORTB |= rotate_7seg << 4;
-    //PORTA = segment_data[rotate_7seg];	
-    //rotate_7seg++;
-    //_delay_us(100);
+    PORTB &= 0x8F;
+    PORTB |= rotate_7seg << 4;
+    PORTA = segment_data[rotate_7seg];	
+    rotate_7seg++;
+    _delay_us(10);
 }
 /**************************************************************************
  *Decode the knobs encoder using table method
@@ -608,12 +618,13 @@ void timer_init(void){
 }
 
 void ADC_init(void){
-    DDRF |= (1<<PF0);
+    DDRF |= !(1<<PF0);
     PORTF = 0x00;
     ADMUX  |= (1<<ADLAR) | (1<<REFS0);
     ADCSRA |= (1<<ADEN) | (1<<ADSC) | (1<<ADFR) | (1<<ADIE)\
 	      |(1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 
+    OCR2 = 0xFF;
 }
 
 int main()
@@ -629,8 +640,7 @@ int main()
     ADC_init();
     sei();
     while(1){
-	display_update();
-
+	//display_update();
     }//while
     return 0;
 }//main
