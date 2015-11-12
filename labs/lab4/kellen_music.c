@@ -33,7 +33,6 @@
 /*             -Kellen Arb                                           */
 /*********************************************************************/
 #include <avr/io.h>
-#define F_CPU 16000000UL //16Mhz clock
 #include <string.h>
 
 //Mute is on PORTD
@@ -1111,12 +1110,4 @@ ISR(TIMER1_COMPA_vect) {
     notes++;               //move on to the next note
     play_song(song, notes);//and play it
   }
-}
-
-
-uint8_t main(){
-	music_init();
- 	music_on();
-	while(1){};
-
 }

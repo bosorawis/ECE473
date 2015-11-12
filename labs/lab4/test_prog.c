@@ -19,10 +19,13 @@
 #define FALSE 0
 #define INPUT 0xFF
 #define SELECT_BIT_BUTTON_BOARD 0x70
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <math.h>
+#include "kellen_music.c"
+
 #define ONE	 0xf9
 #define TWO	 0xa4
 #define THREE	 0xb0
@@ -616,6 +619,7 @@ void timer_init(void){
 
 
 }
+
 
 void ADC_init(void){
     DDRF |= !(1<<PF0);
