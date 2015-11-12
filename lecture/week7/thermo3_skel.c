@@ -20,8 +20,8 @@ char    lcd_string_array[16];  //holds a string to refresh the LCD
 uint8_t i;                     //general purpose index
 
 //delclare the 2 byte TWI read and write buffers (lm73_functions_skel.c)
-extern uint8_t ................
-extern uint8_t ................
+extern uint8_t lm73_rd_buf[2]; 
+extern uint8_t lm73_wr_buf[2];
 
 //********************************************************************
 //                            spi_init                               
@@ -29,42 +29,53 @@ extern uint8_t ................
 // external device specific initalizations.                          
 //********************************************************************
 void spi_init(void){
-  DDRB |=  0x07;  //Turn on SS, MOSI, SCLK
-  //mstr mode, sck=clk/2, cycle 1/2 phase, low polarity, MSB 1st, 
-  //no interrupts, enable SPI, clk low initially, rising edge sample
-  SPCR=(1<<SPE) | (1<<MSTR); 
-  SPSR=(1<<SPI2X); //SPI at 2x speed (8 MHz)  
- }//spi_init
+    DDRB |=  0x07;  //Turn on SS, MOSI, SCLK
+    //mstr mode, sck=clk/2, cycle 1/2 phase, low polarity, MSB 1st, 
+    //no interrupts, enable SPI, clk low initially, rising edge sample
+    SPCR=(1<<SPE) | (1<<MSTR); 
+    SPSR=(1<<SPI2X); //SPI at 2x speed (8 MHz)  
+}//spi_init
 
 /***********************************************************************/
 /*                                main                                 */
 /***********************************************************************/
 int main ()
 {     
-uint16_t lm73_temp;  //a place to assemble the temperature from the lm73
+    uint16_t lm73_temp;  //a place to assemble the temperature from the lm73
+    char str[16];
+    spi_init();//initalize SPI 
+    lcd_init();   //initalize LCD (lcd_functions.h)
+    init_twi();//initalize TWI (twi_master.h)  
 
-   //initalize SPI 
-   //initalize LCD (lcd_functions.h)
-   //initalize TWI (twi_master.h)  
+    //set LM73 mode for reading temperature by loading pointer register
 
-//set LM73 mode for reading temperature by loading pointer register
-//this is done outside of the normal interrupt mode of operation 
-................   //load lm73_wr_buf[0] with temperature pointer address
-................   //start the TWI write process (twi_start_wr())
-sei();             //enable interrupts to allow start_wr to finish
+    //this is done outside of the normal interrupt mode of operation 
 
-clear_display();   //clean up the display
+    //load lm73_wr_buf[0] with temperature pointer address
+    lm73_wr_buf[0] = LM73_PTR_TEMP;
+    //start the TWI write process (twi_start_wr())
+	//TODO
+    twi_start_wr(LM73_ADDRESS, lm73_wr_buf, 2); 
+    sei();             //enable interrupts to allow start_wr to finish
 
-while(1){          //main while loop
-  _delay_ms(100);  //tenth second wait
-  clear_display(); //wipe the display
-  ................ //read temperature data from LM73 (2 bytes)  (twi_start_rd())
-  _delay_ms(2);    //wait for it to finish
-//now assemble the two bytes read back into one 16-bit value
-  ................ //save high temperature byte into lm73_temp
-  ................ //shift it into upper byte 
-  ................ //"OR" in the low temp byte to lm73_temp 
-  ................ //convert to string in array with itoa() from avr-libc                           
-  ................ //send the string to LCD (lcd_functions)
-  } //while
+    clear_display();   //clean up the display
+
+    while(1){          //main while loop
+	_delay_ms(100);  //tenth second wait
+	clear_display(); //wipe the display
+	//read temperature data from LM73 (2 bytes)  (twi_start_rd())
+	twi_start_rd(LM73_ADDRESS, lm73_rd_buf, 2);
+	_delay_ms(2);    //wait for it to finish
+	//now assemble the two bytes read back into one 16-bit value
+	//save high temperature byte into lm73_temp
+	lm73_temp = lm73_rd_buf[0] << 8;
+	//shift it into upper byte 
+	//"OR" in the low temp byte to lm73_temp 
+	lm73_temp |= lm73_rd_buf[1];
+	//convert to string in array with itoa() from avr-libc                           
+	itoa(lm73_temp, str, 2);
+	//send the string to LCD (lcd_functions)
+	//strcpy(str,"hello");
+	string2lcd(str);
+    } //while
 } //main
