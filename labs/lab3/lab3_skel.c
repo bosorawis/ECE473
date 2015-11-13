@@ -37,7 +37,7 @@
 
 
 #define MAX_SEGMENT 5
-#define BUTTON_COUNT 3
+#define BUTTON_COUNT 8
 #define MAX_SUM 1023
 #define ENCODE_LEFT_KNOB(read)   (read & 0x0C) >> 2
 #define ENCODE_RIGHT_KNOB(read)  (read & 0x03) 
@@ -178,6 +178,7 @@ void button_routine(){
     //now check each button and increment the count as needed
     for (button = 0 ; button < BUTTON_COUNT ; button++){
 	if (chk_buttons(button)){
+		value = button;
 	    //Check the state of buttons
 	    if(button == 0){
 		modeA = !modeA;   //Inverse everytime button0 is pressed

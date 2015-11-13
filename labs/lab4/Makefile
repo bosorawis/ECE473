@@ -1,6 +1,7 @@
 PRG            = test_prog
 
-OBJ            = $(PRG).o
+OBJ            = $(PRG).o lcd_functions.o 
+SRCS	       = lcd_functions.c
 
 MCU_TARGET     = atmega128
 OPTIMIZE       = -O2    # options are 1, 2, 3, s
@@ -34,6 +35,7 @@ lst:  $(PRG).lst
 	$(OBJDUMP) -h -S $< > $@
 
 # Rules for building the .text rom images
+-include $(SRCS:.c=.d)
 
 text: hex bin srec
 
