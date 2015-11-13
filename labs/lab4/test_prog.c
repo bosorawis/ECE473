@@ -24,6 +24,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <math.h>
+#include "audio.c"
 
 #define ONE	 0xf9
 #define TWO	 0xa4
@@ -39,7 +40,7 @@
 
 
 #define MAX_SEGMENT 5
-#define BUTTON_COUNT 4
+#define BUTTON_COUNT 8
 #define MAX_SUM 1023
 #define ENCODE_LEFT_KNOB(read)   (read & 0x0C) >> 2
 #define ENCODE_RIGHT_KNOB(read)  (read & 0x03) 
@@ -60,14 +61,20 @@ uint8_t brightness_level;
 //int delay_time[10] = {50, 60, 70, 80, 90, 100, 110, 120, 130, 150};
 uint16_t time = 0;
 uint16_t alarm_time = 0;
+uint8_t snooze_offset = 0;
 static uint8_t mode = 0;
 static uint8_t sw_table[] = {0, 1, 2, 0, 2, 0, 0, 1, 1, 0, 0, 2, 0, 2, 1, 0};
-static uint32_t counter = 0;
+//static uint32_t counter = 0;
 static uint8_t second = 0;
 static uint8_t minute = 0;
 static uint8_t hour = 0;
+uint8_t snooze_init_second = 0;
+uint8_t snooze_second = 0;
+uint8_t snooze_flag = 0;
 static uint8_t alarm_minute = 0;
 static uint8_t alarm_hour = 0;
+uint8_t alarm_on = 0;
+uint8_t music_status = 0;
 static uint8_t ticker = 0;
 uint8_t blink = 0;
 //******************************************************************************
@@ -175,7 +182,7 @@ void segsum(uint16_t sum) {
 //***********************************************************************************
 void button_routine(){
     uint8_t button = 0;
-    int previous_mode;   
+    static int previous_mode;   
     DDRA  = 0x00; // PORTA input mode
     PORTA = 0xFF; //Pull ups
     __asm__ __volatile__ ("nop");
@@ -185,19 +192,25 @@ void button_routine(){
     __asm__ __volatile__ ("nop");
     __asm__ __volatile__ ("nop");
     //now check each button and increment the count as needed
-    previous_mode = mode;
 
     for (button = 0 ; button < BUTTON_COUNT ; button++){
 	if (chk_buttons(button)){
 	    //Check the state of buttons
-	    if(previous_mode == button + 1 ){
+	    if(previous_mode == button && button != 7){
 		mode = 0;
 		return;
+	    }
+	    else if(button == 6 && music_status){
+		snooze_flag = 1;
+	    }
+	    else if(button == 7){
+		alarm_on = !alarm_on;
 	    }
 
 	    else{
 		mode = button+1;
 	    }
+	    previous_mode = button;
 	}
     }
     DDRA = 0xFF;  //switch PORTA to output
@@ -214,40 +227,50 @@ void button_routine(){
 ISR(TIMER0_OVF_vect){
     static uint8_t count = 0;
     count++;
-    update_time();
-    if((count%32) == 0){
+    //update_time();
+    if(count%8 == 0){
+	beat++;
 	blink = !blink;
     }
     if((count%128)==0){
 	ticker++;     
 	second++;    
+	//snooze_second++;
+
     }
+
 
 }
 
 ISR(TIMER1_COMPA_vect){
-
-
-
+    PORTD ^= ALARM_PIN;      //flips the bit, creating a tone
+    PORTB |= (1<<PB0);
+    if(beat >= max_beat) {   //if we've played the note long enough
+	notes++;               //move on to the next note
+	play_song(song, notes);//and play it
+    }
 }
 
 ISR(TIMER2_OVF_vect){
     static uint8_t count = 0;
     count++;
+    //display_update();
     if(count%32 == 0){
 	button_routine();
 	bar_graph();
     }
-    switch(count%2){
+
+    switch(count%8){
 	case 0:
 	    check_knobs();
 	    break;
 	case 1:	
-	    display_update();
+	display_update();
+	    //display_update();
 	    break;
 	default:
 	    break;
-    }
+    }    
 } 
 
 ISR(ADC_vect){
@@ -274,21 +297,10 @@ void update_time(void){
     }
     if(hour >= 24){
 	hour = 0;
-    }    
-    /*if(alarm_minute >=60){
-      alarm_hour++;
-      minute = 0;
-      }  */
-    /*if(alarm_hour >= 24){
-      alarm_hour = 0;
-      }*/    
+    } 
 
-    //update_number();
-    //time = (minute * 100) + second;
     time = (hour * 100) + minute;
-    //time = 100;  
     alarm_time = (alarm_hour * 100) + alarm_minute;
-    //alarm_time = alarm_hour;
 }
 
 void SPI_init(){
@@ -343,6 +355,10 @@ void bar_graph(){
     else{
 	write = 1<<(mode-1);
     }
+
+    if(alarm_on != 0){
+	write = 0xF0;
+    }
     //Write the bargraph to SPI
     SPI_Transmit(write);
     PORTD = (1 << PD2);  //Push data out of SPI
@@ -377,14 +393,15 @@ void display_update(){
 	    //segsum(time);
 	    break;
     }
+    
+    for(display_segment = 0 ; display_segment < 5 ; display_segment++){
+	PORTB = display_segment << 4;
+	PORTA = segment_data[display_segment];
+	_delay_us(10);
+	PORTA = OFF;
+	}
+     
     /*
-       for(display_segment = 0 ; display_segment < 5 ; display_segment++){
-       PORTB = display_segment << 4;
-       PORTA = segment_data[display_segment];
-       _delay_us(30);
-       PORTA = OFF;
-       }
-     */ 
     if(rotate_7seg > 4){
 	rotate_7seg = 0;
     }
@@ -392,8 +409,8 @@ void display_update(){
     PORTB |= rotate_7seg << 4;
     PORTA = segment_data[rotate_7seg];	
     rotate_7seg++;
-    /* */
-    //_delay_us(0);
+*/
+    //_delay_us(40);
 }
 /**************************************************************************
  *Decode the knobs encoder using table method
@@ -463,32 +480,6 @@ void decode_spi_right_knob(uint8_t encoder2){
     previous_encoder2 = encoder2;
 }
 //**************************************************************************
-
-
-/***************************************************************************
- * set_brightness
- - 1 == increase
- - 2 == decrease
- Brightness level goes from 1-10
- ***************************************************************************/
-void set_brightness(int setting){
-    if(setting == 1){
-	if(brightness_level >= 9){
-	    brightness_level = 9;
-	}
-	else{
-	    brightness_level++;
-	}
-    }
-    else if(setting == 2){
-	brightness_level--;
-	if(brightness_level >= 240){
-	    brightness_level = 0;
-	}
-    }
-}
-
-//*************************************************************************
 
 /***************************************************************************
  * Knob handle
@@ -581,39 +572,6 @@ void left_dec(){
     }
 }
 
-void cleanup_alarm(){
-
-    if(alarm_minute >= 60){
-	alarm_minute = 0;	
-    }
-
-    if(alarm_minute >= 240){
-	alarm_minute = 59;	
-    }
-
-    if(alarm_hour >= 24){
-	alarm_hour = 0;
-    }
-
-    if(alarm_hour >= 240){
-	alarm_hour = 23;
-    }
-}
-
-void cleanup(){
-    if(hour >= 240){
-	hour = 23;	    
-    }
-    if(hour >= 24){
-	hour = 0;	    
-    }
-    if(minute >= 60){
-	minute = 0;
-    }
-    if(minute >= 240){
-	alarm_minute = 59;
-    }     
-}
 //******************************************************************
 /*******************************************************************
  * Alarm operation:
@@ -658,23 +616,23 @@ void ADC_init(void){
 }
 
 void audio_on(){
-	TCCR1B |= (1<<CS11)|(1<CS10);
+    TCCR1B |= (1<<CS11)|(1<CS10);
 }
 void audio_off(){
-	TCCR1B &= ~((1<<CS11) | (1<<CS10)); 
+    TCCR1B &= ~((1<<CS11) | (1<<CS10)); 
 }
 
 void audio_init(){
-	DDRC |= (1<<PC7);
-	TIMSK |= (1<<OCIE1A);
-	TCCR1B = (1<<WGM12);
-	OCR1A = 0xFFFF;
+    DDRC |= (1<<PC7);
+    TIMSK |= (1<<OCIE1A);
+    TCCR1B = (1<<WGM12);
+    OCR1A = 0xFFFF;
 }
 
 int main()
 {
     //set port bits 4-7 B as outputs
-    uint8_t c = 0;
+    //uint8_t c = 0;
     DDRE = 0xc0;
     PORTE &= 0x7F;
     DDRB = 0xF7;
@@ -683,12 +641,25 @@ int main()
     SPI_init();
     timer_init();
     ADC_init();
-    //music_init();   
+    music_init();   
     sei();
     while(1){
-	//display_update();
-	bar_graph();
+	update_time();
 	//minute++;
-    }//while
+	//Alarm mode is on
+	if(alarm_on){
+	    if ((alarm_time == time) && !snooze_flag){
+		//play music
+		music_on();
+		music_status = 1;
+	    }
+	    if(snooze_flag){
+		snooze_flag = 0;
+		music_on();
+		snooze_second = 0;
+	    }    
+	    //snooze_flag is set
+	}//while
+    }
     return 0;
-}//main
+}
