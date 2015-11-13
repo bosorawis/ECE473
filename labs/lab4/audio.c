@@ -32,8 +32,10 @@
 /*ones with the class! Have fun!                                     */
 /*             -Kellen Arb                                           */
 /*********************************************************************/
-#include <avr/io.h>
-#include <string.h>
+//#include <avr/io.h>
+//#define F_CPU 16000000UL //16Mhz clock
+//#include <string.h>
+//#include <avr/interrupt.h>
 
 //Mute is on PORTD
 //set the hex values to set and unset the mute pin
@@ -1087,12 +1089,13 @@ void music_on(void) {
 
 void music_init(void) {
   //initially turned off (use music_on() to turn on)
-  DDRC  |= (1<<PC7);
-  TIMSK |= (1<<OCIE1A);  //enable timer interrupt 1 on compare
+  DDRD |= (1<<PD7);
+  TIMSK |= (1<<OCIE1A) | (1<<TOIE0);  //enable timer interrupt 1 on compare
   TCCR1A = 0x00;         //TCNT1, normal port operation
-  TCCR1B |= (1<<WGM12) | (1<<CS12) | (1<<CS10);  //CTC, OCR1A = top, clk/64 (250kHz)
+  TCCR1B |= (1<<WGM12);  //CTC, OCR1A = top, clk/64 (250kHz)
   TCCR1C = 0x00;         //no forced compare
-  OCR1A = 0xFFFF;        //(use to vary alarm frequency)
+  TCCR0 = (1<<CS02);
+  OCR1A = 0x0033;        //(use to vary alarm frequency)
   music_off();
   beat = 0;
   max_beat = 0;
@@ -1104,11 +1107,30 @@ void music_init(void) {
 /*                             TIMER1_COMPA                          */
 /*Oscillates pin7, PORTD for alarm tone output                       */
 /*********************************************************************/
-
+ISR(TIMER0_OVF_vect){
+    static uint8_t ms = 0;
+     ms++;
+    if(ms % 8 == 0) {
+	//for note duration (64th notes) 
+	beat++;
+    }
+}
 ISR(TIMER1_COMPA_vect) {
-  PORTC ^= ALARM_PIN;      //flips the bit, creating a tone
-  if(beat >= max_beat) {   //if we've played the note long enough
-    notes++;               //move on to the next note
-    play_song(song, notes);//and play it
-  }
+    PORTD ^= ALARM_PIN;      //flips the bit, creating a tone
+    PORTB |= (1<<PB0);
+    if(beat >= max_beat) {   //if we've played the note long enough
+	notes++;               //move on to the next note
+	play_song(song, notes);//and play it
+    }
+}
+
+
+uint8_t main(){
+    DDRB |= (1<<PB0);
+    music_init();
+    sei();
+    music_on(); 
+    while(1){
+
+    }
 }

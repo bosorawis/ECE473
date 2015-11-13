@@ -24,7 +24,6 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <math.h>
-#include "kellen_music.c"
 
 #define ONE	 0xf9
 #define TWO	 0xa4
@@ -70,7 +69,6 @@ static uint8_t hour = 0;
 static uint8_t alarm_minute = 0;
 static uint8_t alarm_hour = 0;
 static uint8_t ticker = 0;
-uint8_t write = 0;
 uint8_t blink = 0;
 //******************************************************************************
 //                            chk_buttons                                      
@@ -189,7 +187,6 @@ void button_routine(){
     //now check each button and increment the count as needed
     previous_mode = mode;
 
-    
     for (button = 0 ; button < BUTTON_COUNT ; button++){
 	if (chk_buttons(button)){
 	    //Check the state of buttons
@@ -197,12 +194,16 @@ void button_routine(){
 		mode = 0;
 		return;
 	    }
+
 	    else{
 		mode = button+1;
 	    }
 	}
     }
-    
+    DDRA = 0xFF;  //switch PORTA to output
+    __asm__ __volatile__ ("nop"); //Buffer
+    __asm__ __volatile__ ("nop"); //Buffer 
+
 }
 /***************************************************************************
   Interrupt routine: set flag for checking button in main
@@ -224,27 +225,32 @@ ISR(TIMER0_OVF_vect){
 
 }
 
-ISR(TIMER2_OVF_vect){
-    static int tc2_count = 0;
-    tc2_count++;
-    //tc2_count = tc2_count << 1;
-    switch(tc2_count%8){
-	case 1:
-	    check_knobs();
-            break;
-	case 2:
+ISR(TIMER1_COMPA_vect){
 
-	    button_routine();
+
+
+}
+
+ISR(TIMER2_OVF_vect){
+    static uint8_t count = 0;
+    count++;
+    if(count%32 == 0){
+	button_routine();
+	bar_graph();
+    }
+    switch(count%2){
+	case 0:
+	    check_knobs();
 	    break;
-	case 3:
-	    //display_update(); 
-	    break;	    
+	case 1:	
+	    display_update();
+	    break;
 	default:
 	    break;
     }
-}
+} 
+
 ISR(ADC_vect){
-    //brightness_level = 255 - ADC;
 
     if(ADCH < 100){
 	OCR2 = 100-ADCH;
@@ -252,15 +258,7 @@ ISR(ADC_vect){
     else{
 	OCR2 = 1;// brightness_level;
     }
-    //OCR2 =150;
-    //second++;
-    //ADCSRA |= (1<<ADSC);
-    //second++;
 }
-//ISR(TIMER3_OVF_vect){
-//	OCR1A = brightness[brightness_level+1];
-//}
-
 /***************************************************************************
   Initialize SPI 
  ****************************************************************************/
@@ -327,15 +325,10 @@ uint8_t SPI_Receive(void){
 }
 void check_knobs(void){
     static uint8_t encoder;
-    static uint8_t knb_cnt = 0;
+    //TIFR |= (1<<TOV2);
     encoder = SPI_Receive();
-    if(knb_cnt%2 == 0){
-	decode_spi_left_knob(encoder);
-    }
-    else{
-
-	decode_spi_right_knob(encoder);
-    }
+    decode_spi_left_knob(encoder);
+    decode_spi_right_knob(encoder);
 }
 /***************************************************************************
  *void bar_graph()
@@ -343,11 +336,9 @@ void check_knobs(void){
  **************************************************************************/
 void bar_graph(){
 
+    uint8_t write = 0;
     if(mode == 0){
 	write = 0x00;
-    }
-    else if(mode == 2){
-	write = 0xFF;
     }
     else{
 	write = 1<<(mode-1);
@@ -369,10 +360,6 @@ void bar_graph(){
 void display_update(){
     uint8_t display_segment = 0;
     static uint8_t rotate_7seg = 0;
-    DDRA = 0xFF;  //switch PORTA to output
-    __asm__ __volatile__ ("nop"); //Buffer
-    __asm__ __volatile__ ("nop"); //Buffer 
-
     switch(mode){
 	case 0:
 	    segsum(time);
@@ -390,21 +377,22 @@ void display_update(){
 	    //segsum(time);
 	    break;
     }
-
-    for(display_segment = 0 ; display_segment < 5 ; display_segment++){
-	PORTB = display_segment << 4;
-	PORTA = segment_data[display_segment];
-	_delay_us(10);
-	PORTA = OFF;
+    /*
+       for(display_segment = 0 ; display_segment < 5 ; display_segment++){
+       PORTB = display_segment << 4;
+       PORTA = segment_data[display_segment];
+       _delay_us(30);
+       PORTA = OFF;
+       }
+     */ 
+    if(rotate_7seg > 4){
+	rotate_7seg = 0;
     }
-
-    //if(rotate_7seg > 4){
-    //    rotate_7seg = 0;
-    //}
-    //PORTB &= 0x8F;
-    //PORTB |= rotate_7seg << 4;
-    //PORTA = segment_data[rotate_7seg];	
-    //rotate_7seg++;
+    PORTB &= 0x8F;
+    PORTB |= rotate_7seg << 4;
+    PORTA = segment_data[rotate_7seg];	
+    rotate_7seg++;
+    /* */
     //_delay_us(0);
 }
 /**************************************************************************
@@ -644,9 +632,9 @@ void cleanup(){
 void timer_init(void){
     TCCR0 |= (1<<CS00) ;  //normal mode, prescale by 32
     ASSR  |= (1<<AS0);
-    TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<COM20) |(1<<CS21) | (1<<CS20); //| (1<<CS20);  //normal mode, prescale by 32
+    TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<COM20)|(0<<CS20)| (1<<CS21); //normal mode, prescale by 32
     TIMSK |= (1<<TOIE0)| (1<<TOIE2);// | (1<<OCIE2);             //enable interrupts
-    TIFR  |= (1 << TOV2);
+    //TIFR  |= (1 << TOV2);
     /*      
     //TIMER 3 for dimming light
     TCCR3A = 0;                             //normal mode
@@ -669,6 +657,20 @@ void ADC_init(void){
     OCR2 = 0xFF;
 }
 
+void audio_on(){
+	TCCR1B |= (1<<CS11)|(1<CS10);
+}
+void audio_off(){
+	TCCR1B &= ~((1<<CS11) | (1<<CS10)); 
+}
+
+void audio_init(){
+	DDRC |= (1<<PC7);
+	TIMSK |= (1<<OCIE1A);
+	TCCR1B = (1<<WGM12);
+	OCR1A = 0xFFFF;
+}
+
 int main()
 {
     //set port bits 4-7 B as outputs
@@ -681,12 +683,12 @@ int main()
     SPI_init();
     timer_init();
     ADC_init();
+    //music_init();   
     sei();
     while(1){
+	//display_update();
 	bar_graph();
-	display_update();
-	//bar_graph();
-	minute = 9;
+	//minute++;
     }//while
     return 0;
 }//main

@@ -1,0 +1,5175 @@
+
+kellen_music.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  0000192a  000019be  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000192a  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000007  00800100  00800100  000019be  2**0
+                  ALLOC
+  3 .stab         0000243c  00000000  00000000  000019c0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000d93  00000000  00000000  00003dfc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      00000011  00000000  00000000  00004b8f  2**0
+                  CONTENTS, READONLY
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+       0:	0c 94 c7 01 	jmp	0x38e	; 0x38e <__ctors_end>
+       4:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+       8:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+       c:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      10:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      14:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      18:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      1c:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      20:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      24:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      28:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      2c:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      30:	0c 94 46 0c 	jmp	0x188c	; 0x188c <__vector_12>
+      34:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      38:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      3c:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      40:	0c 94 28 0c 	jmp	0x1850	; 0x1850 <__vector_16>
+      44:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      48:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      4c:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      50:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      54:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      58:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      5c:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      60:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      64:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      68:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      6c:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      70:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      74:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      78:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      7c:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      80:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      84:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      88:	0c 94 d9 01 	jmp	0x3b2	; 0x3b2 <__bad_interrupt>
+      8c:	15 02       	muls	r17, r21
+      8e:	1d 02       	muls	r17, r29
+      90:	25 02       	muls	r18, r21
+      92:	2d 02       	muls	r18, r29
+      94:	35 02       	muls	r19, r21
+      96:	3e 02       	muls	r19, r30
+      98:	47 02       	muls	r20, r23
+      9a:	05 02       	muls	r16, r21
+      9c:	0d 02       	muls	r16, r29
+      9e:	9b 03       	fmulsu	r17, r19
+      a0:	93 03       	fmuls	r17, r19
+      a2:	8e 03       	fmulsu	r16, r22
+      a4:	b8 03       	fmulsu	r19, r16
+      a6:	ab 03       	fmulsu	r18, r19
+      a8:	b3 03       	fmuls	r19, r19
+      aa:	a3 03       	fmuls	r18, r19
+      ac:	6c 03       	fmul	r22, r20
+      ae:	64 03       	mulsu	r22, r20
+      b0:	5f 03       	fmul	r21, r23
+      b2:	57 03       	mulsu	r21, r23
+      b4:	c0 03       	fmuls	r20, r16
+      b6:	74 03       	mulsu	r23, r20
+      b8:	4a 03       	fmul	r20, r18
+      ba:	32 03       	mulsu	r19, r18
+      bc:	e0 03       	fmuls	r22, r16
+      be:	89 03       	fmulsu	r16, r17
+      c0:	81 03       	fmuls	r16, r17
+      c2:	79 03       	fmul	r23, r17
+      c4:	00 04       	cpc	r0, r0
+      c6:	3a 03       	fmul	r19, r18
+      c8:	f0 03       	fmuls	r23, r16
+      ca:	42 03       	mulsu	r20, r18
+      cc:	0d 04       	cpc	r0, r13
+      ce:	d8 03       	fmulsu	r21, r16
+      d0:	f8 03       	fmulsu	r23, r16
+      d2:	52 03       	mulsu	r21, r18
+      d4:	d0 03       	fmuls	r21, r16
+      d6:	c8 03       	fmulsu	r20, r16
+      d8:	e8 03       	fmulsu	r22, r16
+      da:	2d 03       	fmul	r18, r21
+      dc:	fb 02       	muls	r31, r27
+      de:	f3 02       	muls	r31, r19
+      e0:	03 03       	mulsu	r16, r19
+      e2:	05 04       	cpc	r0, r5
+      e4:	e6 02       	muls	r30, r22
+      e6:	de 02       	muls	r29, r30
+      e8:	08 03       	fmul	r16, r16
+      ea:	c1 02       	muls	r28, r17
+      ec:	25 03       	mulsu	r18, r21
+      ee:	ee 02       	muls	r30, r30
+      f0:	d1 02       	muls	r29, r17
+      f2:	c9 02       	muls	r28, r25
+      f4:	15 03       	mulsu	r17, r21
+      f6:	d9 02       	muls	r29, r25
+      f8:	0d 03       	fmul	r16, r21
+      fa:	b9 02       	muls	r27, r25
+      fc:	9f 02       	muls	r25, r31
+      fe:	1d 03       	fmul	r17, r21
+     100:	8f 02       	muls	r24, r31
+     102:	87 02       	muls	r24, r23
+     104:	ac 02       	muls	r26, r28
+     106:	a4 02       	muls	r26, r20
+     108:	b1 02       	muls	r27, r17
+     10a:	82 02       	muls	r24, r18
+     10c:	97 02       	muls	r25, r23
+     10e:	6a 02       	muls	r22, r26
+     110:	7a 02       	muls	r23, r26
+     112:	65 02       	muls	r22, r21
+     114:	5d 02       	muls	r21, r29
+     116:	55 02       	muls	r21, r21
+     118:	50 02       	muls	r21, r16
+     11a:	72 02       	muls	r23, r18
+     11c:	17 05       	cpc	r17, r7
+     11e:	35 05       	cpc	r19, r5
+     120:	11 05       	cpc	r17, r1
+     122:	23 05       	cpc	r18, r3
+     124:	05 05       	cpc	r16, r5
+     126:	0b 05       	cpc	r16, r11
+     128:	05 05       	cpc	r16, r5
+     12a:	0b 05       	cpc	r16, r11
+     12c:	3b 05       	cpc	r19, r11
+     12e:	17 05       	cpc	r17, r7
+     130:	35 05       	cpc	r19, r5
+     132:	11 05       	cpc	r17, r1
+     134:	23 05       	cpc	r18, r3
+     136:	1d 05       	cpc	r17, r13
+     138:	ff 04       	cpc	r15, r15
+     13a:	1d 05       	cpc	r17, r13
+     13c:	ff 04       	cpc	r15, r15
+     13e:	65 05       	cpc	r22, r5
+     140:	a1 05       	cpc	r26, r1
+     142:	59 05       	cpc	r21, r9
+     144:	d1 05       	cpc	r29, r1
+     146:	59 05       	cpc	r21, r9
+     148:	95 05       	cpc	r25, r5
+     14a:	8f 05       	cpc	r24, r15
+     14c:	ff 04       	cpc	r15, r15
+     14e:	6b 05       	cpc	r22, r11
+     150:	ff 04       	cpc	r15, r15
+     152:	7d 05       	cpc	r23, r13
+     154:	29 05       	cpc	r18, r9
+     156:	bf 05       	cpc	r27, r15
+     158:	05 05       	cpc	r16, r5
+     15a:	b3 05       	cpc	r27, r3
+     15c:	41 05       	cpc	r20, r1
+     15e:	b9 05       	cpc	r27, r9
+     160:	47 05       	cpc	r20, r7
+     162:	c5 05       	cpc	r28, r5
+     164:	89 05       	cpc	r24, r9
+     166:	2f 05       	cpc	r18, r15
+     168:	29 05       	cpc	r18, r9
+     16a:	71 05       	cpc	r23, r1
+     16c:	4d 05       	cpc	r20, r13
+     16e:	17 05       	cpc	r17, r7
+     170:	35 05       	cpc	r19, r5
+     172:	11 05       	cpc	r17, r1
+     174:	23 05       	cpc	r18, r3
+     176:	05 05       	cpc	r16, r5
+     178:	0b 05       	cpc	r16, r11
+     17a:	05 05       	cpc	r16, r5
+     17c:	0b 05       	cpc	r16, r11
+     17e:	3b 05       	cpc	r19, r11
+     180:	17 05       	cpc	r17, r7
+     182:	9b 05       	cpc	r25, r11
+     184:	2f 05       	cpc	r18, r15
+     186:	11 05       	cpc	r17, r1
+     188:	1d 05       	cpc	r17, r13
+     18a:	ff 04       	cpc	r15, r15
+     18c:	1d 05       	cpc	r17, r13
+     18e:	ff 04       	cpc	r15, r15
+     190:	65 05       	cpc	r22, r5
+     192:	a7 05       	cpc	r26, r7
+     194:	77 05       	cpc	r23, r7
+     196:	3b 05       	cpc	r19, r11
+     198:	ad 05       	cpc	r26, r13
+     19a:	6b 05       	cpc	r22, r11
+     19c:	41 05       	cpc	r20, r1
+     19e:	47 05       	cpc	r20, r7
+     1a0:	29 05       	cpc	r18, r9
+     1a2:	2f 05       	cpc	r18, r15
+     1a4:	cb 05       	cpc	r28, r11
+     1a6:	4d 05       	cpc	r20, r13
+     1a8:	e9 05       	cpc	r30, r9
+     1aa:	0d 06       	cpc	r0, r29
+     1ac:	e3 05       	cpc	r30, r3
+     1ae:	07 06       	cpc	r0, r23
+     1b0:	8b 06       	cpc	r8, r27
+     1b2:	85 06       	cpc	r8, r21
+     1b4:	e3 05       	cpc	r30, r3
+     1b6:	0d 06       	cpc	r0, r29
+     1b8:	13 06       	cpc	r1, r19
+     1ba:	ef 05       	cpc	r30, r15
+     1bc:	97 06       	cpc	r9, r23
+     1be:	e3 05       	cpc	r30, r3
+     1c0:	e9 05       	cpc	r30, r9
+     1c2:	07 06       	cpc	r0, r23
+     1c4:	e3 05       	cpc	r30, r3
+     1c6:	4f 06       	cpc	r4, r31
+     1c8:	e3 05       	cpc	r30, r3
+     1ca:	fb 05       	cpc	r31, r11
+     1cc:	e9 05       	cpc	r30, r9
+     1ce:	2b 06       	cpc	r2, r27
+     1d0:	13 06       	cpc	r1, r19
+     1d2:	ef 05       	cpc	r30, r15
+     1d4:	25 06       	cpc	r2, r21
+     1d6:	a9 06       	cpc	r10, r25
+     1d8:	fb 05       	cpc	r31, r11
+     1da:	19 06       	cpc	r1, r25
+     1dc:	b5 06       	cpc	r11, r21
+     1de:	67 06       	cpc	r6, r23
+     1e0:	19 06       	cpc	r1, r25
+     1e2:	7f 06       	cpc	r7, r31
+     1e4:	e3 05       	cpc	r30, r3
+     1e6:	e9 05       	cpc	r30, r9
+     1e8:	07 06       	cpc	r0, r23
+     1ea:	e3 05       	cpc	r30, r3
+     1ec:	49 06       	cpc	r4, r25
+     1ee:	ef 05       	cpc	r30, r15
+     1f0:	0d 06       	cpc	r0, r29
+     1f2:	e3 05       	cpc	r30, r3
+     1f4:	fb 05       	cpc	r31, r11
+     1f6:	e9 05       	cpc	r30, r9
+     1f8:	2b 06       	cpc	r2, r27
+     1fa:	13 06       	cpc	r1, r19
+     1fc:	ef 05       	cpc	r30, r15
+     1fe:	a3 06       	cpc	r10, r19
+     200:	3d 06       	cpc	r3, r29
+     202:	37 06       	cpc	r3, r23
+     204:	01 06       	cpc	r0, r17
+     206:	31 06       	cpc	r3, r17
+     208:	1f 06       	cpc	r1, r31
+     20a:	01 06       	cpc	r0, r17
+     20c:	73 06       	cpc	r7, r19
+     20e:	79 06       	cpc	r7, r25
+     210:	6d 06       	cpc	r6, r29
+     212:	3d 06       	cpc	r3, r29
+     214:	37 06       	cpc	r3, r23
+     216:	01 06       	cpc	r0, r17
+     218:	31 06       	cpc	r3, r17
+     21a:	1f 06       	cpc	r1, r31
+     21c:	91 06       	cpc	r9, r17
+     21e:	9d 06       	cpc	r9, r29
+     220:	25 06       	cpc	r2, r21
+     222:	55 06       	cpc	r5, r21
+     224:	5b 06       	cpc	r5, r27
+     226:	65 0b       	sbc	r22, r21
+     228:	59 0b       	sbc	r21, r25
+     22a:	53 0b       	sbc	r21, r19
+     22c:	47 0b       	sbc	r20, r23
+     22e:	41 0b       	sbc	r20, r17
+     230:	35 0b       	sbc	r19, r21
+     232:	2f 0b       	sbc	r18, r31
+     234:	29 0b       	sbc	r18, r25
+     236:	23 0b       	sbc	r18, r19
+     238:	1d 0b       	sbc	r17, r29
+     23a:	11 0b       	sbc	r17, r17
+     23c:	0b 0b       	sbc	r16, r27
+     23e:	05 0b       	sbc	r16, r21
+     240:	f9 0a       	sbc	r15, r25
+     242:	f3 0a       	sbc	r15, r19
+     244:	e7 0a       	sbc	r14, r23
+     246:	e1 0a       	sbc	r14, r17
+     248:	d5 0a       	sbc	r13, r21
+     24a:	cf 0a       	sbc	r12, r31
+     24c:	c3 0a       	sbc	r12, r19
+     24e:	bd 0a       	sbc	r11, r29
+     250:	b7 0a       	sbc	r11, r23
+     252:	b1 0a       	sbc	r11, r17
+     254:	ab 0a       	sbc	r10, r27
+     256:	9f 0a       	sbc	r9, r31
+     258:	99 0a       	sbc	r9, r25
+     25a:	93 0a       	sbc	r9, r19
+     25c:	8d 0a       	sbc	r8, r29
+     25e:	87 0a       	sbc	r8, r23
+     260:	7b 0a       	sbc	r7, r27
+     262:	75 0a       	sbc	r7, r21
+     264:	69 0a       	sbc	r6, r25
+     266:	63 0a       	sbc	r6, r19
+     268:	5d 0a       	sbc	r5, r29
+     26a:	57 0a       	sbc	r5, r23
+     26c:	4b 0a       	sbc	r4, r27
+     26e:	45 0a       	sbc	r4, r21
+     270:	39 0a       	sbc	r3, r25
+     272:	33 0a       	sbc	r3, r19
+     274:	27 0a       	sbc	r2, r23
+     276:	21 0a       	sbc	r2, r17
+     278:	15 0a       	sbc	r1, r21
+     27a:	0f 0a       	sbc	r0, r31
+     27c:	03 0a       	sbc	r0, r19
+     27e:	fd 09       	sbc	r31, r13
+     280:	f1 09       	sbc	r31, r1
+     282:	eb 09       	sbc	r30, r11
+     284:	e5 09       	sbc	r30, r5
+     286:	df 09       	sbc	r29, r15
+     288:	d9 09       	sbc	r29, r9
+     28a:	cd 09       	sbc	r28, r13
+     28c:	c7 09       	sbc	r28, r7
+     28e:	c1 09       	sbc	r28, r1
+     290:	bb 09       	sbc	r27, r11
+     292:	b5 09       	sbc	r27, r5
+     294:	a9 09       	sbc	r26, r9
+     296:	a3 09       	sbc	r26, r3
+     298:	97 09       	sbc	r25, r7
+     29a:	91 09       	sbc	r25, r1
+     29c:	8b 09       	sbc	r24, r11
+     29e:	85 09       	sbc	r24, r5
+     2a0:	79 09       	sbc	r23, r9
+     2a2:	73 09       	sbc	r23, r3
+     2a4:	6d 09       	sbc	r22, r13
+     2a6:	67 09       	sbc	r22, r7
+     2a8:	61 09       	sbc	r22, r1
+     2aa:	55 09       	sbc	r21, r5
+     2ac:	4f 09       	sbc	r20, r15
+     2ae:	43 09       	sbc	r20, r3
+     2b0:	3d 09       	sbc	r19, r13
+     2b2:	37 09       	sbc	r19, r7
+     2b4:	31 09       	sbc	r19, r1
+     2b6:	25 09       	sbc	r18, r5
+     2b8:	1f 09       	sbc	r17, r15
+     2ba:	19 09       	sbc	r17, r9
+     2bc:	13 09       	sbc	r17, r3
+     2be:	07 09       	sbc	r16, r7
+     2c0:	01 09       	sbc	r16, r1
+     2c2:	fb 08       	sbc	r15, r11
+     2c4:	f5 08       	sbc	r15, r5
+     2c6:	ef 08       	sbc	r14, r15
+     2c8:	e3 08       	sbc	r14, r3
+     2ca:	dd 08       	sbc	r13, r13
+     2cc:	d1 08       	sbc	r13, r1
+     2ce:	cb 08       	sbc	r12, r11
+     2d0:	bf 08       	sbc	r11, r15
+     2d2:	b9 08       	sbc	r11, r9
+     2d4:	ad 08       	sbc	r10, r13
+     2d6:	a7 08       	sbc	r10, r7
+     2d8:	9b 08       	sbc	r9, r11
+     2da:	95 08       	sbc	r9, r5
+     2dc:	8f 08       	sbc	r8, r15
+     2de:	89 08       	sbc	r8, r9
+     2e0:	83 08       	sbc	r8, r3
+     2e2:	77 08       	sbc	r7, r7
+     2e4:	71 08       	sbc	r7, r1
+     2e6:	65 08       	sbc	r6, r5
+     2e8:	5f 08       	sbc	r5, r15
+     2ea:	59 08       	sbc	r5, r9
+     2ec:	53 08       	sbc	r5, r3
+     2ee:	47 08       	sbc	r4, r7
+     2f0:	41 08       	sbc	r4, r1
+     2f2:	3b 08       	sbc	r3, r11
+     2f4:	35 08       	sbc	r3, r5
+     2f6:	29 08       	sbc	r2, r9
+     2f8:	23 08       	sbc	r2, r3
+     2fa:	17 08       	sbc	r1, r7
+     2fc:	11 08       	sbc	r1, r1
+     2fe:	05 08       	sbc	r0, r5
+     300:	ff 07       	cpc	r31, r31
+     302:	f3 07       	cpc	r31, r19
+     304:	ed 07       	cpc	r30, r29
+     306:	e1 07       	cpc	r30, r17
+     308:	db 07       	cpc	r29, r27
+     30a:	cf 07       	cpc	r28, r31
+     30c:	c9 07       	cpc	r28, r25
+     30e:	bd 07       	cpc	r27, r29
+     310:	b7 07       	cpc	r27, r23
+     312:	b1 07       	cpc	r27, r17
+     314:	ab 07       	cpc	r26, r27
+     316:	a5 07       	cpc	r26, r21
+     318:	99 07       	cpc	r25, r25
+     31a:	93 07       	cpc	r25, r19
+     31c:	8d 07       	cpc	r24, r29
+     31e:	81 07       	cpc	r24, r17
+     320:	7b 07       	cpc	r23, r27
+     322:	6f 07       	cpc	r22, r31
+     324:	69 07       	cpc	r22, r25
+     326:	5d 07       	cpc	r21, r29
+     328:	57 07       	cpc	r21, r23
+     32a:	4b 07       	cpc	r20, r27
+     32c:	45 07       	cpc	r20, r21
+     32e:	3f 07       	cpc	r19, r31
+     330:	39 07       	cpc	r19, r25
+     332:	2d 07       	cpc	r18, r29
+     334:	27 07       	cpc	r18, r23
+     336:	1b 07       	cpc	r17, r27
+     338:	15 07       	cpc	r17, r21
+     33a:	09 07       	cpc	r16, r25
+     33c:	03 07       	cpc	r16, r19
+     33e:	f7 06       	cpc	r15, r23
+     340:	f1 06       	cpc	r15, r17
+     342:	eb 06       	cpc	r14, r27
+     344:	e5 06       	cpc	r14, r21
+     346:	df 06       	cpc	r13, r31
+     348:	d3 06       	cpc	r13, r19
+     34a:	cd 06       	cpc	r12, r29
+     34c:	c7 06       	cpc	r12, r23
+     34e:	6b 0b       	sbc	r22, r27
+     350:	95 0b       	sbc	r25, r21
+     352:	83 0b       	sbc	r24, r19
+     354:	95 0b       	sbc	r25, r21
+     356:	83 0b       	sbc	r24, r19
+     358:	95 0b       	sbc	r25, r21
+     35a:	83 0b       	sbc	r24, r19
+     35c:	b9 0b       	sbc	r27, r25
+     35e:	83 0b       	sbc	r24, r19
+     360:	b9 0b       	sbc	r27, r25
+     362:	a1 0b       	sbc	r26, r17
+     364:	8f 0b       	sbc	r24, r31
+     366:	d1 0b       	sbc	r29, r17
+     368:	8f 0b       	sbc	r24, r31
+     36a:	bf 0b       	sbc	r27, r31
+     36c:	ad 0b       	sbc	r26, r29
+     36e:	9b 0b       	sbc	r25, r27
+     370:	83 0b       	sbc	r24, r19
+     372:	9b 0b       	sbc	r25, r27
+     374:	83 0b       	sbc	r24, r19
+     376:	9b 0b       	sbc	r25, r27
+     378:	83 0b       	sbc	r24, r19
+     37a:	b3 0b       	sbc	r27, r19
+     37c:	83 0b       	sbc	r24, r19
+     37e:	b3 0b       	sbc	r27, r19
+     380:	a1 0b       	sbc	r26, r17
+     382:	c5 0b       	sbc	r28, r21
+     384:	cb 0b       	sbc	r28, r27
+     386:	83 0b       	sbc	r24, r19
+     388:	8f 0b       	sbc	r24, r31
+     38a:	d7 0b       	sbc	r29, r23
+     38c:	ad 0b       	sbc	r26, r29
+
+0000038e <__ctors_end>:
+     38e:	11 24       	eor	r1, r1
+     390:	1f be       	out	0x3f, r1	; 63
+     392:	cf ef       	ldi	r28, 0xFF	; 255
+     394:	d0 e1       	ldi	r29, 0x10	; 16
+     396:	de bf       	out	0x3e, r29	; 62
+     398:	cd bf       	out	0x3d, r28	; 61
+
+0000039a <__do_clear_bss>:
+     39a:	21 e0       	ldi	r18, 0x01	; 1
+     39c:	a0 e0       	ldi	r26, 0x00	; 0
+     39e:	b1 e0       	ldi	r27, 0x01	; 1
+     3a0:	01 c0       	rjmp	.+2      	; 0x3a4 <.do_clear_bss_start>
+
+000003a2 <.do_clear_bss_loop>:
+     3a2:	1d 92       	st	X+, r1
+
+000003a4 <.do_clear_bss_start>:
+     3a4:	a7 30       	cpi	r26, 0x07	; 7
+     3a6:	b2 07       	cpc	r27, r18
+     3a8:	e1 f7       	brne	.-8      	; 0x3a2 <.do_clear_bss_loop>
+     3aa:	0e 94 86 0c 	call	0x190c	; 0x190c <main>
+     3ae:	0c 94 93 0c 	jmp	0x1926	; 0x1926 <_exit>
+
+000003b2 <__bad_interrupt>:
+     3b2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000003b6 <play_rest>:
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     3b6:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     3b8:	10 92 06 01 	sts	0x0106, r1
+     3bc:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     3c0:	90 e0       	ldi	r25, 0x00	; 0
+     3c2:	90 93 04 01 	sts	0x0104, r25
+     3c6:	80 93 03 01 	sts	0x0103, r24
+     3ca:	08 95       	ret
+
+000003cc <play_note>:
+}
+
+void play_note(char note, uint8_t flat, uint8_t octave, uint8_t duration) {
+     3cc:	cf 93       	push	r28
+  //octave must be 0-8 (0 is the lowest, 8 doesn't sound very good)
+  //duration is in 64th notes at 120bpm
+  //e.g. play_note('D', 1, 0, 16)
+  //this would play a Db, octave 0 for 1 quarter note
+  //120 bpm (every 32ms inc beat)
+  PORTD &= unmute;      //unmute (just in case)
+     3ce:	92 98       	cbi	0x12, 2	; 18
+  beat = 0;             //reset the beat counter
+     3d0:	10 92 06 01 	sts	0x0106, r1
+     3d4:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;  //set the max beat
+     3d8:	30 e0       	ldi	r19, 0x00	; 0
+     3da:	30 93 04 01 	sts	0x0104, r19
+     3de:	20 93 03 01 	sts	0x0103, r18
+  switch (octave) {
+     3e2:	50 e0       	ldi	r21, 0x00	; 0
+     3e4:	49 30       	cpi	r20, 0x09	; 9
+     3e6:	51 05       	cpc	r21, r1
+     3e8:	20 f0       	brcs	.+8      	; 0x3f2 <play_note+0x26>
+      case 'G': if(flat){OCR1A=Gb8;}
+        else {OCR1A=G8;}
+	break;
+      } 
+      break;
+    default: OCR1A=0x0000;
+     3ea:	1b bc       	out	0x2b, r1	; 43
+     3ec:	1a bc       	out	0x2a, r1	; 42
+  }
+}
+     3ee:	cf 91       	pop	r28
+     3f0:	08 95       	ret
+  //this would play a Db, octave 0 for 1 quarter note
+  //120 bpm (every 32ms inc beat)
+  PORTD &= unmute;      //unmute (just in case)
+  beat = 0;             //reset the beat counter
+  max_beat = duration;  //set the max beat
+  switch (octave) {
+     3f2:	4a 5b       	subi	r20, 0xBA	; 186
+     3f4:	5f 4f       	sbci	r21, 0xFF	; 255
+     3f6:	fa 01       	movw	r30, r20
+      case 'G': if(flat){OCR1A=Gb7;}
+        else {OCR1A=G7;}
+	break;
+      } 
+      break;
+    case 8: switch (note) {
+     3f8:	99 27       	eor	r25, r25
+     3fa:	87 fd       	sbrc	r24, 7
+     3fc:	90 95       	com	r25
+     3fe:	a9 2f       	mov	r26, r25
+     400:	b9 2f       	mov	r27, r25
+     402:	81 54       	subi	r24, 0x41	; 65
+     404:	91 09       	sbc	r25, r1
+  //this would play a Db, octave 0 for 1 quarter note
+  //120 bpm (every 32ms inc beat)
+  PORTD &= unmute;      //unmute (just in case)
+  beat = 0;             //reset the beat counter
+  max_beat = duration;  //set the max beat
+  switch (octave) {
+     406:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+      case 'G': if(flat){OCR1A=Gb6;}
+        else {OCR1A=G6;}
+	break;
+      } 
+      break;
+    case 7: switch (note) {
+     40a:	87 30       	cpi	r24, 0x07	; 7
+     40c:	91 05       	cpc	r25, r1
+     40e:	78 f7       	brcc	.-34     	; 0x3ee <play_note+0x22>
+     410:	81 5b       	subi	r24, 0xB1	; 177
+     412:	9f 4f       	sbci	r25, 0xFF	; 255
+     414:	fc 01       	movw	r30, r24
+     416:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+      case 'G': if(flat){OCR1A=Gb7;}
+        else {OCR1A=G7;}
+	break;
+      } 
+      break;
+    case 8: switch (note) {
+     41a:	87 30       	cpi	r24, 0x07	; 7
+     41c:	91 05       	cpc	r25, r1
+     41e:	38 f7       	brcc	.-50     	; 0x3ee <play_note+0x22>
+     420:	8a 5a       	subi	r24, 0xAA	; 170
+     422:	9f 4f       	sbci	r25, 0xFF	; 255
+     424:	fc 01       	movw	r30, r24
+     426:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+  //120 bpm (every 32ms inc beat)
+  PORTD &= unmute;      //unmute (just in case)
+  beat = 0;             //reset the beat counter
+  max_beat = duration;  //set the max beat
+  switch (octave) {
+    case 0: switch (note) {
+     42a:	87 30       	cpi	r24, 0x07	; 7
+     42c:	91 05       	cpc	r25, r1
+     42e:	f8 f6       	brcc	.-66     	; 0x3ee <play_note+0x22>
+     430:	83 5a       	subi	r24, 0xA3	; 163
+     432:	9f 4f       	sbci	r25, 0xFF	; 255
+     434:	fc 01       	movw	r30, r24
+     436:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+      case 'G': if(flat){OCR1A=Gb0;}
+        else {OCR1A=G0;}
+	break;
+      } 
+      break;
+    case 1: switch (note) {
+     43a:	87 30       	cpi	r24, 0x07	; 7
+     43c:	91 05       	cpc	r25, r1
+     43e:	b8 f6       	brcc	.-82     	; 0x3ee <play_note+0x22>
+     440:	8c 59       	subi	r24, 0x9C	; 156
+     442:	9f 4f       	sbci	r25, 0xFF	; 255
+     444:	fc 01       	movw	r30, r24
+     446:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+      case 'G': if(flat){OCR1A=Gb1;}
+        else {OCR1A=G1;}
+	break;
+      } 
+      break;
+    case 2: switch (note) {
+     44a:	87 30       	cpi	r24, 0x07	; 7
+     44c:	91 05       	cpc	r25, r1
+     44e:	78 f6       	brcc	.-98     	; 0x3ee <play_note+0x22>
+     450:	85 59       	subi	r24, 0x95	; 149
+     452:	9f 4f       	sbci	r25, 0xFF	; 255
+     454:	fc 01       	movw	r30, r24
+     456:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+      case 'G': if(flat){OCR1A=Gb2;}
+        else {OCR1A=G2;}
+	break;
+      } 
+      break;
+    case 3: switch (note) {
+     45a:	87 30       	cpi	r24, 0x07	; 7
+     45c:	91 05       	cpc	r25, r1
+     45e:	38 f6       	brcc	.-114    	; 0x3ee <play_note+0x22>
+     460:	8e 58       	subi	r24, 0x8E	; 142
+     462:	9f 4f       	sbci	r25, 0xFF	; 255
+     464:	fc 01       	movw	r30, r24
+     466:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+      case 'G': if(flat){OCR1A=Gb3;}
+        else {OCR1A=G3;}
+	break;
+      } 
+      break;
+    case 4: switch (note) {
+     46a:	87 30       	cpi	r24, 0x07	; 7
+     46c:	91 05       	cpc	r25, r1
+     46e:	08 f0       	brcs	.+2      	; 0x472 <play_note+0xa6>
+     470:	be cf       	rjmp	.-132    	; 0x3ee <play_note+0x22>
+     472:	87 58       	subi	r24, 0x87	; 135
+     474:	9f 4f       	sbci	r25, 0xFF	; 255
+     476:	fc 01       	movw	r30, r24
+     478:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+      case 'G': if(flat){OCR1A=Gb4;}
+        else {OCR1A=G4;}
+	break;
+      } 
+      break;
+    case 5: switch (note) {
+     47c:	87 30       	cpi	r24, 0x07	; 7
+     47e:	91 05       	cpc	r25, r1
+     480:	08 f0       	brcs	.+2      	; 0x484 <play_note+0xb8>
+     482:	b5 cf       	rjmp	.-150    	; 0x3ee <play_note+0x22>
+     484:	80 58       	subi	r24, 0x80	; 128
+     486:	9f 4f       	sbci	r25, 0xFF	; 255
+     488:	fc 01       	movw	r30, r24
+     48a:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+      case 'G': if(flat){OCR1A=Gb5;}
+        else {OCR1A=G5;}
+	break;
+      } 
+      break;
+    case 6: switch (note) {
+     48e:	87 30       	cpi	r24, 0x07	; 7
+     490:	91 05       	cpc	r25, r1
+     492:	08 f0       	brcs	.+2      	; 0x496 <play_note+0xca>
+     494:	ac cf       	rjmp	.-168    	; 0x3ee <play_note+0x22>
+     496:	89 57       	subi	r24, 0x79	; 121
+     498:	9f 4f       	sbci	r25, 0xFF	; 255
+     49a:	fc 01       	movw	r30, r24
+     49c:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+        else {OCR1A=D6;}
+	break;
+      case 'E': if(flat){OCR1A=Eb6;}
+        else {OCR1A=E6;}
+	break;
+      case 'F': OCR1A=F6;
+     4a0:	88 e5       	ldi	r24, 0x58	; 88
+     4a2:	90 e0       	ldi	r25, 0x00	; 0
+     4a4:	9b bd       	out	0x2b, r25	; 43
+     4a6:	8a bd       	out	0x2a, r24	; 42
+	break;
+     4a8:	a2 cf       	rjmp	.-188    	; 0x3ee <play_note+0x22>
+      case 'C': OCR1A=C6;
+	break;
+      case 'D': if(flat){OCR1A=Db6;}
+        else {OCR1A=D6;}
+	break;
+      case 'E': if(flat){OCR1A=Eb6;}
+     4aa:	66 23       	and	r22, r22
+     4ac:	09 f4       	brne	.+2      	; 0x4b0 <play_note+0xe4>
+     4ae:	0f c2       	rjmp	.+1054   	; 0x8ce <play_note+0x502>
+     4b0:	83 e6       	ldi	r24, 0x63	; 99
+     4b2:	90 e0       	ldi	r25, 0x00	; 0
+     4b4:	9b bd       	out	0x2b, r25	; 43
+     4b6:	8a bd       	out	0x2a, r24	; 42
+     4b8:	9a cf       	rjmp	.-204    	; 0x3ee <play_note+0x22>
+      case 'B': if(flat){OCR1A=Bb6;}
+        else {OCR1A=B6;}
+	break;
+      case 'C': OCR1A=C6;
+	break;
+      case 'D': if(flat){OCR1A=Db6;}
+     4ba:	66 23       	and	r22, r22
+     4bc:	09 f4       	brne	.+2      	; 0x4c0 <play_note+0xf4>
+     4be:	11 c2       	rjmp	.+1058   	; 0x8e2 <play_note+0x516>
+     4c0:	8f e6       	ldi	r24, 0x6F	; 111
+     4c2:	90 e0       	ldi	r25, 0x00	; 0
+     4c4:	9b bd       	out	0x2b, r25	; 43
+     4c6:	8a bd       	out	0x2a, r24	; 42
+     4c8:	92 cf       	rjmp	.-220    	; 0x3ee <play_note+0x22>
+        else {OCR1A=A6;}
+	break;
+      case 'B': if(flat){OCR1A=Bb6;}
+        else {OCR1A=B6;}
+	break;
+      case 'C': OCR1A=C6;
+     4ca:	86 e7       	ldi	r24, 0x76	; 118
+     4cc:	90 e0       	ldi	r25, 0x00	; 0
+     4ce:	9b bd       	out	0x2b, r25	; 43
+     4d0:	8a bd       	out	0x2a, r24	; 42
+	break;
+     4d2:	8d cf       	rjmp	.-230    	; 0x3ee <play_note+0x22>
+        else {OCR1A=G5;}
+	break;
+      } 
+      break;
+    case 6: switch (note) {
+      case 'A': if(flat){OCR1A=Ab6;}
+     4d4:	66 23       	and	r22, r22
+     4d6:	09 f4       	brne	.+2      	; 0x4da <play_note+0x10e>
+     4d8:	ff c1       	rjmp	.+1022   	; 0x8d8 <play_note+0x50c>
+     4da:	8a e4       	ldi	r24, 0x4A	; 74
+     4dc:	90 e0       	ldi	r25, 0x00	; 0
+     4de:	9b bd       	out	0x2b, r25	; 43
+     4e0:	8a bd       	out	0x2a, r24	; 42
+     4e2:	85 cf       	rjmp	.-246    	; 0x3ee <play_note+0x22>
+      case 'E': if(flat){OCR1A=Eb6;}
+        else {OCR1A=E6;}
+	break;
+      case 'F': OCR1A=F6;
+	break;
+      case 'G': if(flat){OCR1A=Gb6;}
+     4e4:	66 23       	and	r22, r22
+     4e6:	09 f4       	brne	.+2      	; 0x4ea <play_note+0x11e>
+     4e8:	01 c2       	rjmp	.+1026   	; 0x8ec <play_note+0x520>
+     4ea:	83 e5       	ldi	r24, 0x53	; 83
+     4ec:	90 e0       	ldi	r25, 0x00	; 0
+     4ee:	9b bd       	out	0x2b, r25	; 43
+     4f0:	8a bd       	out	0x2a, r24	; 42
+     4f2:	7d cf       	rjmp	.-262    	; 0x3ee <play_note+0x22>
+      break;
+    case 6: switch (note) {
+      case 'A': if(flat){OCR1A=Ab6;}
+        else {OCR1A=A6;}
+	break;
+      case 'B': if(flat){OCR1A=Bb6;}
+     4f4:	66 23       	and	r22, r22
+     4f6:	09 f4       	brne	.+2      	; 0x4fa <play_note+0x12e>
+     4f8:	b8 c1       	rjmp	.+880    	; 0x86a <play_note+0x49e>
+     4fa:	82 e4       	ldi	r24, 0x42	; 66
+     4fc:	90 e0       	ldi	r25, 0x00	; 0
+     4fe:	9b bd       	out	0x2b, r25	; 43
+     500:	8a bd       	out	0x2a, r24	; 42
+     502:	75 cf       	rjmp	.-278    	; 0x3ee <play_note+0x22>
+        else {OCR1A=D5;}
+	break;
+      case 'E': if(flat){OCR1A=Eb5;}
+        else {OCR1A=E5;}
+	break;
+      case 'F': OCR1A=F5;
+     504:	81 eb       	ldi	r24, 0xB1	; 177
+     506:	90 e0       	ldi	r25, 0x00	; 0
+     508:	9b bd       	out	0x2b, r25	; 43
+     50a:	8a bd       	out	0x2a, r24	; 42
+	break;
+     50c:	70 cf       	rjmp	.-288    	; 0x3ee <play_note+0x22>
+      break;
+    case 5: switch (note) {
+      case 'A': if(flat){OCR1A=Ab5;}
+        else {OCR1A=A5;}
+	break;
+      case 'B': if(flat){OCR1A=Bb5;}
+     50e:	66 23       	and	r22, r22
+     510:	09 f4       	brne	.+2      	; 0x514 <play_note+0x148>
+     512:	d3 c1       	rjmp	.+934    	; 0x8ba <play_note+0x4ee>
+     514:	85 e8       	ldi	r24, 0x85	; 133
+     516:	90 e0       	ldi	r25, 0x00	; 0
+     518:	9b bd       	out	0x2b, r25	; 43
+     51a:	8a bd       	out	0x2a, r24	; 42
+     51c:	68 cf       	rjmp	.-304    	; 0x3ee <play_note+0x22>
+        else {OCR1A=G4;}
+	break;
+      } 
+      break;
+    case 5: switch (note) {
+      case 'A': if(flat){OCR1A=Ab5;}
+     51e:	66 23       	and	r22, r22
+     520:	09 f4       	brne	.+2      	; 0x524 <play_note+0x158>
+     522:	c1 c1       	rjmp	.+898    	; 0x8a6 <play_note+0x4da>
+     524:	85 e9       	ldi	r24, 0x95	; 149
+     526:	90 e0       	ldi	r25, 0x00	; 0
+     528:	9b bd       	out	0x2b, r25	; 43
+     52a:	8a bd       	out	0x2a, r24	; 42
+     52c:	60 cf       	rjmp	.-320    	; 0x3ee <play_note+0x22>
+      case 'E': if(flat){OCR1A=Eb5;}
+        else {OCR1A=E5;}
+	break;
+      case 'F': OCR1A=F5;
+	break;
+      case 'G': if(flat){OCR1A=Gb5;}
+     52e:	66 23       	and	r22, r22
+     530:	09 f4       	brne	.+2      	; 0x534 <play_note+0x168>
+     532:	be c1       	rjmp	.+892    	; 0x8b0 <play_note+0x4e4>
+     534:	87 ea       	ldi	r24, 0xA7	; 167
+     536:	90 e0       	ldi	r25, 0x00	; 0
+     538:	9b bd       	out	0x2b, r25	; 43
+     53a:	8a bd       	out	0x2a, r24	; 42
+     53c:	58 cf       	rjmp	.-336    	; 0x3ee <play_note+0x22>
+        else {OCR1A=D4;}
+	break;
+      case 'E': if(flat){OCR1A=Eb4;}
+        else {OCR1A=E4;}
+	break;
+      case 'F': OCR1A=F4;
+     53e:	84 e6       	ldi	r24, 0x64	; 100
+     540:	91 e0       	ldi	r25, 0x01	; 1
+     542:	9b bd       	out	0x2b, r25	; 43
+     544:	8a bd       	out	0x2a, r24	; 42
+	break;
+     546:	53 cf       	rjmp	.-346    	; 0x3ee <play_note+0x22>
+      case 'B': if(flat){OCR1A=Bb5;}
+        else {OCR1A=B5;}
+	break;
+      case 'C': OCR1A=C5;
+	break;
+      case 'D': if(flat){OCR1A=Db5;}
+     548:	66 23       	and	r22, r22
+     54a:	09 f4       	brne	.+2      	; 0x54e <play_note+0x182>
+     54c:	bb c1       	rjmp	.+886    	; 0x8c4 <play_note+0x4f8>
+     54e:	80 ee       	ldi	r24, 0xE0	; 224
+     550:	90 e0       	ldi	r25, 0x00	; 0
+     552:	9b bd       	out	0x2b, r25	; 43
+     554:	8a bd       	out	0x2a, r24	; 42
+     556:	4b cf       	rjmp	.-362    	; 0x3ee <play_note+0x22>
+        else {OCR1A=A5;}
+	break;
+      case 'B': if(flat){OCR1A=Bb5;}
+        else {OCR1A=B5;}
+	break;
+      case 'C': OCR1A=C5;
+     558:	8d ee       	ldi	r24, 0xED	; 237
+     55a:	90 e0       	ldi	r25, 0x00	; 0
+     55c:	9b bd       	out	0x2b, r25	; 43
+     55e:	8a bd       	out	0x2a, r24	; 42
+	break;
+     560:	46 cf       	rjmp	.-372    	; 0x3ee <play_note+0x22>
+      case 'D': if(flat){OCR1A=Db5;}
+        else {OCR1A=D5;}
+	break;
+      case 'E': if(flat){OCR1A=Eb5;}
+     562:	66 23       	and	r22, r22
+     564:	09 f4       	brne	.+2      	; 0x568 <play_note+0x19c>
+     566:	8b c1       	rjmp	.+790    	; 0x87e <play_note+0x4b2>
+     568:	87 ec       	ldi	r24, 0xC7	; 199
+     56a:	90 e0       	ldi	r25, 0x00	; 0
+     56c:	9b bd       	out	0x2b, r25	; 43
+     56e:	8a bd       	out	0x2a, r24	; 42
+     570:	3e cf       	rjmp	.-388    	; 0x3ee <play_note+0x22>
+      case 'C': OCR1A=C4;
+	break;
+      case 'D': if(flat){OCR1A=Db4;}
+        else {OCR1A=D4;}
+	break;
+      case 'E': if(flat){OCR1A=Eb4;}
+     572:	66 23       	and	r22, r22
+     574:	09 f4       	brne	.+2      	; 0x578 <play_note+0x1ac>
+     576:	74 c1       	rjmp	.+744    	; 0x860 <play_note+0x494>
+     578:	80 e9       	ldi	r24, 0x90	; 144
+     57a:	91 e0       	ldi	r25, 0x01	; 1
+     57c:	9b bd       	out	0x2b, r25	; 43
+     57e:	8a bd       	out	0x2a, r24	; 42
+     580:	36 cf       	rjmp	.-404    	; 0x3ee <play_note+0x22>
+      case 'B': if(flat){OCR1A=Bb3;}
+        else {OCR1A=B3;}
+	break;
+      case 'C': OCR1A=C3;
+	break;
+      case 'D': if(flat){OCR1A=Db3;}
+     582:	66 23       	and	r22, r22
+     584:	09 f4       	brne	.+2      	; 0x588 <play_note+0x1bc>
+     586:	cb c1       	rjmp	.+918    	; 0x91e <play_note+0x552>
+     588:	84 e8       	ldi	r24, 0x84	; 132
+     58a:	93 e0       	ldi	r25, 0x03	; 3
+     58c:	9b bd       	out	0x2b, r25	; 43
+     58e:	8a bd       	out	0x2a, r24	; 42
+     590:	2e cf       	rjmp	.-420    	; 0x3ee <play_note+0x22>
+        else {OCR1A=G3;}
+	break;
+      } 
+      break;
+    case 4: switch (note) {
+      case 'A': if(flat){OCR1A=Ab4;}
+     592:	66 23       	and	r22, r22
+     594:	09 f4       	brne	.+2      	; 0x598 <play_note+0x1cc>
+     596:	af c1       	rjmp	.+862    	; 0x8f6 <play_note+0x52a>
+     598:	8b e2       	ldi	r24, 0x2B	; 43
+     59a:	91 e0       	ldi	r25, 0x01	; 1
+     59c:	9b bd       	out	0x2b, r25	; 43
+     59e:	8a bd       	out	0x2a, r24	; 42
+     5a0:	26 cf       	rjmp	.-436    	; 0x3ee <play_note+0x22>
+      case 'E': if(flat){OCR1A=Eb3;}
+        else {OCR1A=E3;}
+	break;
+      case 'F': OCR1A=F3;
+	break;
+      case 'G': if(flat){OCR1A=Gb3;}
+     5a2:	66 23       	and	r22, r22
+     5a4:	09 f4       	brne	.+2      	; 0x5a8 <play_note+0x1dc>
+     5a6:	b1 c1       	rjmp	.+866    	; 0x90a <play_note+0x53e>
+     5a8:	82 ea       	ldi	r24, 0xA2	; 162
+     5aa:	92 e0       	ldi	r25, 0x02	; 2
+     5ac:	9b bd       	out	0x2b, r25	; 43
+     5ae:	8a bd       	out	0x2a, r24	; 42
+     5b0:	1e cf       	rjmp	.-452    	; 0x3ee <play_note+0x22>
+        else {OCR1A=A4;}
+	break;
+      case 'B': if(flat){OCR1A=Bb4;}
+        else {OCR1A=B4;}
+	break;
+      case 'C': OCR1A=C4;
+     5b2:	8c ed       	ldi	r24, 0xDC	; 220
+     5b4:	91 e0       	ldi	r25, 0x01	; 1
+     5b6:	9b bd       	out	0x2b, r25	; 43
+     5b8:	8a bd       	out	0x2a, r24	; 42
+	break;
+     5ba:	19 cf       	rjmp	.-462    	; 0x3ee <play_note+0x22>
+      break;
+    case 3: switch (note) {
+      case 'A': if(flat){OCR1A=Ab3;}
+        else {OCR1A=A3;}
+	break;
+      case 'B': if(flat){OCR1A=Bb3;}
+     5bc:	66 23       	and	r22, r22
+     5be:	09 f4       	brne	.+2      	; 0x5c2 <play_note+0x1f6>
+     5c0:	59 c1       	rjmp	.+690    	; 0x874 <play_note+0x4a8>
+     5c2:	87 e1       	ldi	r24, 0x17	; 23
+     5c4:	92 e0       	ldi	r25, 0x02	; 2
+     5c6:	9b bd       	out	0x2b, r25	; 43
+     5c8:	8a bd       	out	0x2a, r24	; 42
+     5ca:	11 cf       	rjmp	.-478    	; 0x3ee <play_note+0x22>
+        else {OCR1A=G2;}
+	break;
+      } 
+      break;
+    case 3: switch (note) {
+      case 'A': if(flat){OCR1A=Ab3;}
+     5cc:	66 23       	and	r22, r22
+     5ce:	09 f4       	brne	.+2      	; 0x5d2 <play_note+0x206>
+     5d0:	b0 c1       	rjmp	.+864    	; 0x932 <play_note+0x566>
+     5d2:	88 e5       	ldi	r24, 0x58	; 88
+     5d4:	92 e0       	ldi	r25, 0x02	; 2
+     5d6:	9b bd       	out	0x2b, r25	; 43
+     5d8:	8a bd       	out	0x2a, r24	; 42
+     5da:	09 cf       	rjmp	.-494    	; 0x3ee <play_note+0x22>
+        else {OCR1A=D3;}
+	break;
+      case 'E': if(flat){OCR1A=Eb3;}
+        else {OCR1A=E3;}
+	break;
+      case 'F': OCR1A=F3;
+     5dc:	8a ec       	ldi	r24, 0xCA	; 202
+     5de:	92 e0       	ldi	r25, 0x02	; 2
+     5e0:	9b bd       	out	0x2b, r25	; 43
+     5e2:	8a bd       	out	0x2a, r24	; 42
+	break;
+     5e4:	04 cf       	rjmp	.-504    	; 0x3ee <play_note+0x22>
+      case 'C': OCR1A=C2;
+	break;
+      case 'D': if(flat){OCR1A=Db2;}
+        else {OCR1A=D2;}
+	break;
+      case 'E': if(flat){OCR1A=Eb2;}
+     5e6:	66 23       	and	r22, r22
+     5e8:	09 f4       	brne	.+2      	; 0x5ec <play_note+0x220>
+     5ea:	35 c1       	rjmp	.+618    	; 0x856 <play_note+0x48a>
+     5ec:	86 e4       	ldi	r24, 0x46	; 70
+     5ee:	96 e0       	ldi	r25, 0x06	; 6
+     5f0:	9b bd       	out	0x2b, r25	; 43
+     5f2:	8a bd       	out	0x2a, r24	; 42
+     5f4:	fc ce       	rjmp	.-520    	; 0x3ee <play_note+0x22>
+      case 'B': if(flat){OCR1A=Bb2;}
+        else {OCR1A=B2;}
+	break;
+      case 'C': OCR1A=C2;
+	break;
+      case 'D': if(flat){OCR1A=Db2;}
+     5f6:	66 23       	and	r22, r22
+     5f8:	09 f4       	brne	.+2      	; 0x5fc <play_note+0x230>
+     5fa:	82 c1       	rjmp	.+772    	; 0x900 <play_note+0x534>
+     5fc:	8a e0       	ldi	r24, 0x0A	; 10
+     5fe:	97 e0       	ldi	r25, 0x07	; 7
+     600:	9b bd       	out	0x2b, r25	; 43
+     602:	8a bd       	out	0x2a, r24	; 42
+     604:	f4 ce       	rjmp	.-536    	; 0x3ee <play_note+0x22>
+        else {OCR1A=D2;}
+	break;
+      case 'E': if(flat){OCR1A=Eb2;}
+        else {OCR1A=E2;}
+	break;
+      case 'F': OCR1A=F2;
+     606:	86 e9       	ldi	r24, 0x96	; 150
+     608:	95 e0       	ldi	r25, 0x05	; 5
+     60a:	9b bd       	out	0x2b, r25	; 43
+     60c:	8a bd       	out	0x2a, r24	; 42
+	break;
+     60e:	ef ce       	rjmp	.-546    	; 0x3ee <play_note+0x22>
+        else {OCR1A=A3;}
+	break;
+      case 'B': if(flat){OCR1A=Bb3;}
+        else {OCR1A=B3;}
+	break;
+      case 'C': OCR1A=C3;
+     610:	8a eb       	ldi	r24, 0xBA	; 186
+     612:	93 e0       	ldi	r25, 0x03	; 3
+     614:	9b bd       	out	0x2b, r25	; 43
+     616:	8a bd       	out	0x2a, r24	; 42
+	break;
+     618:	ea ce       	rjmp	.-556    	; 0x3ee <play_note+0x22>
+      case 'B': if(flat){OCR1A=Bb4;}
+        else {OCR1A=B4;}
+	break;
+      case 'C': OCR1A=C4;
+	break;
+      case 'D': if(flat){OCR1A=Db4;}
+     61a:	66 23       	and	r22, r22
+     61c:	09 f4       	brne	.+2      	; 0x620 <play_note+0x254>
+     61e:	7a c1       	rjmp	.+756    	; 0x914 <play_note+0x548>
+     620:	81 ec       	ldi	r24, 0xC1	; 193
+     622:	91 e0       	ldi	r25, 0x01	; 1
+     624:	9b bd       	out	0x2b, r25	; 43
+     626:	8a bd       	out	0x2a, r24	; 42
+     628:	e2 ce       	rjmp	.-572    	; 0x3ee <play_note+0x22>
+      break;
+    case 4: switch (note) {
+      case 'A': if(flat){OCR1A=Ab4;}
+        else {OCR1A=A4;}
+	break;
+      case 'B': if(flat){OCR1A=Bb4;}
+     62a:	66 23       	and	r22, r22
+     62c:	09 f4       	brne	.+2      	; 0x630 <play_note+0x264>
+     62e:	7c c1       	rjmp	.+760    	; 0x928 <play_note+0x55c>
+     630:	8b e0       	ldi	r24, 0x0B	; 11
+     632:	91 e0       	ldi	r25, 0x01	; 1
+     634:	9b bd       	out	0x2b, r25	; 43
+     636:	8a bd       	out	0x2a, r24	; 42
+     638:	da ce       	rjmp	.-588    	; 0x3ee <play_note+0x22>
+      case 'E': if(flat){OCR1A=Eb4;}
+        else {OCR1A=E4;}
+	break;
+      case 'F': OCR1A=F4;
+	break;
+      case 'G': if(flat){OCR1A=Gb4;}
+     63a:	66 23       	and	r22, r22
+     63c:	09 f4       	brne	.+2      	; 0x640 <play_note+0x274>
+     63e:	7e c1       	rjmp	.+764    	; 0x93c <play_note+0x570>
+     640:	80 e5       	ldi	r24, 0x50	; 80
+     642:	91 e0       	ldi	r25, 0x01	; 1
+     644:	9b bd       	out	0x2b, r25	; 43
+     646:	8a bd       	out	0x2a, r24	; 42
+     648:	d2 ce       	rjmp	.-604    	; 0x3ee <play_note+0x22>
+      case 'C': OCR1A=C3;
+	break;
+      case 'D': if(flat){OCR1A=Db3;}
+        else {OCR1A=D3;}
+	break;
+      case 'E': if(flat){OCR1A=Eb3;}
+     64a:	66 23       	and	r22, r22
+     64c:	09 f4       	brne	.+2      	; 0x650 <play_note+0x284>
+     64e:	ad c1       	rjmp	.+858    	; 0x9aa <play_note+0x5de>
+     650:	82 e2       	ldi	r24, 0x22	; 34
+     652:	93 e0       	ldi	r25, 0x03	; 3
+     654:	9b bd       	out	0x2b, r25	; 43
+     656:	8a bd       	out	0x2a, r24	; 42
+     658:	ca ce       	rjmp	.-620    	; 0x3ee <play_note+0x22>
+        else {OCR1A=A2;}
+	break;
+      case 'B': if(flat){OCR1A=Bb2;}
+        else {OCR1A=B2;}
+	break;
+      case 'C': OCR1A=C2;
+     65a:	86 e7       	ldi	r24, 0x76	; 118
+     65c:	97 e0       	ldi	r25, 0x07	; 7
+     65e:	9b bd       	out	0x2b, r25	; 43
+     660:	8a bd       	out	0x2a, r24	; 42
+	break;
+     662:	c5 ce       	rjmp	.-630    	; 0x3ee <play_note+0x22>
+  PORTD &= unmute;      //unmute (just in case)
+  beat = 0;             //reset the beat counter
+  max_beat = duration;  //set the max beat
+  switch (octave) {
+    case 0: switch (note) {
+      case 'A': if(flat){OCR1A=Ab0;}
+     664:	66 23       	and	r22, r22
+     666:	09 f4       	brne	.+2      	; 0x66a <play_note+0x29e>
+     668:	0f c1       	rjmp	.+542    	; 0x888 <play_note+0x4bc>
+     66a:	8e ec       	ldi	r24, 0xCE	; 206
+     66c:	92 e1       	ldi	r25, 0x12	; 18
+     66e:	9b bd       	out	0x2b, r25	; 43
+     670:	8a bd       	out	0x2a, r24	; 42
+     672:	bd ce       	rjmp	.-646    	; 0x3ee <play_note+0x22>
+      case 'E': if(flat){OCR1A=Eb0;}
+        else {OCR1A=E0;}
+	break;
+      case 'F': OCR1A=F0;
+	break;
+      case 'G': if(flat){OCR1A=Gb0;}
+     674:	66 23       	and	r22, r22
+     676:	09 f4       	brne	.+2      	; 0x67a <play_note+0x2ae>
+     678:	7a c1       	rjmp	.+756    	; 0x96e <play_note+0x5a2>
+     67a:	8d e1       	ldi	r24, 0x1D	; 29
+     67c:	95 e1       	ldi	r25, 0x15	; 21
+     67e:	9b bd       	out	0x2b, r25	; 43
+     680:	8a bd       	out	0x2a, r24	; 42
+     682:	b5 ce       	rjmp	.-662    	; 0x3ee <play_note+0x22>
+      break;
+    case 1: switch (note) {
+      case 'A': if(flat){OCR1A=Ab1;}
+        else {OCR1A=A1;}
+	break;
+      case 'B': if(flat){OCR1A=Bb1;}
+     684:	66 23       	and	r22, r22
+     686:	09 f4       	brne	.+2      	; 0x68a <play_note+0x2be>
+     688:	dc c0       	rjmp	.+440    	; 0x842 <play_note+0x476>
+     68a:	80 e6       	ldi	r24, 0x60	; 96
+     68c:	98 e0       	ldi	r25, 0x08	; 8
+     68e:	9b bd       	out	0x2b, r25	; 43
+     690:	8a bd       	out	0x2a, r24	; 42
+     692:	ad ce       	rjmp	.-678    	; 0x3ee <play_note+0x22>
+      case 'E': if(flat){OCR1A=Eb8;}
+        else {OCR1A=E8;}
+	break;
+      case 'F': OCR1A=F8;
+	break;
+      case 'G': if(flat){OCR1A=Gb8;}
+     694:	66 23       	and	r22, r22
+     696:	09 f4       	brne	.+2      	; 0x69a <play_note+0x2ce>
+     698:	92 c1       	rjmp	.+804    	; 0x9be <play_note+0x5f2>
+     69a:	80 e1       	ldi	r24, 0x10	; 16
+     69c:	90 e0       	ldi	r25, 0x00	; 0
+     69e:	9b bd       	out	0x2b, r25	; 43
+     6a0:	8a bd       	out	0x2a, r24	; 42
+     6a2:	a5 ce       	rjmp	.-694    	; 0x3ee <play_note+0x22>
+        else {OCR1A=D1;}
+	break;
+      case 'E': if(flat){OCR1A=Eb1;}
+        else {OCR1A=E1;}
+	break;
+      case 'F': OCR1A=F1;
+     6a4:	8e e2       	ldi	r24, 0x2E	; 46
+     6a6:	9b e0       	ldi	r25, 0x0B	; 11
+     6a8:	9b bd       	out	0x2b, r25	; 43
+     6aa:	8a bd       	out	0x2a, r24	; 42
+	break;
+     6ac:	a0 ce       	rjmp	.-704    	; 0x3ee <play_note+0x22>
+      case 'B': if(flat){OCR1A=Bb8;}
+        else {OCR1A=B8;}
+	break;
+      case 'C': OCR1A=C8;
+	break;
+      case 'D': if(flat){OCR1A=Db8;}
+     6ae:	66 23       	and	r22, r22
+     6b0:	09 f4       	brne	.+2      	; 0x6b4 <play_note+0x2e8>
+     6b2:	49 c1       	rjmp	.+658    	; 0x946 <play_note+0x57a>
+     6b4:	8b e1       	ldi	r24, 0x1B	; 27
+     6b6:	90 e0       	ldi	r25, 0x00	; 0
+     6b8:	9b bd       	out	0x2b, r25	; 43
+     6ba:	8a bd       	out	0x2a, r24	; 42
+     6bc:	98 ce       	rjmp	.-720    	; 0x3ee <play_note+0x22>
+        else {OCR1A=A8;}
+	break;
+      case 'B': if(flat){OCR1A=Bb8;}
+        else {OCR1A=B8;}
+	break;
+      case 'C': OCR1A=C8;
+     6be:	8c e1       	ldi	r24, 0x1C	; 28
+     6c0:	90 e0       	ldi	r25, 0x00	; 0
+     6c2:	9b bd       	out	0x2b, r25	; 43
+     6c4:	8a bd       	out	0x2a, r24	; 42
+	break;
+     6c6:	93 ce       	rjmp	.-730    	; 0x3ee <play_note+0x22>
+      break;
+    case 8: switch (note) {
+      case 'A': if(flat){OCR1A=Ab8;}
+        else {OCR1A=A8;}
+	break;
+      case 'B': if(flat){OCR1A=Bb8;}
+     6c8:	66 23       	and	r22, r22
+     6ca:	09 f4       	brne	.+2      	; 0x6ce <play_note+0x302>
+     6cc:	41 c1       	rjmp	.+642    	; 0x950 <play_note+0x584>
+     6ce:	87 e0       	ldi	r24, 0x07	; 7
+     6d0:	90 e0       	ldi	r25, 0x00	; 0
+     6d2:	9b bd       	out	0x2b, r25	; 43
+     6d4:	8a bd       	out	0x2a, r24	; 42
+     6d6:	8b ce       	rjmp	.-746    	; 0x3ee <play_note+0x22>
+        else {OCR1A=G7;}
+	break;
+      } 
+      break;
+    case 8: switch (note) {
+      case 'A': if(flat){OCR1A=Ab8;}
+     6d8:	66 23       	and	r22, r22
+     6da:	09 f4       	brne	.+2      	; 0x6de <play_note+0x312>
+     6dc:	da c0       	rjmp	.+436    	; 0x892 <play_note+0x4c6>
+     6de:	8b e0       	ldi	r24, 0x0B	; 11
+     6e0:	90 e0       	ldi	r25, 0x00	; 0
+     6e2:	9b bd       	out	0x2b, r25	; 43
+     6e4:	8a bd       	out	0x2a, r24	; 42
+     6e6:	83 ce       	rjmp	.-762    	; 0x3ee <play_note+0x22>
+        else {OCR1A=D8;}
+	break;
+      case 'E': if(flat){OCR1A=Eb8;}
+        else {OCR1A=E8;}
+	break;
+      case 'F': OCR1A=F8;
+     6e8:	82 e1       	ldi	r24, 0x12	; 18
+     6ea:	90 e0       	ldi	r25, 0x00	; 0
+     6ec:	9b bd       	out	0x2b, r25	; 43
+     6ee:	8a bd       	out	0x2a, r24	; 42
+	break;
+     6f0:	7e ce       	rjmp	.-772    	; 0x3ee <play_note+0x22>
+      case 'C': OCR1A=C0;
+	break;
+      case 'D': if(flat){OCR1A=Db0;}
+        else {OCR1A=D0;}
+	break;
+      case 'E': if(flat){OCR1A=Eb0;}
+     6f2:	66 23       	and	r22, r22
+     6f4:	09 f4       	brne	.+2      	; 0x6f8 <play_note+0x32c>
+     6f6:	9b c0       	rjmp	.+310    	; 0x82e <play_note+0x462>
+     6f8:	89 e1       	ldi	r24, 0x19	; 25
+     6fa:	99 e1       	ldi	r25, 0x19	; 25
+     6fc:	9b bd       	out	0x2b, r25	; 43
+     6fe:	8a bd       	out	0x2a, r24	; 42
+     700:	76 ce       	rjmp	.-788    	; 0x3ee <play_note+0x22>
+      case 'B': if(flat){OCR1A=Bb0;}
+        else {OCR1A=B0;}
+	break;
+      case 'C': OCR1A=C0;
+	break;
+      case 'D': if(flat){OCR1A=Db0;}
+     702:	66 23       	and	r22, r22
+     704:	09 f4       	brne	.+2      	; 0x708 <play_note+0x33c>
+     706:	29 c1       	rjmp	.+594    	; 0x95a <play_note+0x58e>
+     708:	80 e3       	ldi	r24, 0x30	; 48
+     70a:	9c e1       	ldi	r25, 0x1C	; 28
+     70c:	9b bd       	out	0x2b, r25	; 43
+     70e:	8a bd       	out	0x2a, r24	; 42
+     710:	6e ce       	rjmp	.-804    	; 0x3ee <play_note+0x22>
+        else {OCR1A=A0;}
+	break;
+      case 'B': if(flat){OCR1A=Bb0;}
+        else {OCR1A=B0;}
+	break;
+      case 'C': OCR1A=C0;
+     712:	8c ed       	ldi	r24, 0xDC	; 220
+     714:	9d e1       	ldi	r25, 0x1D	; 29
+     716:	9b bd       	out	0x2b, r25	; 43
+     718:	8a bd       	out	0x2a, r24	; 42
+	break;
+     71a:	69 ce       	rjmp	.-814    	; 0x3ee <play_note+0x22>
+        else {OCR1A=A7;}
+	break;
+      case 'B': if(flat){OCR1A=Bb7;}
+        else {OCR1A=B7;}
+	break;
+      case 'C': OCR1A=C7;
+     71c:	8a e3       	ldi	r24, 0x3A	; 58
+     71e:	90 e0       	ldi	r25, 0x00	; 0
+     720:	9b bd       	out	0x2b, r25	; 43
+     722:	8a bd       	out	0x2a, r24	; 42
+	break;
+     724:	64 ce       	rjmp	.-824    	; 0x3ee <play_note+0x22>
+      break;
+    case 7: switch (note) {
+      case 'A': if(flat){OCR1A=Ab7;}
+        else {OCR1A=A7;}
+	break;
+      case 'B': if(flat){OCR1A=Bb7;}
+     726:	66 23       	and	r22, r22
+     728:	09 f4       	brne	.+2      	; 0x72c <play_note+0x360>
+     72a:	35 c1       	rjmp	.+618    	; 0x996 <play_note+0x5ca>
+     72c:	80 e2       	ldi	r24, 0x20	; 32
+     72e:	90 e0       	ldi	r25, 0x00	; 0
+     730:	9b bd       	out	0x2b, r25	; 43
+     732:	8a bd       	out	0x2a, r24	; 42
+     734:	5c ce       	rjmp	.-840    	; 0x3ee <play_note+0x22>
+        else {OCR1A=G6;}
+	break;
+      } 
+      break;
+    case 7: switch (note) {
+      case 'A': if(flat){OCR1A=Ab7;}
+     736:	66 23       	and	r22, r22
+     738:	09 f4       	brne	.+2      	; 0x73c <play_note+0x370>
+     73a:	32 c1       	rjmp	.+612    	; 0x9a0 <play_note+0x5d4>
+     73c:	84 e2       	ldi	r24, 0x24	; 36
+     73e:	90 e0       	ldi	r25, 0x00	; 0
+     740:	9b bd       	out	0x2b, r25	; 43
+     742:	8a bd       	out	0x2a, r24	; 42
+     744:	54 ce       	rjmp	.-856    	; 0x3ee <play_note+0x22>
+      case 'E': if(flat){OCR1A=Eb7;}
+        else {OCR1A=E7;}
+	break;
+      case 'F': OCR1A=F7;
+	break;
+      case 'G': if(flat){OCR1A=Gb7;}
+     746:	66 23       	and	r22, r22
+     748:	09 f4       	brne	.+2      	; 0x74c <play_note+0x380>
+     74a:	76 c0       	rjmp	.+236    	; 0x838 <play_note+0x46c>
+     74c:	89 e2       	ldi	r24, 0x29	; 41
+     74e:	90 e0       	ldi	r25, 0x00	; 0
+     750:	9b bd       	out	0x2b, r25	; 43
+     752:	8a bd       	out	0x2a, r24	; 42
+     754:	4c ce       	rjmp	.-872    	; 0x3ee <play_note+0x22>
+      case 'C': OCR1A=C7;
+	break;
+      case 'D': if(flat){OCR1A=Db7;}
+        else {OCR1A=D7;}
+	break;
+      case 'E': if(flat){OCR1A=Eb7;}
+     756:	66 23       	and	r22, r22
+     758:	09 f4       	brne	.+2      	; 0x75c <play_note+0x390>
+     75a:	78 c0       	rjmp	.+240    	; 0x84c <play_note+0x480>
+     75c:	81 e3       	ldi	r24, 0x31	; 49
+     75e:	90 e0       	ldi	r25, 0x00	; 0
+     760:	9b bd       	out	0x2b, r25	; 43
+     762:	8a bd       	out	0x2a, r24	; 42
+     764:	44 ce       	rjmp	.-888    	; 0x3ee <play_note+0x22>
+        else {OCR1A=E7;}
+	break;
+      case 'F': OCR1A=F7;
+     766:	8b e2       	ldi	r24, 0x2B	; 43
+     768:	90 e0       	ldi	r25, 0x00	; 0
+     76a:	9b bd       	out	0x2b, r25	; 43
+     76c:	8a bd       	out	0x2a, r24	; 42
+	break;
+     76e:	3f ce       	rjmp	.-898    	; 0x3ee <play_note+0x22>
+      case 'B': if(flat){OCR1A=Bb7;}
+        else {OCR1A=B7;}
+	break;
+      case 'C': OCR1A=C7;
+	break;
+      case 'D': if(flat){OCR1A=Db7;}
+     770:	66 23       	and	r22, r22
+     772:	09 f4       	brne	.+2      	; 0x776 <play_note+0x3aa>
+     774:	93 c0       	rjmp	.+294    	; 0x89c <play_note+0x4d0>
+     776:	87 e3       	ldi	r24, 0x37	; 55
+     778:	90 e0       	ldi	r25, 0x00	; 0
+     77a:	9b bd       	out	0x2b, r25	; 43
+     77c:	8a bd       	out	0x2a, r24	; 42
+     77e:	37 ce       	rjmp	.-914    	; 0x3ee <play_note+0x22>
+      case 'C': OCR1A=C8;
+	break;
+      case 'D': if(flat){OCR1A=Db8;}
+        else {OCR1A=D8;}
+	break;
+      case 'E': if(flat){OCR1A=Eb8;}
+     780:	66 23       	and	r22, r22
+     782:	09 f4       	brne	.+2      	; 0x786 <play_note+0x3ba>
+     784:	4f c0       	rjmp	.+158    	; 0x824 <play_note+0x458>
+     786:	88 e1       	ldi	r24, 0x18	; 24
+     788:	90 e0       	ldi	r25, 0x00	; 0
+     78a:	9b bd       	out	0x2b, r25	; 43
+     78c:	8a bd       	out	0x2a, r24	; 42
+     78e:	2f ce       	rjmp	.-930    	; 0x3ee <play_note+0x22>
+        else {OCR1A=G1;}
+	break;
+      } 
+      break;
+    case 2: switch (note) {
+      case 'A': if(flat){OCR1A=Ab2;}
+     790:	66 23       	and	r22, r22
+     792:	09 f4       	brne	.+2      	; 0x796 <play_note+0x3ca>
+     794:	f6 c0       	rjmp	.+492    	; 0x982 <play_note+0x5b6>
+     796:	82 eb       	ldi	r24, 0xB2	; 178
+     798:	94 e0       	ldi	r25, 0x04	; 4
+     79a:	9b bd       	out	0x2b, r25	; 43
+     79c:	8a bd       	out	0x2a, r24	; 42
+     79e:	27 ce       	rjmp	.-946    	; 0x3ee <play_note+0x22>
+      case 'E': if(flat){OCR1A=Eb1;}
+        else {OCR1A=E1;}
+	break;
+      case 'F': OCR1A=F1;
+	break;
+      case 'G': if(flat){OCR1A=Gb1;}
+     7a0:	66 23       	and	r22, r22
+     7a2:	09 f4       	brne	.+2      	; 0x7a6 <play_note+0x3da>
+     7a4:	16 c1       	rjmp	.+556    	; 0x9d2 <play_note+0x606>
+     7a6:	8d e8       	ldi	r24, 0x8D	; 141
+     7a8:	9a e0       	ldi	r25, 0x0A	; 10
+     7aa:	9b bd       	out	0x2b, r25	; 43
+     7ac:	8a bd       	out	0x2a, r24	; 42
+     7ae:	1f ce       	rjmp	.-962    	; 0x3ee <play_note+0x22>
+      case 'B': if(flat){OCR1A=Bb1;}
+        else {OCR1A=B1;}
+	break;
+      case 'C': OCR1A=C1;
+	break;
+      case 'D': if(flat){OCR1A=Db1;}
+     7b0:	66 23       	and	r22, r22
+     7b2:	09 f4       	brne	.+2      	; 0x7b6 <play_note+0x3ea>
+     7b4:	d7 c0       	rjmp	.+430    	; 0x964 <play_note+0x598>
+     7b6:	86 e1       	ldi	r24, 0x16	; 22
+     7b8:	9e e0       	ldi	r25, 0x0E	; 14
+     7ba:	9b bd       	out	0x2b, r25	; 43
+     7bc:	8a bd       	out	0x2a, r24	; 42
+     7be:	17 ce       	rjmp	.-978    	; 0x3ee <play_note+0x22>
+  switch (octave) {
+    case 0: switch (note) {
+      case 'A': if(flat){OCR1A=Ab0;}
+        else {OCR1A=A0;}
+	break;
+      case 'B': if(flat){OCR1A=Bb0;}
+     7c0:	66 23       	and	r22, r22
+     7c2:	09 f4       	brne	.+2      	; 0x7c6 <play_note+0x3fa>
+     7c4:	f7 c0       	rjmp	.+494    	; 0x9b4 <play_note+0x5e8>
+     7c6:	80 ec       	ldi	r24, 0xC0	; 192
+     7c8:	90 e1       	ldi	r25, 0x10	; 16
+     7ca:	9b bd       	out	0x2b, r25	; 43
+     7cc:	8a bd       	out	0x2a, r24	; 42
+     7ce:	0f ce       	rjmp	.-994    	; 0x3ee <play_note+0x22>
+      break;
+    case 2: switch (note) {
+      case 'A': if(flat){OCR1A=Ab2;}
+        else {OCR1A=A2;}
+	break;
+      case 'B': if(flat){OCR1A=Bb2;}
+     7d0:	66 23       	and	r22, r22
+     7d2:	09 f4       	brne	.+2      	; 0x7d6 <play_note+0x40a>
+     7d4:	d1 c0       	rjmp	.+418    	; 0x978 <play_note+0x5ac>
+     7d6:	8f e2       	ldi	r24, 0x2F	; 47
+     7d8:	94 e0       	ldi	r25, 0x04	; 4
+     7da:	9b bd       	out	0x2b, r25	; 43
+     7dc:	8a bd       	out	0x2a, r24	; 42
+     7de:	07 ce       	rjmp	.-1010   	; 0x3ee <play_note+0x22>
+        else {OCR1A=G0;}
+	break;
+      } 
+      break;
+    case 1: switch (note) {
+      case 'A': if(flat){OCR1A=Ab1;}
+     7e0:	66 23       	and	r22, r22
+     7e2:	09 f4       	brne	.+2      	; 0x7e6 <play_note+0x41a>
+     7e4:	f1 c0       	rjmp	.+482    	; 0x9c8 <play_note+0x5fc>
+     7e6:	87 e6       	ldi	r24, 0x67	; 103
+     7e8:	99 e0       	ldi	r25, 0x09	; 9
+     7ea:	9b bd       	out	0x2b, r25	; 43
+     7ec:	8a bd       	out	0x2a, r24	; 42
+     7ee:	ff cd       	rjmp	.-1026   	; 0x3ee <play_note+0x22>
+      case 'C': OCR1A=C1;
+	break;
+      case 'D': if(flat){OCR1A=Db1;}
+        else {OCR1A=D1;}
+	break;
+      case 'E': if(flat){OCR1A=Eb1;}
+     7f0:	66 23       	and	r22, r22
+     7f2:	09 f4       	brne	.+2      	; 0x7f6 <play_note+0x42a>
+     7f4:	cb c0       	rjmp	.+406    	; 0x98c <play_note+0x5c0>
+     7f6:	8d e8       	ldi	r24, 0x8D	; 141
+     7f8:	9c e0       	ldi	r25, 0x0C	; 12
+     7fa:	9b bd       	out	0x2b, r25	; 43
+     7fc:	8a bd       	out	0x2a, r24	; 42
+     7fe:	f7 cd       	rjmp	.-1042   	; 0x3ee <play_note+0x22>
+        else {OCR1A=D0;}
+	break;
+      case 'E': if(flat){OCR1A=Eb0;}
+        else {OCR1A=E0;}
+	break;
+      case 'F': OCR1A=F0;
+     800:	8d e5       	ldi	r24, 0x5D	; 93
+     802:	96 e1       	ldi	r25, 0x16	; 22
+     804:	9b bd       	out	0x2b, r25	; 43
+     806:	8a bd       	out	0x2a, r24	; 42
+	break;
+     808:	f2 cd       	rjmp	.-1052   	; 0x3ee <play_note+0x22>
+      case 'E': if(flat){OCR1A=Eb2;}
+        else {OCR1A=E2;}
+	break;
+      case 'F': OCR1A=F2;
+	break;
+      case 'G': if(flat){OCR1A=Gb2;}
+     80a:	66 23       	and	r22, r22
+     80c:	09 f4       	brne	.+2      	; 0x810 <play_note+0x444>
+     80e:	e6 c0       	rjmp	.+460    	; 0x9dc <play_note+0x610>
+     810:	86 e4       	ldi	r24, 0x46	; 70
+     812:	95 e0       	ldi	r25, 0x05	; 5
+     814:	9b bd       	out	0x2b, r25	; 43
+     816:	8a bd       	out	0x2a, r24	; 42
+     818:	ea cd       	rjmp	.-1068   	; 0x3ee <play_note+0x22>
+        else {OCR1A=A1;}
+	break;
+      case 'B': if(flat){OCR1A=Bb1;}
+        else {OCR1A=B1;}
+	break;
+      case 'C': OCR1A=C1;
+     81a:	8d ee       	ldi	r24, 0xED	; 237
+     81c:	9e e0       	ldi	r25, 0x0E	; 14
+     81e:	9b bd       	out	0x2b, r25	; 43
+     820:	8a bd       	out	0x2a, r24	; 42
+	break;
+     822:	e5 cd       	rjmp	.-1078   	; 0x3ee <play_note+0x22>
+	break;
+      case 'D': if(flat){OCR1A=Db8;}
+        else {OCR1A=D8;}
+	break;
+      case 'E': if(flat){OCR1A=Eb8;}
+        else {OCR1A=E8;}
+     824:	85 e1       	ldi	r24, 0x15	; 21
+     826:	90 e0       	ldi	r25, 0x00	; 0
+     828:	9b bd       	out	0x2b, r25	; 43
+     82a:	8a bd       	out	0x2a, r24	; 42
+     82c:	e0 cd       	rjmp	.-1088   	; 0x3ee <play_note+0x22>
+	break;
+      case 'D': if(flat){OCR1A=Db0;}
+        else {OCR1A=D0;}
+	break;
+      case 'E': if(flat){OCR1A=Eb0;}
+        else {OCR1A=E0;}
+     82e:	82 eb       	ldi	r24, 0xB2	; 178
+     830:	97 e1       	ldi	r25, 0x17	; 23
+     832:	9b bd       	out	0x2b, r25	; 43
+     834:	8a bd       	out	0x2a, r24	; 42
+     836:	db cd       	rjmp	.-1098   	; 0x3ee <play_note+0x22>
+        else {OCR1A=E7;}
+	break;
+      case 'F': OCR1A=F7;
+	break;
+      case 'G': if(flat){OCR1A=Gb7;}
+        else {OCR1A=G7;}
+     838:	86 e2       	ldi	r24, 0x26	; 38
+     83a:	90 e0       	ldi	r25, 0x00	; 0
+     83c:	9b bd       	out	0x2b, r25	; 43
+     83e:	8a bd       	out	0x2a, r24	; 42
+     840:	d6 cd       	rjmp	.-1108   	; 0x3ee <play_note+0x22>
+    case 1: switch (note) {
+      case 'A': if(flat){OCR1A=Ab1;}
+        else {OCR1A=A1;}
+	break;
+      case 'B': if(flat){OCR1A=Bb1;}
+        else {OCR1A=B1;}
+     842:	87 ee       	ldi	r24, 0xE7	; 231
+     844:	97 e0       	ldi	r25, 0x07	; 7
+     846:	9b bd       	out	0x2b, r25	; 43
+     848:	8a bd       	out	0x2a, r24	; 42
+     84a:	d1 cd       	rjmp	.-1118   	; 0x3ee <play_note+0x22>
+	break;
+      case 'D': if(flat){OCR1A=Db7;}
+        else {OCR1A=D7;}
+	break;
+      case 'E': if(flat){OCR1A=Eb7;}
+        else {OCR1A=E7;}
+     84c:	8e e2       	ldi	r24, 0x2E	; 46
+     84e:	90 e0       	ldi	r25, 0x00	; 0
+     850:	9b bd       	out	0x2b, r25	; 43
+     852:	8a bd       	out	0x2a, r24	; 42
+     854:	cc cd       	rjmp	.-1128   	; 0x3ee <play_note+0x22>
+	break;
+      case 'D': if(flat){OCR1A=Db2;}
+        else {OCR1A=D2;}
+	break;
+      case 'E': if(flat){OCR1A=Eb2;}
+        else {OCR1A=E2;}
+     856:	8b ee       	ldi	r24, 0xEB	; 235
+     858:	95 e0       	ldi	r25, 0x05	; 5
+     85a:	9b bd       	out	0x2b, r25	; 43
+     85c:	8a bd       	out	0x2a, r24	; 42
+     85e:	c7 cd       	rjmp	.-1138   	; 0x3ee <play_note+0x22>
+	break;
+      case 'D': if(flat){OCR1A=Db4;}
+        else {OCR1A=D4;}
+	break;
+      case 'E': if(flat){OCR1A=Eb4;}
+        else {OCR1A=E4;}
+     860:	8a e7       	ldi	r24, 0x7A	; 122
+     862:	91 e0       	ldi	r25, 0x01	; 1
+     864:	9b bd       	out	0x2b, r25	; 43
+     866:	8a bd       	out	0x2a, r24	; 42
+     868:	c2 cd       	rjmp	.-1148   	; 0x3ee <play_note+0x22>
+    case 6: switch (note) {
+      case 'A': if(flat){OCR1A=Ab6;}
+        else {OCR1A=A6;}
+	break;
+      case 'B': if(flat){OCR1A=Bb6;}
+        else {OCR1A=B6;}
+     86a:	8e e3       	ldi	r24, 0x3E	; 62
+     86c:	90 e0       	ldi	r25, 0x00	; 0
+     86e:	9b bd       	out	0x2b, r25	; 43
+     870:	8a bd       	out	0x2a, r24	; 42
+     872:	bd cd       	rjmp	.-1158   	; 0x3ee <play_note+0x22>
+    case 3: switch (note) {
+      case 'A': if(flat){OCR1A=Ab3;}
+        else {OCR1A=A3;}
+	break;
+      case 'B': if(flat){OCR1A=Bb3;}
+        else {OCR1A=B3;}
+     874:	89 ef       	ldi	r24, 0xF9	; 249
+     876:	91 e0       	ldi	r25, 0x01	; 1
+     878:	9b bd       	out	0x2b, r25	; 43
+     87a:	8a bd       	out	0x2a, r24	; 42
+     87c:	b8 cd       	rjmp	.-1168   	; 0x3ee <play_note+0x22>
+	break;
+      case 'D': if(flat){OCR1A=Db5;}
+        else {OCR1A=D5;}
+	break;
+      case 'E': if(flat){OCR1A=Eb5;}
+        else {OCR1A=E5;}
+     87e:	8c eb       	ldi	r24, 0xBC	; 188
+     880:	90 e0       	ldi	r25, 0x00	; 0
+     882:	9b bd       	out	0x2b, r25	; 43
+     884:	8a bd       	out	0x2a, r24	; 42
+     886:	b3 cd       	rjmp	.-1178   	; 0x3ee <play_note+0x22>
+  beat = 0;             //reset the beat counter
+  max_beat = duration;  //set the max beat
+  switch (octave) {
+    case 0: switch (note) {
+      case 'A': if(flat){OCR1A=Ab0;}
+        else {OCR1A=A0;}
+     888:	80 ec       	ldi	r24, 0xC0	; 192
+     88a:	91 e1       	ldi	r25, 0x11	; 17
+     88c:	9b bd       	out	0x2b, r25	; 43
+     88e:	8a bd       	out	0x2a, r24	; 42
+     890:	ae cd       	rjmp	.-1188   	; 0x3ee <play_note+0x22>
+	break;
+      } 
+      break;
+    case 8: switch (note) {
+      case 'A': if(flat){OCR1A=Ab8;}
+        else {OCR1A=A8;}
+     892:	89 e0       	ldi	r24, 0x09	; 9
+     894:	90 e0       	ldi	r25, 0x00	; 0
+     896:	9b bd       	out	0x2b, r25	; 43
+     898:	8a bd       	out	0x2a, r24	; 42
+     89a:	a9 cd       	rjmp	.-1198   	; 0x3ee <play_note+0x22>
+        else {OCR1A=B7;}
+	break;
+      case 'C': OCR1A=C7;
+	break;
+      case 'D': if(flat){OCR1A=Db7;}
+        else {OCR1A=D7;}
+     89c:	84 e3       	ldi	r24, 0x34	; 52
+     89e:	90 e0       	ldi	r25, 0x00	; 0
+     8a0:	9b bd       	out	0x2b, r25	; 43
+     8a2:	8a bd       	out	0x2a, r24	; 42
+     8a4:	a4 cd       	rjmp	.-1208   	; 0x3ee <play_note+0x22>
+	break;
+      } 
+      break;
+    case 5: switch (note) {
+      case 'A': if(flat){OCR1A=Ab5;}
+        else {OCR1A=A5;}
+     8a6:	8d e8       	ldi	r24, 0x8D	; 141
+     8a8:	90 e0       	ldi	r25, 0x00	; 0
+     8aa:	9b bd       	out	0x2b, r25	; 43
+     8ac:	8a bd       	out	0x2a, r24	; 42
+     8ae:	9f cd       	rjmp	.-1218   	; 0x3ee <play_note+0x22>
+        else {OCR1A=E5;}
+	break;
+      case 'F': OCR1A=F5;
+	break;
+      case 'G': if(flat){OCR1A=Gb5;}
+        else {OCR1A=G5;}
+     8b0:	8e e9       	ldi	r24, 0x9E	; 158
+     8b2:	90 e0       	ldi	r25, 0x00	; 0
+     8b4:	9b bd       	out	0x2b, r25	; 43
+     8b6:	8a bd       	out	0x2a, r24	; 42
+     8b8:	9a cd       	rjmp	.-1228   	; 0x3ee <play_note+0x22>
+    case 5: switch (note) {
+      case 'A': if(flat){OCR1A=Ab5;}
+        else {OCR1A=A5;}
+	break;
+      case 'B': if(flat){OCR1A=Bb5;}
+        else {OCR1A=B5;}
+     8ba:	8d e7       	ldi	r24, 0x7D	; 125
+     8bc:	90 e0       	ldi	r25, 0x00	; 0
+     8be:	9b bd       	out	0x2b, r25	; 43
+     8c0:	8a bd       	out	0x2a, r24	; 42
+     8c2:	95 cd       	rjmp	.-1238   	; 0x3ee <play_note+0x22>
+	break;
+      case 'C': OCR1A=C5;
+	break;
+      case 'D': if(flat){OCR1A=Db5;}
+        else {OCR1A=D5;}
+     8c4:	83 ed       	ldi	r24, 0xD3	; 211
+     8c6:	90 e0       	ldi	r25, 0x00	; 0
+     8c8:	9b bd       	out	0x2b, r25	; 43
+     8ca:	8a bd       	out	0x2a, r24	; 42
+     8cc:	90 cd       	rjmp	.-1248   	; 0x3ee <play_note+0x22>
+	break;
+      case 'D': if(flat){OCR1A=Db6;}
+        else {OCR1A=D6;}
+	break;
+      case 'E': if(flat){OCR1A=Eb6;}
+        else {OCR1A=E6;}
+     8ce:	8d e5       	ldi	r24, 0x5D	; 93
+     8d0:	90 e0       	ldi	r25, 0x00	; 0
+     8d2:	9b bd       	out	0x2b, r25	; 43
+     8d4:	8a bd       	out	0x2a, r24	; 42
+     8d6:	8b cd       	rjmp	.-1258   	; 0x3ee <play_note+0x22>
+	break;
+      } 
+      break;
+    case 6: switch (note) {
+      case 'A': if(flat){OCR1A=Ab6;}
+        else {OCR1A=A6;}
+     8d8:	86 e4       	ldi	r24, 0x46	; 70
+     8da:	90 e0       	ldi	r25, 0x00	; 0
+     8dc:	9b bd       	out	0x2b, r25	; 43
+     8de:	8a bd       	out	0x2a, r24	; 42
+     8e0:	86 cd       	rjmp	.-1268   	; 0x3ee <play_note+0x22>
+        else {OCR1A=B6;}
+	break;
+      case 'C': OCR1A=C6;
+	break;
+      case 'D': if(flat){OCR1A=Db6;}
+        else {OCR1A=D6;}
+     8e2:	89 e6       	ldi	r24, 0x69	; 105
+     8e4:	90 e0       	ldi	r25, 0x00	; 0
+     8e6:	9b bd       	out	0x2b, r25	; 43
+     8e8:	8a bd       	out	0x2a, r24	; 42
+     8ea:	81 cd       	rjmp	.-1278   	; 0x3ee <play_note+0x22>
+        else {OCR1A=E6;}
+	break;
+      case 'F': OCR1A=F6;
+	break;
+      case 'G': if(flat){OCR1A=Gb6;}
+        else {OCR1A=G6;}
+     8ec:	8e e4       	ldi	r24, 0x4E	; 78
+     8ee:	90 e0       	ldi	r25, 0x00	; 0
+     8f0:	9b bd       	out	0x2b, r25	; 43
+     8f2:	8a bd       	out	0x2a, r24	; 42
+     8f4:	7c cd       	rjmp	.-1288   	; 0x3ee <play_note+0x22>
+	break;
+      } 
+      break;
+    case 4: switch (note) {
+      case 'A': if(flat){OCR1A=Ab4;}
+        else {OCR1A=A4;}
+     8f6:	8b e1       	ldi	r24, 0x1B	; 27
+     8f8:	91 e0       	ldi	r25, 0x01	; 1
+     8fa:	9b bd       	out	0x2b, r25	; 43
+     8fc:	8a bd       	out	0x2a, r24	; 42
+     8fe:	77 cd       	rjmp	.-1298   	; 0x3ee <play_note+0x22>
+        else {OCR1A=B2;}
+	break;
+      case 'C': OCR1A=C2;
+	break;
+      case 'D': if(flat){OCR1A=Db2;}
+        else {OCR1A=D2;}
+     900:	85 ea       	ldi	r24, 0xA5	; 165
+     902:	96 e0       	ldi	r25, 0x06	; 6
+     904:	9b bd       	out	0x2b, r25	; 43
+     906:	8a bd       	out	0x2a, r24	; 42
+     908:	72 cd       	rjmp	.-1308   	; 0x3ee <play_note+0x22>
+        else {OCR1A=E3;}
+	break;
+      case 'F': OCR1A=F3;
+	break;
+      case 'G': if(flat){OCR1A=Gb3;}
+        else {OCR1A=G3;}
+     90a:	8c e7       	ldi	r24, 0x7C	; 124
+     90c:	92 e0       	ldi	r25, 0x02	; 2
+     90e:	9b bd       	out	0x2b, r25	; 43
+     910:	8a bd       	out	0x2a, r24	; 42
+     912:	6d cd       	rjmp	.-1318   	; 0x3ee <play_note+0x22>
+        else {OCR1A=B4;}
+	break;
+      case 'C': OCR1A=C4;
+	break;
+      case 'D': if(flat){OCR1A=Db4;}
+        else {OCR1A=D4;}
+     914:	88 ea       	ldi	r24, 0xA8	; 168
+     916:	91 e0       	ldi	r25, 0x01	; 1
+     918:	9b bd       	out	0x2b, r25	; 43
+     91a:	8a bd       	out	0x2a, r24	; 42
+     91c:	68 cd       	rjmp	.-1328   	; 0x3ee <play_note+0x22>
+        else {OCR1A=B3;}
+	break;
+      case 'C': OCR1A=C3;
+	break;
+      case 'D': if(flat){OCR1A=Db3;}
+        else {OCR1A=D3;}
+     91e:	82 e5       	ldi	r24, 0x52	; 82
+     920:	93 e0       	ldi	r25, 0x03	; 3
+     922:	9b bd       	out	0x2b, r25	; 43
+     924:	8a bd       	out	0x2a, r24	; 42
+     926:	63 cd       	rjmp	.-1338   	; 0x3ee <play_note+0x22>
+    case 4: switch (note) {
+      case 'A': if(flat){OCR1A=Ab4;}
+        else {OCR1A=A4;}
+	break;
+      case 'B': if(flat){OCR1A=Bb4;}
+        else {OCR1A=B4;}
+     928:	8c ef       	ldi	r24, 0xFC	; 252
+     92a:	90 e0       	ldi	r25, 0x00	; 0
+     92c:	9b bd       	out	0x2b, r25	; 43
+     92e:	8a bd       	out	0x2a, r24	; 42
+     930:	5e cd       	rjmp	.-1348   	; 0x3ee <play_note+0x22>
+	break;
+      } 
+      break;
+    case 3: switch (note) {
+      case 'A': if(flat){OCR1A=Ab3;}
+        else {OCR1A=A3;}
+     932:	87 e3       	ldi	r24, 0x37	; 55
+     934:	92 e0       	ldi	r25, 0x02	; 2
+     936:	9b bd       	out	0x2b, r25	; 43
+     938:	8a bd       	out	0x2a, r24	; 42
+     93a:	59 cd       	rjmp	.-1358   	; 0x3ee <play_note+0x22>
+        else {OCR1A=E4;}
+	break;
+      case 'F': OCR1A=F4;
+	break;
+      case 'G': if(flat){OCR1A=Gb4;}
+        else {OCR1A=G4;}
+     93c:	8d e3       	ldi	r24, 0x3D	; 61
+     93e:	91 e0       	ldi	r25, 0x01	; 1
+     940:	9b bd       	out	0x2b, r25	; 43
+     942:	8a bd       	out	0x2a, r24	; 42
+     944:	54 cd       	rjmp	.-1368   	; 0x3ee <play_note+0x22>
+        else {OCR1A=B8;}
+	break;
+      case 'C': OCR1A=C8;
+	break;
+      case 'D': if(flat){OCR1A=Db8;}
+        else {OCR1A=D8;}
+     946:	89 e1       	ldi	r24, 0x19	; 25
+     948:	90 e0       	ldi	r25, 0x00	; 0
+     94a:	9b bd       	out	0x2b, r25	; 43
+     94c:	8a bd       	out	0x2a, r24	; 42
+     94e:	4f cd       	rjmp	.-1378   	; 0x3ee <play_note+0x22>
+    case 8: switch (note) {
+      case 'A': if(flat){OCR1A=Ab8;}
+        else {OCR1A=A8;}
+	break;
+      case 'B': if(flat){OCR1A=Bb8;}
+        else {OCR1A=B8;}
+     950:	85 e0       	ldi	r24, 0x05	; 5
+     952:	90 e0       	ldi	r25, 0x00	; 0
+     954:	9b bd       	out	0x2b, r25	; 43
+     956:	8a bd       	out	0x2a, r24	; 42
+     958:	4a cd       	rjmp	.-1388   	; 0x3ee <play_note+0x22>
+        else {OCR1A=B0;}
+	break;
+      case 'C': OCR1A=C0;
+	break;
+      case 'D': if(flat){OCR1A=Db0;}
+        else {OCR1A=D0;}
+     95a:	8a e9       	ldi	r24, 0x9A	; 154
+     95c:	9a e1       	ldi	r25, 0x1A	; 26
+     95e:	9b bd       	out	0x2b, r25	; 43
+     960:	8a bd       	out	0x2a, r24	; 42
+     962:	45 cd       	rjmp	.-1398   	; 0x3ee <play_note+0x22>
+        else {OCR1A=B1;}
+	break;
+      case 'C': OCR1A=C1;
+	break;
+      case 'D': if(flat){OCR1A=Db1;}
+        else {OCR1A=D1;}
+     964:	8c e4       	ldi	r24, 0x4C	; 76
+     966:	9d e0       	ldi	r25, 0x0D	; 13
+     968:	9b bd       	out	0x2b, r25	; 43
+     96a:	8a bd       	out	0x2a, r24	; 42
+     96c:	40 cd       	rjmp	.-1408   	; 0x3ee <play_note+0x22>
+        else {OCR1A=E0;}
+	break;
+      case 'F': OCR1A=F0;
+	break;
+      case 'G': if(flat){OCR1A=Gb0;}
+        else {OCR1A=G0;}
+     96e:	8d ee       	ldi	r24, 0xED	; 237
+     970:	93 e1       	ldi	r25, 0x13	; 19
+     972:	9b bd       	out	0x2b, r25	; 43
+     974:	8a bd       	out	0x2a, r24	; 42
+     976:	3b cd       	rjmp	.-1418   	; 0x3ee <play_note+0x22>
+    case 2: switch (note) {
+      case 'A': if(flat){OCR1A=Ab2;}
+        else {OCR1A=A2;}
+	break;
+      case 'B': if(flat){OCR1A=Bb2;}
+        else {OCR1A=B2;}
+     978:	83 ef       	ldi	r24, 0xF3	; 243
+     97a:	93 e0       	ldi	r25, 0x03	; 3
+     97c:	9b bd       	out	0x2b, r25	; 43
+     97e:	8a bd       	out	0x2a, r24	; 42
+     980:	36 cd       	rjmp	.-1428   	; 0x3ee <play_note+0x22>
+	break;
+      } 
+      break;
+    case 2: switch (note) {
+      case 'A': if(flat){OCR1A=Ab2;}
+        else {OCR1A=A2;}
+     982:	8f e6       	ldi	r24, 0x6F	; 111
+     984:	94 e0       	ldi	r25, 0x04	; 4
+     986:	9b bd       	out	0x2b, r25	; 43
+     988:	8a bd       	out	0x2a, r24	; 42
+     98a:	31 cd       	rjmp	.-1438   	; 0x3ee <play_note+0x22>
+	break;
+      case 'D': if(flat){OCR1A=Db1;}
+        else {OCR1A=D1;}
+	break;
+      case 'E': if(flat){OCR1A=Eb1;}
+        else {OCR1A=E1;}
+     98c:	88 ed       	ldi	r24, 0xD8	; 216
+     98e:	9b e0       	ldi	r25, 0x0B	; 11
+     990:	9b bd       	out	0x2b, r25	; 43
+     992:	8a bd       	out	0x2a, r24	; 42
+     994:	2c cd       	rjmp	.-1448   	; 0x3ee <play_note+0x22>
+    case 7: switch (note) {
+      case 'A': if(flat){OCR1A=Ab7;}
+        else {OCR1A=A7;}
+	break;
+      case 'B': if(flat){OCR1A=Bb7;}
+        else {OCR1A=B7;}
+     996:	8e e1       	ldi	r24, 0x1E	; 30
+     998:	90 e0       	ldi	r25, 0x00	; 0
+     99a:	9b bd       	out	0x2b, r25	; 43
+     99c:	8a bd       	out	0x2a, r24	; 42
+     99e:	27 cd       	rjmp	.-1458   	; 0x3ee <play_note+0x22>
+	break;
+      } 
+      break;
+    case 7: switch (note) {
+      case 'A': if(flat){OCR1A=Ab7;}
+        else {OCR1A=A7;}
+     9a0:	82 e2       	ldi	r24, 0x22	; 34
+     9a2:	90 e0       	ldi	r25, 0x00	; 0
+     9a4:	9b bd       	out	0x2b, r25	; 43
+     9a6:	8a bd       	out	0x2a, r24	; 42
+     9a8:	22 cd       	rjmp	.-1468   	; 0x3ee <play_note+0x22>
+	break;
+      case 'D': if(flat){OCR1A=Db3;}
+        else {OCR1A=D3;}
+	break;
+      case 'E': if(flat){OCR1A=Eb3;}
+        else {OCR1A=E3;}
+     9aa:	85 ef       	ldi	r24, 0xF5	; 245
+     9ac:	92 e0       	ldi	r25, 0x02	; 2
+     9ae:	9b bd       	out	0x2b, r25	; 43
+     9b0:	8a bd       	out	0x2a, r24	; 42
+     9b2:	1d cd       	rjmp	.-1478   	; 0x3ee <play_note+0x22>
+    case 0: switch (note) {
+      case 'A': if(flat){OCR1A=Ab0;}
+        else {OCR1A=A0;}
+	break;
+      case 'B': if(flat){OCR1A=Bb0;}
+        else {OCR1A=B0;}
+     9b4:	80 ed       	ldi	r24, 0xD0	; 208
+     9b6:	9f e0       	ldi	r25, 0x0F	; 15
+     9b8:	9b bd       	out	0x2b, r25	; 43
+     9ba:	8a bd       	out	0x2a, r24	; 42
+     9bc:	18 cd       	rjmp	.-1488   	; 0x3ee <play_note+0x22>
+        else {OCR1A=E8;}
+	break;
+      case 'F': OCR1A=F8;
+	break;
+      case 'G': if(flat){OCR1A=Gb8;}
+        else {OCR1A=G8;}
+     9be:	8d e0       	ldi	r24, 0x0D	; 13
+     9c0:	90 e0       	ldi	r25, 0x00	; 0
+     9c2:	9b bd       	out	0x2b, r25	; 43
+     9c4:	8a bd       	out	0x2a, r24	; 42
+     9c6:	13 cd       	rjmp	.-1498   	; 0x3ee <play_note+0x22>
+	break;
+      } 
+      break;
+    case 1: switch (note) {
+      case 'A': if(flat){OCR1A=Ab1;}
+        else {OCR1A=A1;}
+     9c8:	8f ed       	ldi	r24, 0xDF	; 223
+     9ca:	98 e0       	ldi	r25, 0x08	; 8
+     9cc:	9b bd       	out	0x2b, r25	; 43
+     9ce:	8a bd       	out	0x2a, r24	; 42
+     9d0:	0e cd       	rjmp	.-1508   	; 0x3ee <play_note+0x22>
+        else {OCR1A=E1;}
+	break;
+      case 'F': OCR1A=F1;
+	break;
+      case 'G': if(flat){OCR1A=Gb1;}
+        else {OCR1A=G1;}
+     9d2:	86 ef       	ldi	r24, 0xF6	; 246
+     9d4:	99 e0       	ldi	r25, 0x09	; 9
+     9d6:	9b bd       	out	0x2b, r25	; 43
+     9d8:	8a bd       	out	0x2a, r24	; 42
+     9da:	09 cd       	rjmp	.-1518   	; 0x3ee <play_note+0x22>
+        else {OCR1A=E2;}
+	break;
+      case 'F': OCR1A=F2;
+	break;
+      case 'G': if(flat){OCR1A=Gb2;}
+        else {OCR1A=G2;}
+     9dc:	8a ef       	ldi	r24, 0xFA	; 250
+     9de:	94 e0       	ldi	r25, 0x04	; 4
+     9e0:	9b bd       	out	0x2b, r25	; 43
+     9e2:	8a bd       	out	0x2a, r24	; 42
+     9e4:	04 cd       	rjmp	.-1528   	; 0x3ee <play_note+0x22>
+
+000009e6 <song0>:
+volatile uint16_t beat;
+volatile uint16_t max_beat;
+volatile uint8_t  notes;
+
+void song0(uint16_t note) { //beaver fight song (Max and Kellen)
+  switch (note) {
+     9e6:	86 34       	cpi	r24, 0x46	; 70
+     9e8:	91 05       	cpc	r25, r1
+     9ea:	20 f0       	brcs	.+8      	; 0x9f4 <song0+0xe>
+       break;
+    case 68: play_note('F', 0, 4, 24);
+       break;
+    case 69: play_rest(8);
+       break;
+    default: notes=-1;
+     9ec:	8f ef       	ldi	r24, 0xFF	; 255
+     9ee:	80 93 01 01 	sts	0x0101, r24
+     9f2:	08 95       	ret
+volatile uint16_t beat;
+volatile uint16_t max_beat;
+volatile uint8_t  notes;
+
+void song0(uint16_t note) { //beaver fight song (Max and Kellen)
+  switch (note) {
+     9f4:	fc 01       	movw	r30, r24
+     9f6:	e2 57       	subi	r30, 0x72	; 114
+     9f8:	ff 4f       	sbci	r31, 0xFF	; 255
+     9fa:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+       break;
+    case 55: play_note('A', 0, 4, 2);
+       break;
+    case 56: play_note('B', 1, 4, 6);
+       break;
+    case 57: play_note('A', 0, 4, 2);
+     9fe:	22 e0       	ldi	r18, 0x02	; 2
+     a00:	44 e0       	ldi	r20, 0x04	; 4
+     a02:	60 e0       	ldi	r22, 0x00	; 0
+     a04:	81 e4       	ldi	r24, 0x41	; 65
+     a06:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 45: play_note('A', 0, 4, 6);
+       break;
+    case 46: play_note('A', 1, 4, 2);
+       break;
+    case 47: play_note('A', 0, 4, 6);
+     a0a:	26 e0       	ldi	r18, 0x06	; 6
+     a0c:	44 e0       	ldi	r20, 0x04	; 4
+     a0e:	60 e0       	ldi	r22, 0x00	; 0
+     a10:	81 e4       	ldi	r24, 0x41	; 65
+     a12:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 48: play_note('A', 1, 4, 2);
+     a16:	22 e0       	ldi	r18, 0x02	; 2
+     a18:	44 e0       	ldi	r20, 0x04	; 4
+     a1a:	61 e0       	ldi	r22, 0x01	; 1
+     a1c:	81 e4       	ldi	r24, 0x41	; 65
+     a1e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 51: play_note('G', 1, 4, 8);
+       break;
+    case 52: play_note('G', 0, 4, 8);
+       break;
+    case 53: play_note('D', 0, 4, 8);
+     a22:	28 e0       	ldi	r18, 0x08	; 8
+     a24:	44 e0       	ldi	r20, 0x04	; 4
+     a26:	60 e0       	ldi	r22, 0x00	; 0
+     a28:	84 e4       	ldi	r24, 0x44	; 68
+     a2a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 48: play_note('A', 1, 4, 2);
+       break;
+    case 49: play_note('A', 0, 4, 16);
+       break;
+    case 50: play_note('F', 0, 4, 8);
+     a2e:	28 e0       	ldi	r18, 0x08	; 8
+     a30:	44 e0       	ldi	r20, 0x04	; 4
+     a32:	60 e0       	ldi	r22, 0x00	; 0
+     a34:	86 e4       	ldi	r24, 0x46	; 70
+     a36:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 54: play_note('B', 1, 4, 6);
+       break;
+    case 55: play_note('A', 0, 4, 2);
+       break;
+    case 56: play_note('B', 1, 4, 6);
+     a3a:	26 e0       	ldi	r18, 0x06	; 6
+     a3c:	44 e0       	ldi	r20, 0x04	; 4
+     a3e:	61 e0       	ldi	r22, 0x01	; 1
+     a40:	82 e4       	ldi	r24, 0x42	; 66
+     a42:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 42: play_note('E', 0, 4, 8);
+       break;
+    case 43: play_note('D', 0, 4, 8);
+       break;
+    case 44: play_note('C', 0, 4, 8);
+     a46:	28 e0       	ldi	r18, 0x08	; 8
+     a48:	44 e0       	ldi	r20, 0x04	; 4
+     a4a:	60 e0       	ldi	r22, 0x00	; 0
+     a4c:	83 e4       	ldi	r24, 0x43	; 67
+     a4e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 64: play_note('C', 0, 5, 4);
+       break;
+    case 65: play_note('D', 0, 5, 4);
+       break;
+    case 66: play_note('A', 0, 4, 8);
+     a52:	28 e0       	ldi	r18, 0x08	; 8
+     a54:	44 e0       	ldi	r20, 0x04	; 4
+     a56:	60 e0       	ldi	r22, 0x00	; 0
+     a58:	81 e4       	ldi	r24, 0x41	; 65
+     a5a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 67: play_note('G', 0, 4, 8);
+     a5e:	28 e0       	ldi	r18, 0x08	; 8
+     a60:	44 e0       	ldi	r20, 0x04	; 4
+     a62:	60 e0       	ldi	r22, 0x00	; 0
+     a64:	87 e4       	ldi	r24, 0x47	; 71
+     a66:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 40: play_rest(8);
+       break;
+    case 41: play_note('F', 0, 4, 8);
+       break;
+    case 42: play_note('E', 0, 4, 8);
+     a6a:	28 e0       	ldi	r18, 0x08	; 8
+     a6c:	44 e0       	ldi	r20, 0x04	; 4
+     a6e:	60 e0       	ldi	r22, 0x00	; 0
+     a70:	85 e4       	ldi	r24, 0x45	; 69
+     a72:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+      break;//phrase
+    case 59: play_note('D', 0, 4, 16);
+       break;
+    case 60: play_note('D', 0, 5, 16);
+       break;
+    case 61: play_note('A', 0, 4, 16);
+     a76:	20 e1       	ldi	r18, 0x10	; 16
+     a78:	44 e0       	ldi	r20, 0x04	; 4
+     a7a:	60 e0       	ldi	r22, 0x00	; 0
+     a7c:	81 e4       	ldi	r24, 0x41	; 65
+     a7e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 62: play_note('C', 0, 5, 16);
+       break;
+    case 63: play_note('B', 1, 4, 8);
+       break;
+    case 64: play_note('C', 0, 5, 4);
+     a82:	24 e0       	ldi	r18, 0x04	; 4
+     a84:	45 e0       	ldi	r20, 0x05	; 5
+     a86:	60 e0       	ldi	r22, 0x00	; 0
+     a88:	83 e4       	ldi	r24, 0x43	; 67
+     a8a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 65: play_note('D', 0, 5, 4);
+     a8e:	24 e0       	ldi	r18, 0x04	; 4
+     a90:	45 e0       	ldi	r20, 0x05	; 5
+     a92:	60 e0       	ldi	r22, 0x00	; 0
+     a94:	84 e4       	ldi	r24, 0x44	; 68
+     a96:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     a9a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     a9c:	10 92 06 01 	sts	0x0106, r1
+     aa0:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     aa4:	88 e0       	ldi	r24, 0x08	; 8
+     aa6:	90 e0       	ldi	r25, 0x00	; 0
+     aa8:	90 93 04 01 	sts	0x0104, r25
+     aac:	80 93 03 01 	sts	0x0103, r24
+     ab0:	08 95       	ret
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     ab2:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     ab4:	10 92 06 01 	sts	0x0106, r1
+     ab8:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     abc:	81 e0       	ldi	r24, 0x01	; 1
+     abe:	90 e0       	ldi	r25, 0x00	; 0
+     ac0:	90 93 04 01 	sts	0x0104, r25
+     ac4:	80 93 03 01 	sts	0x0103, r24
+     ac8:	08 95       	ret
+       break;
+    case 56: play_note('B', 1, 4, 6);
+       break;
+    case 57: play_note('A', 0, 4, 2);
+       break;
+    case 58: play_note('B', 1, 4, 16);
+     aca:	20 e1       	ldi	r18, 0x10	; 16
+     acc:	44 e0       	ldi	r20, 0x04	; 4
+     ace:	61 e0       	ldi	r22, 0x01	; 1
+     ad0:	82 e4       	ldi	r24, 0x42	; 66
+     ad2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 61: play_note('A', 0, 4, 16);
+       break;
+    case 62: play_note('C', 0, 5, 16);
+       break;
+    case 63: play_note('B', 1, 4, 8);
+     ad6:	28 e0       	ldi	r18, 0x08	; 8
+     ad8:	44 e0       	ldi	r20, 0x04	; 4
+     ada:	61 e0       	ldi	r22, 0x01	; 1
+     adc:	82 e4       	ldi	r24, 0x42	; 66
+     ade:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 37: play_note('G', 0, 4, 8);
+       break;
+    case 38: play_note('A', 0, 4, 8);
+       break;
+    case 39: play_note('G', 0, 4, 24);
+     ae2:	28 e1       	ldi	r18, 0x18	; 24
+     ae4:	44 e0       	ldi	r20, 0x04	; 4
+     ae6:	60 e0       	ldi	r22, 0x00	; 0
+     ae8:	87 e4       	ldi	r24, 0x47	; 71
+     aea:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 58: play_note('B', 1, 4, 16);
+      break;//phrase
+    case 59: play_note('D', 0, 4, 16);
+       break;
+    case 60: play_note('D', 0, 5, 16);
+     aee:	20 e1       	ldi	r18, 0x10	; 16
+     af0:	45 e0       	ldi	r20, 0x05	; 5
+     af2:	60 e0       	ldi	r22, 0x00	; 0
+     af4:	84 e4       	ldi	r24, 0x44	; 68
+     af6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     afa:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     afc:	10 92 06 01 	sts	0x0106, r1
+     b00:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     b04:	82 e0       	ldi	r24, 0x02	; 2
+     b06:	90 e0       	ldi	r25, 0x00	; 0
+     b08:	90 93 04 01 	sts	0x0104, r25
+     b0c:	80 93 03 01 	sts	0x0103, r24
+     b10:	08 95       	ret
+       break;
+    case 34: play_note('D', 0, 5, 4);
+       break;
+    case 35: play_note('B', 0, 4, 8);
+       break;
+    case 36: play_note('A', 0, 4, 4);
+     b12:	24 e0       	ldi	r18, 0x04	; 4
+     b14:	44 e0       	ldi	r20, 0x04	; 4
+     b16:	60 e0       	ldi	r22, 0x00	; 0
+     b18:	81 e4       	ldi	r24, 0x41	; 65
+     b1a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 21: play_rest(1); //rest
+       break;
+    case 22: play_note('G', 1, 4, 4);
+       break;
+    case 23: play_note('G', 0, 4, 6);
+     b1e:	26 e0       	ldi	r18, 0x06	; 6
+     b20:	44 e0       	ldi	r20, 0x04	; 4
+     b22:	60 e0       	ldi	r22, 0x00	; 0
+     b24:	87 e4       	ldi	r24, 0x47	; 71
+     b26:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 20: play_note('G', 0, 4, 7);
+       break;
+    case 21: play_rest(1); //rest
+       break;
+    case 22: play_note('G', 1, 4, 4);
+     b2a:	24 e0       	ldi	r18, 0x04	; 4
+     b2c:	44 e0       	ldi	r20, 0x04	; 4
+     b2e:	61 e0       	ldi	r22, 0x01	; 1
+     b30:	87 e4       	ldi	r24, 0x47	; 71
+     b32:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 49: play_note('A', 0, 4, 16);
+       break;
+    case 50: play_note('F', 0, 4, 8);
+       break;
+    case 51: play_note('G', 1, 4, 8);
+     b36:	28 e0       	ldi	r18, 0x08	; 8
+     b38:	44 e0       	ldi	r20, 0x04	; 4
+     b3a:	61 e0       	ldi	r22, 0x01	; 1
+     b3c:	87 e4       	ldi	r24, 0x47	; 71
+     b3e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 16: play_note('A', 0, 4, 2);
+       break;
+    case 17: play_note('B', 1, 4, 16);
+       break;
+    case 18: play_note('G', 0, 4, 3);
+     b42:	23 e0       	ldi	r18, 0x03	; 3
+     b44:	44 e0       	ldi	r20, 0x04	; 4
+     b46:	60 e0       	ldi	r22, 0x00	; 0
+     b48:	87 e4       	ldi	r24, 0x47	; 71
+     b4a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 57: play_note('A', 0, 4, 2);
+       break;
+    case 58: play_note('B', 1, 4, 16);
+      break;//phrase
+    case 59: play_note('D', 0, 4, 16);
+     b4e:	20 e1       	ldi	r18, 0x10	; 16
+     b50:	44 e0       	ldi	r20, 0x04	; 4
+     b52:	60 e0       	ldi	r22, 0x00	; 0
+     b54:	84 e4       	ldi	r24, 0x44	; 68
+     b56:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 60: play_note('D', 0, 5, 16);
+       break;
+    case 61: play_note('A', 0, 4, 16);
+       break;
+    case 62: play_note('C', 0, 5, 16);
+     b5a:	20 e1       	ldi	r18, 0x10	; 16
+     b5c:	45 e0       	ldi	r20, 0x05	; 5
+     b5e:	60 e0       	ldi	r22, 0x00	; 0
+     b60:	83 e4       	ldi	r24, 0x43	; 67
+     b62:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 29: play_note('A', 1, 4, 4);
+       break;
+    case 30: play_note('A', 0, 4, 6);
+       break;
+    case 31: play_note('B', 1, 4, 2);
+     b66:	22 e0       	ldi	r18, 0x02	; 2
+     b68:	44 e0       	ldi	r20, 0x04	; 4
+     b6a:	61 e0       	ldi	r22, 0x01	; 1
+     b6c:	82 e4       	ldi	r24, 0x42	; 66
+     b6e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 32: play_note('C', 0, 5, 4);
+       break;
+    case 33: play_note('D', 1, 5, 4);
+     b72:	24 e0       	ldi	r18, 0x04	; 4
+     b74:	45 e0       	ldi	r20, 0x05	; 5
+     b76:	61 e0       	ldi	r22, 0x01	; 1
+     b78:	84 e4       	ldi	r24, 0x44	; 68
+     b7a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 27: play_rest(2); 
+       break;
+    case 28: play_note('A', 0, 4, 8);
+       break;
+    case 29: play_note('A', 1, 4, 4);
+     b7e:	24 e0       	ldi	r18, 0x04	; 4
+     b80:	44 e0       	ldi	r20, 0x04	; 4
+     b82:	61 e0       	ldi	r22, 0x01	; 1
+     b84:	81 e4       	ldi	r24, 0x41	; 65
+     b86:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 33: play_note('D', 1, 5, 4);
+       break;
+    case 34: play_note('D', 0, 5, 4);
+       break;
+    case 35: play_note('B', 0, 4, 8);
+     b8a:	28 e0       	ldi	r18, 0x08	; 8
+     b8c:	44 e0       	ldi	r20, 0x04	; 4
+     b8e:	60 e0       	ldi	r22, 0x00	; 0
+     b90:	82 e4       	ldi	r24, 0x42	; 66
+     b92:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 66: play_note('A', 0, 4, 8);
+       break;
+    case 67: play_note('G', 0, 4, 8);
+       break;
+    case 68: play_note('F', 0, 4, 24);
+     b96:	28 e1       	ldi	r18, 0x18	; 24
+     b98:	44 e0       	ldi	r20, 0x04	; 4
+     b9a:	60 e0       	ldi	r22, 0x00	; 0
+     b9c:	86 e4       	ldi	r24, 0x46	; 70
+     b9e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 18: play_note('G', 0, 4, 3);
+       break;
+    case 19: play_rest(1); //rest
+       break;
+    case 20: play_note('G', 0, 4, 7);
+     ba2:	27 e0       	ldi	r18, 0x07	; 7
+     ba4:	44 e0       	ldi	r20, 0x04	; 4
+     ba6:	60 e0       	ldi	r22, 0x00	; 0
+     ba8:	87 e4       	ldi	r24, 0x47	; 71
+     baa:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+
+00000bae <song1>:
+    default: notes=-1;
+  }
+}//song0
+
+void song1(uint16_t note) { //tetris theme (Kellen)
+switch (note) {
+     bae:	8f 33       	cpi	r24, 0x3F	; 63
+     bb0:	91 05       	cpc	r25, r1
+     bb2:	20 f0       	brcs	.+8      	; 0xbbc <song1+0xe>
+       break;//bar
+    case 61: play_note('A', 1, 3, 16);
+       break;
+    case 62: play_rest(16);
+      break;//bar phrase
+    default: notes=-1;
+     bb4:	8f ef       	ldi	r24, 0xFF	; 255
+     bb6:	80 93 01 01 	sts	0x0101, r24
+     bba:	08 95       	ret
+    default: notes=-1;
+  }
+}//song0
+
+void song1(uint16_t note) { //tetris theme (Kellen)
+switch (note) {
+     bbc:	fc 01       	movw	r30, r24
+     bbe:	ec 52       	subi	r30, 0x2C	; 44
+     bc0:	ff 4f       	sbci	r31, 0xFF	; 255
+     bc2:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+       break;
+    case 35: play_rest(1);
+        break;
+    case 36: play_note('B', 0, 3, 4);
+       break;
+    case 37: play_note('C', 0, 4, 4);
+     bc6:	24 e0       	ldi	r18, 0x04	; 4
+     bc8:	44 e0       	ldi	r20, 0x04	; 4
+     bca:	60 e0       	ldi	r22, 0x00	; 0
+     bcc:	83 e4       	ldi	r24, 0x43	; 67
+     bce:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 38: play_note('D', 0, 4, 8);
+       break;
+    case 39: play_note('E', 0, 4, 8);
+     bd2:	28 e0       	ldi	r18, 0x08	; 8
+     bd4:	44 e0       	ldi	r20, 0x04	; 4
+     bd6:	60 e0       	ldi	r22, 0x00	; 0
+     bd8:	85 e4       	ldi	r24, 0x45	; 69
+     bda:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     bde:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     be0:	10 92 06 01 	sts	0x0106, r1
+     be4:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     be8:	81 e0       	ldi	r24, 0x01	; 1
+     bea:	90 e0       	ldi	r25, 0x00	; 0
+     bec:	90 93 04 01 	sts	0x0104, r25
+     bf0:	80 93 03 01 	sts	0x0103, r24
+     bf4:	08 95       	ret
+        break;
+    case 36: play_note('B', 0, 3, 4);
+       break;
+    case 37: play_note('C', 0, 4, 4);
+       break;
+    case 38: play_note('D', 0, 4, 8);
+     bf6:	28 e0       	ldi	r18, 0x08	; 8
+     bf8:	44 e0       	ldi	r20, 0x04	; 4
+     bfa:	60 e0       	ldi	r22, 0x00	; 0
+     bfc:	84 e4       	ldi	r24, 0x44	; 68
+     bfe:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 53: play_rest(8);
+       break;//bar phrase
+    case 54: play_note('E', 0, 3, 16);
+       break;
+    case 55: play_note('C', 0, 3, 16);
+     c02:	20 e1       	ldi	r18, 0x10	; 16
+     c04:	43 e0       	ldi	r20, 0x03	; 3
+     c06:	60 e0       	ldi	r22, 0x00	; 0
+     c08:	83 e4       	ldi	r24, 0x43	; 67
+     c0a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 30: play_note('C', 0, 4, 4);
+       break;
+    case 31: play_note('E', 0, 4, 8);
+        break;
+    case 32: play_note('D', 0, 4, 4);
+     c0e:	24 e0       	ldi	r18, 0x04	; 4
+     c10:	44 e0       	ldi	r20, 0x04	; 4
+     c12:	60 e0       	ldi	r22, 0x00	; 0
+     c14:	84 e4       	ldi	r24, 0x44	; 68
+     c16:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;//bar
+    case 34: play_note('B', 0, 3, 7);
+       break;
+    case 35: play_rest(1);
+        break;
+    case 36: play_note('B', 0, 3, 4);
+     c1a:	24 e0       	ldi	r18, 0x04	; 4
+     c1c:	43 e0       	ldi	r20, 0x03	; 3
+     c1e:	60 e0       	ldi	r22, 0x00	; 0
+     c20:	82 e4       	ldi	r24, 0x42	; 66
+     c22:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 39: play_note('E', 0, 4, 8);
+       break;
+    case 40: play_note('C', 0, 4, 8);
+       break;
+    case 41: play_note('A', 0, 3, 7);
+     c26:	27 e0       	ldi	r18, 0x07	; 7
+     c28:	43 e0       	ldi	r20, 0x03	; 3
+     c2a:	60 e0       	ldi	r22, 0x00	; 0
+     c2c:	81 e4       	ldi	r24, 0x41	; 65
+     c2e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 26: play_note('A', 0, 4, 8);
+       break;
+    case 27: play_note('G', 0, 4, 4);
+       break;
+    case 28: play_note('F', 0, 4, 4);
+     c32:	24 e0       	ldi	r18, 0x04	; 4
+     c34:	44 e0       	ldi	r20, 0x04	; 4
+     c36:	60 e0       	ldi	r22, 0x00	; 0
+     c38:	86 e4       	ldi	r24, 0x46	; 70
+     c3a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 55: play_note('C', 0, 3, 16);
+       break;//bar
+    case 56: play_note('D', 0, 3, 16);
+       break;
+    case 57: play_note('B', 0, 2, 16);
+     c3e:	20 e1       	ldi	r18, 0x10	; 16
+     c40:	42 e0       	ldi	r20, 0x02	; 2
+     c42:	60 e0       	ldi	r22, 0x00	; 0
+     c44:	82 e4       	ldi	r24, 0x42	; 66
+     c46:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;//bar
+    case 58: play_note('C', 0, 3, 8);
+       break;
+    case 59: play_note('E', 0, 3, 8);
+       break;
+    case 60: play_note('A', 0, 3, 16);
+     c4a:	20 e1       	ldi	r18, 0x10	; 16
+     c4c:	43 e0       	ldi	r20, 0x03	; 3
+     c4e:	60 e0       	ldi	r22, 0x00	; 0
+     c50:	81 e4       	ldi	r24, 0x41	; 65
+     c52:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 38: play_note('D', 0, 4, 8);
+       break;
+    case 39: play_note('E', 0, 4, 8);
+       break;
+    case 40: play_note('C', 0, 4, 8);
+     c56:	28 e0       	ldi	r18, 0x08	; 8
+     c58:	44 e0       	ldi	r20, 0x04	; 4
+     c5a:	60 e0       	ldi	r22, 0x00	; 0
+     c5c:	83 e4       	ldi	r24, 0x43	; 67
+     c5e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;//bar phrase
+    case 54: play_note('E', 0, 3, 16);
+       break;
+    case 55: play_note('C', 0, 3, 16);
+       break;//bar
+    case 56: play_note('D', 0, 3, 16);
+     c62:	20 e1       	ldi	r18, 0x10	; 16
+     c64:	43 e0       	ldi	r20, 0x03	; 3
+     c66:	60 e0       	ldi	r22, 0x00	; 0
+     c68:	84 e4       	ldi	r24, 0x44	; 68
+     c6a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 52: play_note('B', 0, 2, 8);
+       break;
+    case 53: play_rest(8);
+       break;//bar phrase
+    case 54: play_note('E', 0, 3, 16);
+     c6e:	20 e1       	ldi	r18, 0x10	; 16
+     c70:	43 e0       	ldi	r20, 0x03	; 3
+     c72:	60 e0       	ldi	r22, 0x00	; 0
+     c74:	85 e4       	ldi	r24, 0x45	; 69
+     c76:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     c7a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     c7c:	10 92 06 01 	sts	0x0106, r1
+     c80:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     c84:	88 e0       	ldi	r24, 0x08	; 8
+     c86:	90 e0       	ldi	r25, 0x00	; 0
+     c88:	90 93 04 01 	sts	0x0104, r25
+     c8c:	80 93 03 01 	sts	0x0103, r24
+     c90:	08 95       	ret
+        break;
+    case 32: play_note('D', 0, 4, 4);
+       break;
+    case 33: play_note('C', 0, 4, 4);
+       break;//bar
+    case 34: play_note('B', 0, 3, 7);
+     c92:	27 e0       	ldi	r18, 0x07	; 7
+     c94:	43 e0       	ldi	r20, 0x03	; 3
+     c96:	60 e0       	ldi	r22, 0x00	; 0
+     c98:	82 e4       	ldi	r24, 0x42	; 66
+     c9a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 13: play_note('D', 0, 4, 4);
+       break;
+    case 14: play_note('C', 0, 4, 4);
+       break;//bar
+    case 15: play_note('B', 0, 3, 12);
+     c9e:	2c e0       	ldi	r18, 0x0C	; 12
+     ca0:	43 e0       	ldi	r20, 0x03	; 3
+     ca2:	60 e0       	ldi	r22, 0x00	; 0
+     ca4:	82 e4       	ldi	r24, 0x42	; 66
+     ca6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 59: play_note('E', 0, 3, 8);
+       break;
+    case 60: play_note('A', 0, 3, 16);
+       break;//bar
+    case 61: play_note('A', 1, 3, 16);
+     caa:	20 e1       	ldi	r18, 0x10	; 16
+     cac:	43 e0       	ldi	r20, 0x03	; 3
+     cae:	61 e0       	ldi	r22, 0x01	; 1
+     cb0:	81 e4       	ldi	r24, 0x41	; 65
+     cb2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     cb6:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     cb8:	10 92 06 01 	sts	0x0106, r1
+     cbc:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     cc0:	80 e1       	ldi	r24, 0x10	; 16
+     cc2:	90 e0       	ldi	r25, 0x00	; 0
+     cc4:	90 93 04 01 	sts	0x0104, r25
+     cc8:	80 93 03 01 	sts	0x0103, r24
+     ccc:	08 95       	ret
+        break;
+    case 25: play_note('F', 0, 4, 4);
+       break;
+    case 26: play_note('A', 0, 4, 8);
+       break;
+    case 27: play_note('G', 0, 4, 4);
+     cce:	24 e0       	ldi	r18, 0x04	; 4
+     cd0:	44 e0       	ldi	r20, 0x04	; 4
+     cd2:	60 e0       	ldi	r22, 0x00	; 0
+     cd4:	87 e4       	ldi	r24, 0x47	; 71
+     cd6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 50: play_note('A', 0, 2, 16);
+       break;//bar
+    case 51: play_note('A', 1, 2, 16);
+       break;
+    case 52: play_note('B', 0, 2, 8);
+     cda:	28 e0       	ldi	r18, 0x08	; 8
+     cdc:	42 e0       	ldi	r20, 0x02	; 2
+     cde:	60 e0       	ldi	r22, 0x00	; 0
+     ce0:	82 e4       	ldi	r24, 0x42	; 66
+     ce2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 48: play_note('B', 0, 2, 16);
+       break;//bar
+    case 49: play_note('C', 0, 3, 16);
+       break;
+    case 50: play_note('A', 0, 2, 16);
+     ce6:	20 e1       	ldi	r18, 0x10	; 16
+     ce8:	42 e0       	ldi	r20, 0x02	; 2
+     cea:	60 e0       	ldi	r22, 0x00	; 0
+     cec:	81 e4       	ldi	r24, 0x41	; 65
+     cee:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;//bar
+    case 51: play_note('A', 1, 2, 16);
+     cf2:	20 e1       	ldi	r18, 0x10	; 16
+     cf4:	42 e0       	ldi	r20, 0x02	; 2
+     cf6:	61 e0       	ldi	r22, 0x01	; 1
+     cf8:	81 e4       	ldi	r24, 0x41	; 65
+     cfa:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 27: play_note('G', 0, 4, 4);
+       break;
+    case 28: play_note('F', 0, 4, 4);
+       break;//bar
+    case 29: play_note('E', 0, 4, 12);
+     cfe:	2c e0       	ldi	r18, 0x0C	; 12
+     d00:	44 e0       	ldi	r20, 0x04	; 4
+     d02:	60 e0       	ldi	r22, 0x00	; 0
+     d04:	85 e4       	ldi	r24, 0x45	; 69
+     d06:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 3: play_note('D', 0, 4, 4);
+       break;
+    case 4: play_note('E', 0, 4, 2);
+       break;
+    case 5: play_note('D', 0, 4, 2);
+     d0a:	22 e0       	ldi	r18, 0x02	; 2
+     d0c:	44 e0       	ldi	r20, 0x04	; 4
+     d0e:	60 e0       	ldi	r22, 0x00	; 0
+     d10:	84 e4       	ldi	r24, 0x44	; 68
+     d12:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 2: play_note('C', 0, 4, 4);
+       break;
+    case 3: play_note('D', 0, 4, 4);
+       break;
+    case 4: play_note('E', 0, 4, 2);
+     d16:	22 e0       	ldi	r18, 0x02	; 2
+     d18:	44 e0       	ldi	r20, 0x04	; 4
+     d1a:	60 e0       	ldi	r22, 0x00	; 0
+     d1c:	85 e4       	ldi	r24, 0x45	; 69
+     d1e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;//bar
+    case 56: play_note('D', 0, 3, 16);
+       break;
+    case 57: play_note('B', 0, 2, 16);
+       break;//bar
+    case 58: play_note('C', 0, 3, 8);
+     d22:	28 e0       	ldi	r18, 0x08	; 8
+     d24:	43 e0       	ldi	r20, 0x03	; 3
+     d26:	60 e0       	ldi	r22, 0x00	; 0
+     d28:	83 e4       	ldi	r24, 0x43	; 67
+     d2a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;//bar
+    case 8: play_note('A', 0, 3, 7);
+       break;
+    case 9: play_rest(1);
+       break;
+    case 10: play_note('A', 0, 3, 4);
+     d2e:	24 e0       	ldi	r18, 0x04	; 4
+     d30:	43 e0       	ldi	r20, 0x03	; 3
+     d32:	60 e0       	ldi	r22, 0x00	; 0
+     d34:	81 e4       	ldi	r24, 0x41	; 65
+     d36:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 57: play_note('B', 0, 2, 16);
+       break;//bar
+    case 58: play_note('C', 0, 3, 8);
+       break;
+    case 59: play_note('E', 0, 3, 8);
+     d3a:	28 e0       	ldi	r18, 0x08	; 8
+     d3c:	43 e0       	ldi	r20, 0x03	; 3
+     d3e:	60 e0       	ldi	r22, 0x00	; 0
+     d40:	85 e4       	ldi	r24, 0x45	; 69
+     d42:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 41: play_note('A', 0, 3, 7);
+       break;
+    case 42: play_rest(1);
+       break;
+    case 43: play_note('A', 0, 3, 8);
+     d46:	28 e0       	ldi	r18, 0x08	; 8
+     d48:	43 e0       	ldi	r20, 0x03	; 3
+     d4a:	60 e0       	ldi	r22, 0x00	; 0
+     d4c:	81 e4       	ldi	r24, 0x41	; 65
+     d4e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     d52:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     d54:	10 92 06 01 	sts	0x0106, r1
+     d58:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     d5c:	84 e0       	ldi	r24, 0x04	; 4
+     d5e:	90 e0       	ldi	r25, 0x00	; 0
+     d60:	90 93 04 01 	sts	0x0104, r25
+     d64:	80 93 03 01 	sts	0x0103, r24
+     d68:	08 95       	ret
+       break;
+    case 24: play_note('D', 0, 4, 8);
+        break;
+    case 25: play_note('F', 0, 4, 4);
+       break;
+    case 26: play_note('A', 0, 4, 8);
+     d6a:	28 e0       	ldi	r18, 0x08	; 8
+     d6c:	44 e0       	ldi	r20, 0x04	; 4
+     d6e:	60 e0       	ldi	r22, 0x00	; 0
+     d70:	81 e4       	ldi	r24, 0x41	; 65
+     d72:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+
+00000d76 <song2>:
+
+ }
+}//song1
+
+void song2(uint16_t note) { //Super Mario Bros Theme (Brian)
+switch (note) {
+     d76:	85 39       	cpi	r24, 0x95	; 149
+     d78:	91 05       	cpc	r25, r1
+     d7a:	20 f0       	brcs	.+8      	; 0xd84 <song2+0xe>
+        break;
+    case 147: play_note('G', 0, 3, 4);
+	break;
+    case 148: play_rest(8);
+        break;
+    default: notes=-1;
+     d7c:	8f ef       	ldi	r24, 0xFF	; 255
+     d7e:	80 93 01 01 	sts	0x0101, r24
+     d82:	08 95       	ret
+
+ }
+}//song1
+
+void song2(uint16_t note) { //Super Mario Bros Theme (Brian)
+switch (note) {
+     d84:	fc 01       	movw	r30, r24
+     d86:	ed 5e       	subi	r30, 0xED	; 237
+     d88:	fe 4f       	sbci	r31, 0xFE	; 254
+     d8a:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+        break;
+    case 145: play_rest(2);
+        break;
+    case 146: play_note('A', 0, 3, 2);
+        break;
+    case 147: play_note('G', 0, 3, 4);
+     d8e:	24 e0       	ldi	r18, 0x04	; 4
+     d90:	43 e0       	ldi	r20, 0x03	; 3
+     d92:	60 e0       	ldi	r22, 0x00	; 0
+     d94:	87 e4       	ldi	r24, 0x47	; 71
+     d96:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 144: play_note('C', 0, 4, 2);
+        break;
+    case 145: play_rest(2);
+        break;
+    case 146: play_note('A', 0, 3, 2);
+     d9a:	22 e0       	ldi	r18, 0x02	; 2
+     d9c:	43 e0       	ldi	r20, 0x03	; 3
+     d9e:	60 e0       	ldi	r22, 0x00	; 0
+     da0:	81 e4       	ldi	r24, 0x41	; 65
+     da2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     da6:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     da8:	10 92 06 01 	sts	0x0106, r1
+     dac:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     db0:	82 e0       	ldi	r24, 0x02	; 2
+     db2:	90 e0       	ldi	r25, 0x00	; 0
+     db4:	90 93 04 01 	sts	0x0104, r25
+     db8:	80 93 03 01 	sts	0x0103, r24
+     dbc:	08 95       	ret
+        break;
+    case 142: play_note('D', 0, 4, 4);
+        break;
+    case 143: play_note('E', 0, 4, 2);
+        break;
+    case 144: play_note('C', 0, 4, 2);
+     dbe:	22 e0       	ldi	r18, 0x02	; 2
+     dc0:	44 e0       	ldi	r20, 0x04	; 4
+     dc2:	60 e0       	ldi	r22, 0x00	; 0
+     dc4:	83 e4       	ldi	r24, 0x43	; 67
+     dc6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 141: play_note('C', 0, 4, 2);
+        break;
+    case 142: play_note('D', 0, 4, 4);
+        break;
+    case 143: play_note('E', 0, 4, 2);
+     dca:	22 e0       	ldi	r18, 0x02	; 2
+     dcc:	44 e0       	ldi	r20, 0x04	; 4
+     dce:	60 e0       	ldi	r22, 0x00	; 0
+     dd0:	85 e4       	ldi	r24, 0x45	; 69
+     dd2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 140: play_rest(2);
+        break;
+    case 141: play_note('C', 0, 4, 2);
+        break;
+    case 142: play_note('D', 0, 4, 4);
+     dd6:	24 e0       	ldi	r18, 0x04	; 4
+     dd8:	44 e0       	ldi	r20, 0x04	; 4
+     dda:	60 e0       	ldi	r22, 0x00	; 0
+     ddc:	84 e4       	ldi	r24, 0x44	; 68
+     dde:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 139: play_note('C', 0, 4, 2);
+        break;
+    case 140: play_rest(2);
+        break;
+    case 141: play_note('C', 0, 4, 2);
+     de2:	22 e0       	ldi	r18, 0x02	; 2
+     de4:	44 e0       	ldi	r20, 0x04	; 4
+     de6:	60 e0       	ldi	r22, 0x00	; 0
+     de8:	83 e4       	ldi	r24, 0x43	; 67
+     dea:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     dee:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     df0:	10 92 06 01 	sts	0x0106, r1
+     df4:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     df8:	82 e0       	ldi	r24, 0x02	; 2
+     dfa:	90 e0       	ldi	r25, 0x00	; 0
+     dfc:	90 93 04 01 	sts	0x0104, r25
+     e00:	80 93 03 01 	sts	0x0103, r24
+     e04:	08 95       	ret
+        break;
+    case 137: play_note('C', 0, 4, 2);
+        break;
+    case 138: play_rest(2);
+        break;
+    case 139: play_note('C', 0, 4, 2);
+     e06:	22 e0       	ldi	r18, 0x02	; 2
+     e08:	44 e0       	ldi	r20, 0x04	; 4
+     e0a:	60 e0       	ldi	r22, 0x00	; 0
+     e0c:	83 e4       	ldi	r24, 0x43	; 67
+     e0e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     e12:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     e14:	10 92 06 01 	sts	0x0106, r1
+     e18:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     e1c:	82 e0       	ldi	r24, 0x02	; 2
+     e1e:	90 e0       	ldi	r25, 0x00	; 0
+     e20:	90 93 04 01 	sts	0x0104, r25
+     e24:	80 93 03 01 	sts	0x0103, r24
+     e28:	08 95       	ret
+        break;
+    case 135: play_note('C', 0, 4, 2);
+        break;
+    case 136: play_rest(1);
+        break;
+    case 137: play_note('C', 0, 4, 2);
+     e2a:	22 e0       	ldi	r18, 0x02	; 2
+     e2c:	44 e0       	ldi	r20, 0x04	; 4
+     e2e:	60 e0       	ldi	r22, 0x00	; 0
+     e30:	83 e4       	ldi	r24, 0x43	; 67
+     e32:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     e36:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     e38:	10 92 06 01 	sts	0x0106, r1
+     e3c:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     e40:	81 e0       	ldi	r24, 0x01	; 1
+     e42:	90 e0       	ldi	r25, 0x00	; 0
+     e44:	90 93 04 01 	sts	0x0104, r25
+     e48:	80 93 03 01 	sts	0x0103, r24
+     e4c:	08 95       	ret
+        break;
+    case 133: play_note('E', 0, 4, 2);
+        break;
+    case 134: play_rest(16);
+        break;
+    case 135: play_note('C', 0, 4, 2);
+     e4e:	22 e0       	ldi	r18, 0x02	; 2
+     e50:	44 e0       	ldi	r20, 0x04	; 4
+     e52:	60 e0       	ldi	r22, 0x00	; 0
+     e54:	83 e4       	ldi	r24, 0x43	; 67
+     e56:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     e5a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     e5c:	10 92 06 01 	sts	0x0106, r1
+     e60:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     e64:	80 e1       	ldi	r24, 0x10	; 16
+     e66:	90 e0       	ldi	r25, 0x00	; 0
+     e68:	90 93 04 01 	sts	0x0104, r25
+     e6c:	80 93 03 01 	sts	0x0103, r24
+     e70:	08 95       	ret
+        break;
+    case 131: play_note('C', 0, 4, 2);
+        break;
+    case 132: play_note('D', 0, 4, 2);
+        break;
+    case 133: play_note('E', 0, 4, 2);
+     e72:	22 e0       	ldi	r18, 0x02	; 2
+     e74:	44 e0       	ldi	r20, 0x04	; 4
+     e76:	60 e0       	ldi	r22, 0x00	; 0
+     e78:	85 e4       	ldi	r24, 0x45	; 69
+     e7a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 130: play_rest(2);
+        break;
+    case 131: play_note('C', 0, 4, 2);
+        break;
+    case 132: play_note('D', 0, 4, 2);
+     e7e:	22 e0       	ldi	r18, 0x02	; 2
+     e80:	44 e0       	ldi	r20, 0x04	; 4
+     e82:	60 e0       	ldi	r22, 0x00	; 0
+     e84:	84 e4       	ldi	r24, 0x44	; 68
+     e86:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 129: play_note('C', 0, 4, 2);
+        break;
+    case 130: play_rest(2);
+        break;
+    case 131: play_note('C', 0, 4, 2);
+     e8a:	22 e0       	ldi	r18, 0x02	; 2
+     e8c:	44 e0       	ldi	r20, 0x04	; 4
+     e8e:	60 e0       	ldi	r22, 0x00	; 0
+     e90:	83 e4       	ldi	r24, 0x43	; 67
+     e92:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     e96:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     e98:	10 92 06 01 	sts	0x0106, r1
+     e9c:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     ea0:	82 e0       	ldi	r24, 0x02	; 2
+     ea2:	90 e0       	ldi	r25, 0x00	; 0
+     ea4:	90 93 04 01 	sts	0x0104, r25
+     ea8:	80 93 03 01 	sts	0x0103, r24
+     eac:	08 95       	ret
+       break;
+    case 127: play_note('C', 0, 4, 2);
+        break;
+    case 128: play_rest(2);
+        break;
+    case 129: play_note('C', 0, 4, 2);
+     eae:	22 e0       	ldi	r18, 0x02	; 2
+     eb0:	44 e0       	ldi	r20, 0x04	; 4
+     eb2:	60 e0       	ldi	r22, 0x00	; 0
+     eb4:	83 e4       	ldi	r24, 0x43	; 67
+     eb6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     eba:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     ebc:	10 92 06 01 	sts	0x0106, r1
+     ec0:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     ec4:	82 e0       	ldi	r24, 0x02	; 2
+     ec6:	90 e0       	ldi	r25, 0x00	; 0
+     ec8:	90 93 04 01 	sts	0x0104, r25
+     ecc:	80 93 03 01 	sts	0x0103, r24
+     ed0:	08 95       	ret
+       break;
+    case 125: play_note('C', 0, 4, 2);
+       break;
+    case 126: play_rest(1);
+       break;
+    case 127: play_note('C', 0, 4, 2);
+     ed2:	22 e0       	ldi	r18, 0x02	; 2
+     ed4:	44 e0       	ldi	r20, 0x04	; 4
+     ed6:	60 e0       	ldi	r22, 0x00	; 0
+     ed8:	83 e4       	ldi	r24, 0x43	; 67
+     eda:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     ede:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     ee0:	10 92 06 01 	sts	0x0106, r1
+     ee4:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     ee8:	81 e0       	ldi	r24, 0x01	; 1
+     eea:	90 e0       	ldi	r25, 0x00	; 0
+     eec:	90 93 04 01 	sts	0x0104, r25
+     ef0:	80 93 03 01 	sts	0x0103, r24
+     ef4:	08 95       	ret
+        break;
+    case 123: play_note('G', 0, 3, 4);
+        break;
+    case 124: play_rest(4);
+       break;
+    case 125: play_note('C', 0, 4, 2);
+     ef6:	22 e0       	ldi	r18, 0x02	; 2
+     ef8:	44 e0       	ldi	r20, 0x04	; 4
+     efa:	60 e0       	ldi	r22, 0x00	; 0
+     efc:	83 e4       	ldi	r24, 0x43	; 67
+     efe:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     f02:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     f04:	10 92 06 01 	sts	0x0106, r1
+     f08:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     f0c:	84 e0       	ldi	r24, 0x04	; 4
+     f0e:	90 e0       	ldi	r25, 0x00	; 0
+     f10:	90 93 04 01 	sts	0x0104, r25
+     f14:	80 93 03 01 	sts	0x0103, r24
+     f18:	08 95       	ret
+        break;
+    case 121: play_rest(2);
+        break;
+    case 122: play_note('A', 0, 3, 2);
+        break;
+    case 123: play_note('G', 0, 3, 4);
+     f1a:	24 e0       	ldi	r18, 0x04	; 4
+     f1c:	43 e0       	ldi	r20, 0x03	; 3
+     f1e:	60 e0       	ldi	r22, 0x00	; 0
+     f20:	87 e4       	ldi	r24, 0x47	; 71
+     f22:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 120: play_note('C', 0, 4, 2);
+        break;
+    case 121: play_rest(2);
+        break;
+    case 122: play_note('A', 0, 3, 2);
+     f26:	22 e0       	ldi	r18, 0x02	; 2
+     f28:	43 e0       	ldi	r20, 0x03	; 3
+     f2a:	60 e0       	ldi	r22, 0x00	; 0
+     f2c:	81 e4       	ldi	r24, 0x41	; 65
+     f2e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     f32:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     f34:	10 92 06 01 	sts	0x0106, r1
+     f38:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     f3c:	82 e0       	ldi	r24, 0x02	; 2
+     f3e:	90 e0       	ldi	r25, 0x00	; 0
+     f40:	90 93 04 01 	sts	0x0104, r25
+     f44:	80 93 03 01 	sts	0x0103, r24
+     f48:	08 95       	ret
+        break;
+    case 118: play_note('D', 0, 4, 4);
+        break;
+    case 119: play_note('E', 0, 4, 2);
+        break;
+    case 120: play_note('C', 0, 4, 2);
+     f4a:	22 e0       	ldi	r18, 0x02	; 2
+     f4c:	44 e0       	ldi	r20, 0x04	; 4
+     f4e:	60 e0       	ldi	r22, 0x00	; 0
+     f50:	83 e4       	ldi	r24, 0x43	; 67
+     f52:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 117: play_note('C', 0, 4, 2);
+        break;
+    case 118: play_note('D', 0, 4, 4);
+        break;
+    case 119: play_note('E', 0, 4, 2);
+     f56:	22 e0       	ldi	r18, 0x02	; 2
+     f58:	44 e0       	ldi	r20, 0x04	; 4
+     f5a:	60 e0       	ldi	r22, 0x00	; 0
+     f5c:	85 e4       	ldi	r24, 0x45	; 69
+     f5e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 116: play_rest(2);
+        break;
+    case 117: play_note('C', 0, 4, 2);
+        break;
+    case 118: play_note('D', 0, 4, 4);
+     f62:	24 e0       	ldi	r18, 0x04	; 4
+     f64:	44 e0       	ldi	r20, 0x04	; 4
+     f66:	60 e0       	ldi	r22, 0x00	; 0
+     f68:	84 e4       	ldi	r24, 0x44	; 68
+     f6a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 115: play_note('C', 0, 4, 2);
+        break;
+    case 116: play_rest(2);
+        break;
+    case 117: play_note('C', 0, 4, 2);
+     f6e:	22 e0       	ldi	r18, 0x02	; 2
+     f70:	44 e0       	ldi	r20, 0x04	; 4
+     f72:	60 e0       	ldi	r22, 0x00	; 0
+     f74:	83 e4       	ldi	r24, 0x43	; 67
+     f76:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     f7a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     f7c:	10 92 06 01 	sts	0x0106, r1
+     f80:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     f84:	82 e0       	ldi	r24, 0x02	; 2
+     f86:	90 e0       	ldi	r25, 0x00	; 0
+     f88:	90 93 04 01 	sts	0x0104, r25
+     f8c:	80 93 03 01 	sts	0x0103, r24
+     f90:	08 95       	ret
+       break;
+    case 113: play_note('C', 0, 4, 2);
+        break;
+    case 114: play_rest(2);
+        break;
+    case 115: play_note('C', 0, 4, 2);
+     f92:	22 e0       	ldi	r18, 0x02	; 2
+     f94:	44 e0       	ldi	r20, 0x04	; 4
+     f96:	60 e0       	ldi	r22, 0x00	; 0
+     f98:	83 e4       	ldi	r24, 0x43	; 67
+     f9a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     f9e:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     fa0:	10 92 06 01 	sts	0x0106, r1
+     fa4:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     fa8:	82 e0       	ldi	r24, 0x02	; 2
+     faa:	90 e0       	ldi	r25, 0x00	; 0
+     fac:	90 93 04 01 	sts	0x0104, r25
+     fb0:	80 93 03 01 	sts	0x0103, r24
+     fb4:	08 95       	ret
+       break;
+    case 111: play_note('C', 0, 4, 2);
+       break;
+    case 112: play_rest(1);
+       break;
+    case 113: play_note('C', 0, 4, 2);
+     fb6:	22 e0       	ldi	r18, 0x02	; 2
+     fb8:	44 e0       	ldi	r20, 0x04	; 4
+     fba:	60 e0       	ldi	r22, 0x00	; 0
+     fbc:	83 e4       	ldi	r24, 0x43	; 67
+     fbe:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     fc2:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     fc4:	10 92 06 01 	sts	0x0106, r1
+     fc8:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     fcc:	81 e0       	ldi	r24, 0x01	; 1
+     fce:	90 e0       	ldi	r25, 0x00	; 0
+     fd0:	90 93 04 01 	sts	0x0104, r25
+     fd4:	80 93 03 01 	sts	0x0103, r24
+     fd8:	08 95       	ret
+        break;
+    case 109: play_note('C', 0, 4, 4);
+       break;
+    case 110: play_rest(10);
+       break;
+    case 111: play_note('C', 0, 4, 2);
+     fda:	22 e0       	ldi	r18, 0x02	; 2
+     fdc:	44 e0       	ldi	r20, 0x04	; 4
+     fde:	60 e0       	ldi	r22, 0x00	; 0
+     fe0:	83 e4       	ldi	r24, 0x43	; 67
+     fe2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+     fe6:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+     fe8:	10 92 06 01 	sts	0x0106, r1
+     fec:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+     ff0:	8a e0       	ldi	r24, 0x0A	; 10
+     ff2:	90 e0       	ldi	r25, 0x00	; 0
+     ff4:	90 93 04 01 	sts	0x0104, r25
+     ff8:	80 93 03 01 	sts	0x0103, r24
+     ffc:	08 95       	ret
+       break;
+    case 107: play_note('D', 0, 4, 2);
+       break;
+    case 108: play_rest(4);
+        break;
+    case 109: play_note('C', 0, 4, 4);
+     ffe:	24 e0       	ldi	r18, 0x04	; 4
+    1000:	44 e0       	ldi	r20, 0x04	; 4
+    1002:	60 e0       	ldi	r22, 0x00	; 0
+    1004:	83 e4       	ldi	r24, 0x43	; 67
+    1006:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    100a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    100c:	10 92 06 01 	sts	0x0106, r1
+    1010:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1014:	84 e0       	ldi	r24, 0x04	; 4
+    1016:	90 e0       	ldi	r25, 0x00	; 0
+    1018:	90 93 04 01 	sts	0x0104, r25
+    101c:	80 93 03 01 	sts	0x0103, r24
+    1020:	08 95       	ret
+       break;
+    case 105: play_note('E', 1, 4, 4);
+       break;
+    case 106: play_rest(2);
+       break;
+    case 107: play_note('D', 0, 4, 2);
+    1022:	22 e0       	ldi	r18, 0x02	; 2
+    1024:	44 e0       	ldi	r20, 0x04	; 4
+    1026:	60 e0       	ldi	r22, 0x00	; 0
+    1028:	84 e4       	ldi	r24, 0x44	; 68
+    102a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    102e:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1030:	10 92 06 01 	sts	0x0106, r1
+    1034:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1038:	82 e0       	ldi	r24, 0x02	; 2
+    103a:	90 e0       	ldi	r25, 0x00	; 0
+    103c:	90 93 04 01 	sts	0x0104, r25
+    1040:	80 93 03 01 	sts	0x0103, r24
+    1044:	08 95       	ret
+       break;
+    case 103: play_note('D', 0, 4, 2);
+       break;
+    case 104: play_rest(4);
+       break;
+    case 105: play_note('E', 1, 4, 4);
+    1046:	24 e0       	ldi	r18, 0x04	; 4
+    1048:	44 e0       	ldi	r20, 0x04	; 4
+    104a:	61 e0       	ldi	r22, 0x01	; 1
+    104c:	85 e4       	ldi	r24, 0x45	; 69
+    104e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1052:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1054:	10 92 06 01 	sts	0x0106, r1
+    1058:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    105c:	84 e0       	ldi	r24, 0x04	; 4
+    105e:	90 e0       	ldi	r25, 0x00	; 0
+    1060:	90 93 04 01 	sts	0x0104, r25
+    1064:	80 93 03 01 	sts	0x0103, r24
+    1068:	08 95       	ret
+       break;
+    case 101: play_note('A', 0, 3, 2);
+       break;
+    case 102: play_note('C', 0, 4, 2);
+       break;
+    case 103: play_note('D', 0, 4, 2);
+    106a:	22 e0       	ldi	r18, 0x02	; 2
+    106c:	44 e0       	ldi	r20, 0x04	; 4
+    106e:	60 e0       	ldi	r22, 0x00	; 0
+    1070:	84 e4       	ldi	r24, 0x44	; 68
+    1072:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 100: play_rest(2);
+       break;
+    case 101: play_note('A', 0, 3, 2);
+       break;
+    case 102: play_note('C', 0, 4, 2);
+    1076:	22 e0       	ldi	r18, 0x02	; 2
+    1078:	44 e0       	ldi	r20, 0x04	; 4
+    107a:	60 e0       	ldi	r22, 0x00	; 0
+    107c:	83 e4       	ldi	r24, 0x43	; 67
+    107e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 99: play_note('C', 0, 4, 2);
+       break;
+    case 100: play_rest(2);
+       break;
+    case 101: play_note('A', 0, 3, 2);
+    1082:	22 e0       	ldi	r18, 0x02	; 2
+    1084:	43 e0       	ldi	r20, 0x03	; 3
+    1086:	60 e0       	ldi	r22, 0x00	; 0
+    1088:	81 e4       	ldi	r24, 0x41	; 65
+    108a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    108e:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1090:	10 92 06 01 	sts	0x0106, r1
+    1094:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1098:	82 e0       	ldi	r24, 0x02	; 2
+    109a:	90 e0       	ldi	r25, 0x00	; 0
+    109c:	90 93 04 01 	sts	0x0104, r25
+    10a0:	80 93 03 01 	sts	0x0103, r24
+    10a4:	08 95       	ret
+       break;
+    case 97: play_note('A', 1, 3, 2);
+       break;
+    case 98: play_note('A', 0, 3, 2);
+       break;
+    case 99: play_note('C', 0, 4, 2);
+    10a6:	22 e0       	ldi	r18, 0x02	; 2
+    10a8:	44 e0       	ldi	r20, 0x04	; 4
+    10aa:	60 e0       	ldi	r22, 0x00	; 0
+    10ac:	83 e4       	ldi	r24, 0x43	; 67
+    10ae:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 96: play_rest(2);
+       break;
+    case 97: play_note('A', 1, 3, 2);
+       break;
+    case 98: play_note('A', 0, 3, 2);
+    10b2:	22 e0       	ldi	r18, 0x02	; 2
+    10b4:	43 e0       	ldi	r20, 0x03	; 3
+    10b6:	60 e0       	ldi	r22, 0x00	; 0
+    10b8:	81 e4       	ldi	r24, 0x41	; 65
+    10ba:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 95: play_note('E', 0, 4, 2);
+       break;
+    case 96: play_rest(2);
+       break;
+    case 97: play_note('A', 1, 3, 2);
+    10be:	22 e0       	ldi	r18, 0x02	; 2
+    10c0:	43 e0       	ldi	r20, 0x03	; 3
+    10c2:	61 e0       	ldi	r22, 0x01	; 1
+    10c4:	81 e4       	ldi	r24, 0x41	; 65
+    10c6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    10ca:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    10cc:	10 92 06 01 	sts	0x0106, r1
+    10d0:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    10d4:	82 e0       	ldi	r24, 0x02	; 2
+    10d6:	90 e0       	ldi	r25, 0x00	; 0
+    10d8:	90 93 04 01 	sts	0x0104, r25
+    10dc:	80 93 03 01 	sts	0x0103, r24
+    10e0:	08 95       	ret
+       break;
+    case 93: play_note('E', 1, 4, 2);
+       break;
+    case 94: play_rest(2);
+       break;
+    case 95: play_note('E', 0, 4, 2);
+    10e2:	22 e0       	ldi	r18, 0x02	; 2
+    10e4:	44 e0       	ldi	r20, 0x04	; 4
+    10e6:	60 e0       	ldi	r22, 0x00	; 0
+    10e8:	85 e4       	ldi	r24, 0x45	; 69
+    10ea:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    10ee:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    10f0:	10 92 06 01 	sts	0x0106, r1
+    10f4:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    10f8:	82 e0       	ldi	r24, 0x02	; 2
+    10fa:	90 e0       	ldi	r25, 0x00	; 0
+    10fc:	90 93 04 01 	sts	0x0104, r25
+    1100:	80 93 03 01 	sts	0x0103, r24
+    1104:	08 95       	ret
+       break;
+    case 91: play_note('G', 1, 4, 2);
+       break;
+    case 92: play_note('F', 0, 4, 2);
+       break;
+    case 93: play_note('E', 1, 4, 2);
+    1106:	22 e0       	ldi	r18, 0x02	; 2
+    1108:	44 e0       	ldi	r20, 0x04	; 4
+    110a:	61 e0       	ldi	r22, 0x01	; 1
+    110c:	85 e4       	ldi	r24, 0x45	; 69
+    110e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 90: play_note('G', 0, 4, 2);
+       break;
+    case 91: play_note('G', 1, 4, 2);
+       break;
+    case 92: play_note('F', 0, 4, 2);
+    1112:	22 e0       	ldi	r18, 0x02	; 2
+    1114:	44 e0       	ldi	r20, 0x04	; 4
+    1116:	60 e0       	ldi	r22, 0x00	; 0
+    1118:	86 e4       	ldi	r24, 0x46	; 70
+    111a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 89: play_rest(8);
+       break;
+    case 90: play_note('G', 0, 4, 2);
+       break;
+    case 91: play_note('G', 1, 4, 2);
+    111e:	22 e0       	ldi	r18, 0x02	; 2
+    1120:	44 e0       	ldi	r20, 0x04	; 4
+    1122:	61 e0       	ldi	r22, 0x01	; 1
+    1124:	87 e4       	ldi	r24, 0x47	; 71
+    1126:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 88: play_note('G', 0, 4, 4);
+       break;
+    case 89: play_rest(8);
+       break;
+    case 90: play_note('G', 0, 4, 2);
+    112a:	22 e0       	ldi	r18, 0x02	; 2
+    112c:	44 e0       	ldi	r20, 0x04	; 4
+    112e:	60 e0       	ldi	r22, 0x00	; 0
+    1130:	87 e4       	ldi	r24, 0x47	; 71
+    1132:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1136:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1138:	10 92 06 01 	sts	0x0106, r1
+    113c:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1140:	88 e0       	ldi	r24, 0x08	; 8
+    1142:	90 e0       	ldi	r25, 0x00	; 0
+    1144:	90 93 04 01 	sts	0x0104, r25
+    1148:	80 93 03 01 	sts	0x0103, r24
+    114c:	08 95       	ret
+       break;
+    case 86: play_note('G', 0, 4, 1);
+       break;
+    case 87: play_rest(1);
+       break;
+    case 88: play_note('G', 0, 4, 4);
+    114e:	24 e0       	ldi	r18, 0x04	; 4
+    1150:	44 e0       	ldi	r20, 0x04	; 4
+    1152:	60 e0       	ldi	r22, 0x00	; 0
+    1154:	87 e4       	ldi	r24, 0x47	; 71
+    1156:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    115a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    115c:	10 92 06 01 	sts	0x0106, r1
+    1160:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1164:	81 e0       	ldi	r24, 0x01	; 1
+    1166:	90 e0       	ldi	r25, 0x00	; 0
+    1168:	90 93 04 01 	sts	0x0104, r25
+    116c:	80 93 03 01 	sts	0x0103, r24
+    1170:	08 95       	ret
+       break;
+    case 84: play_note('G', 0, 4, 2);
+       break;
+    case 85: play_rest(2);
+       break;
+    case 86: play_note('G', 0, 4, 1);
+    1172:	21 e0       	ldi	r18, 0x01	; 1
+    1174:	44 e0       	ldi	r20, 0x04	; 4
+    1176:	60 e0       	ldi	r22, 0x00	; 0
+    1178:	87 e4       	ldi	r24, 0x47	; 71
+    117a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    117e:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1180:	10 92 06 01 	sts	0x0106, r1
+    1184:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1188:	82 e0       	ldi	r24, 0x02	; 2
+    118a:	90 e0       	ldi	r25, 0x00	; 0
+    118c:	90 93 04 01 	sts	0x0104, r25
+    1190:	80 93 03 01 	sts	0x0103, r24
+    1194:	08 95       	ret
+       break;
+    case 82: play_note('E', 0, 3, 2);
+       break;
+    case 83: play_rest(2);
+       break;
+    case 84: play_note('G', 0, 4, 2);
+    1196:	22 e0       	ldi	r18, 0x02	; 2
+    1198:	44 e0       	ldi	r20, 0x04	; 4
+    119a:	60 e0       	ldi	r22, 0x00	; 0
+    119c:	87 e4       	ldi	r24, 0x47	; 71
+    119e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    11a2:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    11a4:	10 92 06 01 	sts	0x0106, r1
+    11a8:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    11ac:	82 e0       	ldi	r24, 0x02	; 2
+    11ae:	90 e0       	ldi	r25, 0x00	; 0
+    11b0:	90 93 04 01 	sts	0x0104, r25
+    11b4:	80 93 03 01 	sts	0x0103, r24
+    11b8:	08 95       	ret
+       break;
+    case 80: play_note('E', 1, 3, 2);
+       break;
+    case 81: play_rest(2);
+       break;
+    case 82: play_note('E', 0, 3, 2);
+    11ba:	22 e0       	ldi	r18, 0x02	; 2
+    11bc:	43 e0       	ldi	r20, 0x03	; 3
+    11be:	60 e0       	ldi	r22, 0x00	; 0
+    11c0:	85 e4       	ldi	r24, 0x45	; 69
+    11c2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    11c6:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    11c8:	10 92 06 01 	sts	0x0106, r1
+    11cc:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    11d0:	82 e0       	ldi	r24, 0x02	; 2
+    11d2:	90 e0       	ldi	r25, 0x00	; 0
+    11d4:	90 93 04 01 	sts	0x0104, r25
+    11d8:	80 93 03 01 	sts	0x0103, r24
+    11dc:	08 95       	ret
+       break;
+    case 78: play_note('G', 1, 3, 2);
+       break;
+    case 79: play_note('F', 0, 3, 2);
+       break;
+    case 80: play_note('E', 1, 3, 2);
+    11de:	22 e0       	ldi	r18, 0x02	; 2
+    11e0:	43 e0       	ldi	r20, 0x03	; 3
+    11e2:	61 e0       	ldi	r22, 0x01	; 1
+    11e4:	85 e4       	ldi	r24, 0x45	; 69
+    11e6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 77: play_note('G', 0, 3, 2);
+       break;
+    case 78: play_note('G', 1, 3, 2);
+       break;
+    case 79: play_note('F', 0, 3, 2);
+    11ea:	22 e0       	ldi	r18, 0x02	; 2
+    11ec:	43 e0       	ldi	r20, 0x03	; 3
+    11ee:	60 e0       	ldi	r22, 0x00	; 0
+    11f0:	86 e4       	ldi	r24, 0x46	; 70
+    11f2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 76: play_rest(4);
+       break;
+    case 77: play_note('G', 0, 3, 2);
+       break;
+    case 78: play_note('G', 1, 3, 2);
+    11f6:	22 e0       	ldi	r18, 0x02	; 2
+    11f8:	43 e0       	ldi	r20, 0x03	; 3
+    11fa:	61 e0       	ldi	r22, 0x01	; 1
+    11fc:	87 e4       	ldi	r24, 0x47	; 71
+    11fe:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 75: play_note('D', 0, 4, 2);
+       break;
+    case 76: play_rest(4);
+       break;
+    case 77: play_note('G', 0, 3, 2);
+    1202:	22 e0       	ldi	r18, 0x02	; 2
+    1204:	43 e0       	ldi	r20, 0x03	; 3
+    1206:	60 e0       	ldi	r22, 0x00	; 0
+    1208:	87 e4       	ldi	r24, 0x47	; 71
+    120a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    120e:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1210:	10 92 06 01 	sts	0x0106, r1
+    1214:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1218:	84 e0       	ldi	r24, 0x04	; 4
+    121a:	90 e0       	ldi	r25, 0x00	; 0
+    121c:	90 93 04 01 	sts	0x0104, r25
+    1220:	80 93 03 01 	sts	0x0103, r24
+    1224:	08 95       	ret
+       break;
+    case 73: play_note('A', 0, 3, 2);
+       break;
+    case 74: play_note('C', 0, 4, 2);
+       break;
+    case 75: play_note('D', 0, 4, 2);
+    1226:	22 e0       	ldi	r18, 0x02	; 2
+    1228:	44 e0       	ldi	r20, 0x04	; 4
+    122a:	60 e0       	ldi	r22, 0x00	; 0
+    122c:	84 e4       	ldi	r24, 0x44	; 68
+    122e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 72: play_rest(2);
+       break;
+    case 73: play_note('A', 0, 3, 2);
+       break;
+    case 74: play_note('C', 0, 4, 2);
+    1232:	22 e0       	ldi	r18, 0x02	; 2
+    1234:	44 e0       	ldi	r20, 0x04	; 4
+    1236:	60 e0       	ldi	r22, 0x00	; 0
+    1238:	83 e4       	ldi	r24, 0x43	; 67
+    123a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 71: play_note('C', 0, 4, 2);
+       break;
+    case 72: play_rest(2);
+       break;
+    case 73: play_note('A', 0, 3, 2);
+    123e:	22 e0       	ldi	r18, 0x02	; 2
+    1240:	43 e0       	ldi	r20, 0x03	; 3
+    1242:	60 e0       	ldi	r22, 0x00	; 0
+    1244:	81 e4       	ldi	r24, 0x41	; 65
+    1246:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    124a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    124c:	10 92 06 01 	sts	0x0106, r1
+    1250:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1254:	82 e0       	ldi	r24, 0x02	; 2
+    1256:	90 e0       	ldi	r25, 0x00	; 0
+    1258:	90 93 04 01 	sts	0x0104, r25
+    125c:	80 93 03 01 	sts	0x0103, r24
+    1260:	08 95       	ret
+       break;
+    case 69: play_note('A', 1, 3, 2);
+       break;
+    case 70: play_note('A', 0, 3, 2);
+       break;
+    case 71: play_note('C', 0, 4, 2);
+    1262:	22 e0       	ldi	r18, 0x02	; 2
+    1264:	44 e0       	ldi	r20, 0x04	; 4
+    1266:	60 e0       	ldi	r22, 0x00	; 0
+    1268:	83 e4       	ldi	r24, 0x43	; 67
+    126a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 68: play_rest(2);
+       break;
+    case 69: play_note('A', 1, 3, 2);
+       break;
+    case 70: play_note('A', 0, 3, 2);
+    126e:	22 e0       	ldi	r18, 0x02	; 2
+    1270:	43 e0       	ldi	r20, 0x03	; 3
+    1272:	60 e0       	ldi	r22, 0x00	; 0
+    1274:	81 e4       	ldi	r24, 0x41	; 65
+    1276:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 67: play_note('E', 0, 4, 2);
+       break;
+    case 68: play_rest(2);
+       break;
+    case 69: play_note('A', 1, 3, 2);
+    127a:	22 e0       	ldi	r18, 0x02	; 2
+    127c:	43 e0       	ldi	r20, 0x03	; 3
+    127e:	61 e0       	ldi	r22, 0x01	; 1
+    1280:	81 e4       	ldi	r24, 0x41	; 65
+    1282:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1286:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1288:	10 92 06 01 	sts	0x0106, r1
+    128c:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1290:	82 e0       	ldi	r24, 0x02	; 2
+    1292:	90 e0       	ldi	r25, 0x00	; 0
+    1294:	90 93 04 01 	sts	0x0104, r25
+    1298:	80 93 03 01 	sts	0x0103, r24
+    129c:	08 95       	ret
+       break;
+    case 65: play_note('E', 1, 4, 2);
+       break;
+    case 66: play_rest(2);
+       break;
+    case 67: play_note('E', 0, 4, 2);
+    129e:	22 e0       	ldi	r18, 0x02	; 2
+    12a0:	44 e0       	ldi	r20, 0x04	; 4
+    12a2:	60 e0       	ldi	r22, 0x00	; 0
+    12a4:	85 e4       	ldi	r24, 0x45	; 69
+    12a6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    12aa:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    12ac:	10 92 06 01 	sts	0x0106, r1
+    12b0:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    12b4:	82 e0       	ldi	r24, 0x02	; 2
+    12b6:	90 e0       	ldi	r25, 0x00	; 0
+    12b8:	90 93 04 01 	sts	0x0104, r25
+    12bc:	80 93 03 01 	sts	0x0103, r24
+    12c0:	08 95       	ret
+       break;
+    case 63: play_note('G', 1, 4, 2);
+       break;
+    case 64: play_note('F', 0, 4, 2);
+       break;
+    case 65: play_note('E', 1, 4, 2);
+    12c2:	22 e0       	ldi	r18, 0x02	; 2
+    12c4:	44 e0       	ldi	r20, 0x04	; 4
+    12c6:	61 e0       	ldi	r22, 0x01	; 1
+    12c8:	85 e4       	ldi	r24, 0x45	; 69
+    12ca:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 62: play_note('G', 0, 4, 2);
+       break;
+    case 63: play_note('G', 1, 4, 2);
+       break;
+    case 64: play_note('F', 0, 4, 2);
+    12ce:	22 e0       	ldi	r18, 0x02	; 2
+    12d0:	44 e0       	ldi	r20, 0x04	; 4
+    12d2:	60 e0       	ldi	r22, 0x00	; 0
+    12d4:	86 e4       	ldi	r24, 0x46	; 70
+    12d6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 61: play_rest(8);
+       break;
+    case 62: play_note('G', 0, 4, 2);
+       break;
+    case 63: play_note('G', 1, 4, 2);
+    12da:	22 e0       	ldi	r18, 0x02	; 2
+    12dc:	44 e0       	ldi	r20, 0x04	; 4
+    12de:	61 e0       	ldi	r22, 0x01	; 1
+    12e0:	87 e4       	ldi	r24, 0x47	; 71
+    12e2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 60: play_note('B', 0, 3, 2);
+       break;
+    case 61: play_rest(8);
+       break;
+    case 62: play_note('G', 0, 4, 2);
+    12e6:	22 e0       	ldi	r18, 0x02	; 2
+    12e8:	44 e0       	ldi	r20, 0x04	; 4
+    12ea:	60 e0       	ldi	r22, 0x00	; 0
+    12ec:	87 e4       	ldi	r24, 0x47	; 71
+    12ee:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    12f2:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    12f4:	10 92 06 01 	sts	0x0106, r1
+    12f8:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    12fc:	88 e0       	ldi	r24, 0x08	; 8
+    12fe:	90 e0       	ldi	r25, 0x00	; 0
+    1300:	90 93 04 01 	sts	0x0104, r25
+    1304:	80 93 03 01 	sts	0x0103, r24
+    1308:	08 95       	ret
+        break;
+    case 58: play_note('C', 0, 4, 2);
+       break;
+    case 59: play_note('D', 0, 4, 2);
+       break;
+    case 60: play_note('B', 0, 3, 2);
+    130a:	22 e0       	ldi	r18, 0x02	; 2
+    130c:	43 e0       	ldi	r20, 0x03	; 3
+    130e:	60 e0       	ldi	r22, 0x00	; 0
+    1310:	82 e4       	ldi	r24, 0x42	; 66
+    1312:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 57: play_rest(2);
+        break;
+    case 58: play_note('C', 0, 4, 2);
+       break;
+    case 59: play_note('D', 0, 4, 2);
+    1316:	22 e0       	ldi	r18, 0x02	; 2
+    1318:	44 e0       	ldi	r20, 0x04	; 4
+    131a:	60 e0       	ldi	r22, 0x00	; 0
+    131c:	84 e4       	ldi	r24, 0x44	; 68
+    131e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 56: play_note('E', 0, 4, 2);
+       break;
+    case 57: play_rest(2);
+        break;
+    case 58: play_note('C', 0, 4, 2);
+    1322:	22 e0       	ldi	r18, 0x02	; 2
+    1324:	44 e0       	ldi	r20, 0x04	; 4
+    1326:	60 e0       	ldi	r22, 0x00	; 0
+    1328:	83 e4       	ldi	r24, 0x43	; 67
+    132a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    132e:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1330:	10 92 06 01 	sts	0x0106, r1
+    1334:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1338:	82 e0       	ldi	r24, 0x02	; 2
+    133a:	90 e0       	ldi	r25, 0x00	; 0
+    133c:	90 93 04 01 	sts	0x0104, r25
+    1340:	80 93 03 01 	sts	0x0103, r24
+    1344:	08 95       	ret
+       break;
+    case 54: play_note('G', 0, 4, 2);
+       break;
+    case 55: play_rest(2);
+        break;
+    case 56: play_note('E', 0, 4, 2);
+    1346:	22 e0       	ldi	r18, 0x02	; 2
+    1348:	44 e0       	ldi	r20, 0x04	; 4
+    134a:	60 e0       	ldi	r22, 0x00	; 0
+    134c:	85 e4       	ldi	r24, 0x45	; 69
+    134e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1352:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1354:	10 92 06 01 	sts	0x0106, r1
+    1358:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    135c:	82 e0       	ldi	r24, 0x02	; 2
+    135e:	90 e0       	ldi	r25, 0x00	; 0
+    1360:	90 93 04 01 	sts	0x0104, r25
+    1364:	80 93 03 01 	sts	0x0103, r24
+    1368:	08 95       	ret
+       break;
+    case 52: play_note('A', 0, 4, 4);
+       break;
+    case 53: play_note('F', 0, 4, 2);
+       break;
+    case 54: play_note('G', 0, 4, 2);
+    136a:	22 e0       	ldi	r18, 0x02	; 2
+    136c:	44 e0       	ldi	r20, 0x04	; 4
+    136e:	60 e0       	ldi	r22, 0x00	; 0
+    1370:	87 e4       	ldi	r24, 0x47	; 71
+    1372:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 51: play_note('G', 0, 4, 2);
+       break;
+    case 52: play_note('A', 0, 4, 4);
+       break;
+    case 53: play_note('F', 0, 4, 2);
+    1376:	22 e0       	ldi	r18, 0x02	; 2
+    1378:	44 e0       	ldi	r20, 0x04	; 4
+    137a:	60 e0       	ldi	r22, 0x00	; 0
+    137c:	86 e4       	ldi	r24, 0x46	; 70
+    137e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 50: play_rest(1);
+        break;
+    case 51: play_note('G', 0, 4, 2);
+       break;
+    case 52: play_note('A', 0, 4, 4);
+    1382:	24 e0       	ldi	r18, 0x04	; 4
+    1384:	44 e0       	ldi	r20, 0x04	; 4
+    1386:	60 e0       	ldi	r22, 0x00	; 0
+    1388:	81 e4       	ldi	r24, 0x41	; 65
+    138a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 49: play_note('E', 0, 4, 2);
+       break;
+    case 50: play_rest(1);
+        break;
+    case 51: play_note('G', 0, 4, 2);
+    138e:	22 e0       	ldi	r18, 0x02	; 2
+    1390:	44 e0       	ldi	r20, 0x04	; 4
+    1392:	60 e0       	ldi	r22, 0x00	; 0
+    1394:	87 e4       	ldi	r24, 0x47	; 71
+    1396:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    139a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    139c:	10 92 06 01 	sts	0x0106, r1
+    13a0:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    13a4:	81 e0       	ldi	r24, 0x01	; 1
+    13a6:	90 e0       	ldi	r25, 0x00	; 0
+    13a8:	90 93 04 01 	sts	0x0104, r25
+    13ac:	80 93 03 01 	sts	0x0103, r24
+    13b0:	08 95       	ret
+       break;
+    case 47: play_note('A', 0, 3, 4); //phrase
+       break;
+    case 48: play_note('G' , 0, 3, 3);
+       break;
+    case 49: play_note('E', 0, 4, 2);
+    13b2:	22 e0       	ldi	r18, 0x02	; 2
+    13b4:	44 e0       	ldi	r20, 0x04	; 4
+    13b6:	60 e0       	ldi	r22, 0x00	; 0
+    13b8:	85 e4       	ldi	r24, 0x45	; 69
+    13ba:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 46: play_note('B', 1, 3, 2);
+       break;
+    case 47: play_note('A', 0, 3, 4); //phrase
+       break;
+    case 48: play_note('G' , 0, 3, 3);
+    13be:	23 e0       	ldi	r18, 0x03	; 3
+    13c0:	43 e0       	ldi	r20, 0x03	; 3
+    13c2:	60 e0       	ldi	r22, 0x00	; 0
+    13c4:	87 e4       	ldi	r24, 0x47	; 71
+    13c6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 45: play_rest(2);
+       break;
+    case 46: play_note('B', 1, 3, 2);
+       break;
+    case 47: play_note('A', 0, 3, 4); //phrase
+    13ca:	24 e0       	ldi	r18, 0x04	; 4
+    13cc:	43 e0       	ldi	r20, 0x03	; 3
+    13ce:	60 e0       	ldi	r22, 0x00	; 0
+    13d0:	81 e4       	ldi	r24, 0x41	; 65
+    13d2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+         break;
+    case 44: play_note('B', 0, 3, 2);
+       break;
+    case 45: play_rest(2);
+       break;
+    case 46: play_note('B', 1, 3, 2);
+    13d6:	22 e0       	ldi	r18, 0x02	; 2
+    13d8:	43 e0       	ldi	r20, 0x03	; 3
+    13da:	61 e0       	ldi	r22, 0x01	; 1
+    13dc:	82 e4       	ldi	r24, 0x42	; 66
+    13de:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    13e2:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    13e4:	10 92 06 01 	sts	0x0106, r1
+    13e8:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    13ec:	82 e0       	ldi	r24, 0x02	; 2
+    13ee:	90 e0       	ldi	r25, 0x00	; 0
+    13f0:	90 93 04 01 	sts	0x0104, r25
+    13f4:	80 93 03 01 	sts	0x0103, r24
+    13f8:	08 95       	ret
+       break;
+    case 42: play_note('A', 0, 3, 2);
+       break;
+    case 43: play_rest(2);
+         break;
+    case 44: play_note('B', 0, 3, 2);
+    13fa:	22 e0       	ldi	r18, 0x02	; 2
+    13fc:	43 e0       	ldi	r20, 0x03	; 3
+    13fe:	60 e0       	ldi	r22, 0x00	; 0
+    1400:	82 e4       	ldi	r24, 0x42	; 66
+    1402:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1406:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1408:	10 92 06 01 	sts	0x0106, r1
+    140c:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1410:	82 e0       	ldi	r24, 0x02	; 2
+    1412:	90 e0       	ldi	r25, 0x00	; 0
+    1414:	90 93 04 01 	sts	0x0104, r25
+    1418:	80 93 03 01 	sts	0x0103, r24
+    141c:	08 95       	ret
+       break;
+    case 40: play_note('E', 0, 3, 4);
+       break;
+    case 41: play_rest(2);
+       break;
+    case 42: play_note('A', 0, 3, 2);
+    141e:	22 e0       	ldi	r18, 0x02	; 2
+    1420:	43 e0       	ldi	r20, 0x03	; 3
+    1422:	60 e0       	ldi	r22, 0x00	; 0
+    1424:	81 e4       	ldi	r24, 0x41	; 65
+    1426:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    142a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    142c:	10 92 06 01 	sts	0x0106, r1
+    1430:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1434:	82 e0       	ldi	r24, 0x02	; 2
+    1436:	90 e0       	ldi	r25, 0x00	; 0
+    1438:	90 93 04 01 	sts	0x0104, r25
+    143c:	80 93 03 01 	sts	0x0103, r24
+    1440:	08 95       	ret
+       break;
+    case 38: play_note('G', 0, 3, 2);
+       break;
+    case 39: play_rest(3);
+       break;
+    case 40: play_note('E', 0, 3, 4);
+    1442:	24 e0       	ldi	r18, 0x04	; 4
+    1444:	43 e0       	ldi	r20, 0x03	; 3
+    1446:	60 e0       	ldi	r22, 0x00	; 0
+    1448:	85 e4       	ldi	r24, 0x45	; 69
+    144a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    144e:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1450:	10 92 06 01 	sts	0x0106, r1
+    1454:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1458:	83 e0       	ldi	r24, 0x03	; 3
+    145a:	90 e0       	ldi	r25, 0x00	; 0
+    145c:	90 93 04 01 	sts	0x0104, r25
+    1460:	80 93 03 01 	sts	0x0103, r24
+    1464:	08 95       	ret
+        break;
+    case 36: play_note('C', 0, 4, 5);
+       break;
+    case 37: play_rest(2);
+       break;
+    case 38: play_note('G', 0, 3, 2);
+    1466:	22 e0       	ldi	r18, 0x02	; 2
+    1468:	43 e0       	ldi	r20, 0x03	; 3
+    146a:	60 e0       	ldi	r22, 0x00	; 0
+    146c:	87 e4       	ldi	r24, 0x47	; 71
+    146e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1472:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1474:	10 92 06 01 	sts	0x0106, r1
+    1478:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    147c:	82 e0       	ldi	r24, 0x02	; 2
+    147e:	90 e0       	ldi	r25, 0x00	; 0
+    1480:	90 93 04 01 	sts	0x0104, r25
+    1484:	80 93 03 01 	sts	0x0103, r24
+    1488:	08 95       	ret
+       break;
+    case 34: play_note('B', 0, 3, 2);
+       break;
+    case 35: play_rest(4);
+        break;
+    case 36: play_note('C', 0, 4, 5);
+    148a:	25 e0       	ldi	r18, 0x05	; 5
+    148c:	44 e0       	ldi	r20, 0x04	; 4
+    148e:	60 e0       	ldi	r22, 0x00	; 0
+    1490:	83 e4       	ldi	r24, 0x43	; 67
+    1492:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1496:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1498:	10 92 06 01 	sts	0x0106, r1
+    149c:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    14a0:	84 e0       	ldi	r24, 0x04	; 4
+    14a2:	90 e0       	ldi	r25, 0x00	; 0
+    14a4:	90 93 04 01 	sts	0x0104, r25
+    14a8:	80 93 03 01 	sts	0x0103, r24
+    14ac:	08 95       	ret
+        break;
+    case 32: play_note('C', 0, 4, 2);
+       break;
+    case 33: play_note('D', 0, 4, 2);
+       break;
+    case 34: play_note('B', 0, 3, 2);
+    14ae:	22 e0       	ldi	r18, 0x02	; 2
+    14b0:	43 e0       	ldi	r20, 0x03	; 3
+    14b2:	60 e0       	ldi	r22, 0x00	; 0
+    14b4:	82 e4       	ldi	r24, 0x42	; 66
+    14b6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 31: play_rest(2);
+        break;
+    case 32: play_note('C', 0, 4, 2);
+       break;
+    case 33: play_note('D', 0, 4, 2);
+    14ba:	22 e0       	ldi	r18, 0x02	; 2
+    14bc:	44 e0       	ldi	r20, 0x04	; 4
+    14be:	60 e0       	ldi	r22, 0x00	; 0
+    14c0:	84 e4       	ldi	r24, 0x44	; 68
+    14c2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 30: play_note('E', 0, 4, 2);
+       break;
+    case 31: play_rest(2);
+        break;
+    case 32: play_note('C', 0, 4, 2);
+    14c6:	22 e0       	ldi	r18, 0x02	; 2
+    14c8:	44 e0       	ldi	r20, 0x04	; 4
+    14ca:	60 e0       	ldi	r22, 0x00	; 0
+    14cc:	83 e4       	ldi	r24, 0x43	; 67
+    14ce:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    14d2:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    14d4:	10 92 06 01 	sts	0x0106, r1
+    14d8:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    14dc:	82 e0       	ldi	r24, 0x02	; 2
+    14de:	90 e0       	ldi	r25, 0x00	; 0
+    14e0:	90 93 04 01 	sts	0x0104, r25
+    14e4:	80 93 03 01 	sts	0x0103, r24
+    14e8:	08 95       	ret
+       break;
+    case 28: play_note('G', 0, 4, 2);
+       break;
+    case 29: play_rest(2);
+        break;
+    case 30: play_note('E', 0, 4, 2);
+    14ea:	22 e0       	ldi	r18, 0x02	; 2
+    14ec:	44 e0       	ldi	r20, 0x04	; 4
+    14ee:	60 e0       	ldi	r22, 0x00	; 0
+    14f0:	85 e4       	ldi	r24, 0x45	; 69
+    14f2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    14f6:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    14f8:	10 92 06 01 	sts	0x0106, r1
+    14fc:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1500:	82 e0       	ldi	r24, 0x02	; 2
+    1502:	90 e0       	ldi	r25, 0x00	; 0
+    1504:	90 93 04 01 	sts	0x0104, r25
+    1508:	80 93 03 01 	sts	0x0103, r24
+    150c:	08 95       	ret
+       break;
+    case 26: play_note('A', 0, 4, 4);
+       break;
+    case 27: play_note('F', 0, 4, 2);
+       break;
+    case 28: play_note('G', 0, 4, 2);
+    150e:	22 e0       	ldi	r18, 0x02	; 2
+    1510:	44 e0       	ldi	r20, 0x04	; 4
+    1512:	60 e0       	ldi	r22, 0x00	; 0
+    1514:	87 e4       	ldi	r24, 0x47	; 71
+    1516:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+        break;
+    case 25: play_note('G', 0, 4, 2);
+       break;
+    case 26: play_note('A', 0, 4, 4);
+       break;
+    case 27: play_note('F', 0, 4, 2);
+    151a:	22 e0       	ldi	r18, 0x02	; 2
+    151c:	44 e0       	ldi	r20, 0x04	; 4
+    151e:	60 e0       	ldi	r22, 0x00	; 0
+    1520:	86 e4       	ldi	r24, 0x46	; 70
+    1522:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 24: play_rest(1);
+        break;
+    case 25: play_note('G', 0, 4, 2);
+       break;
+    case 26: play_note('A', 0, 4, 4);
+    1526:	24 e0       	ldi	r18, 0x04	; 4
+    1528:	44 e0       	ldi	r20, 0x04	; 4
+    152a:	60 e0       	ldi	r22, 0x00	; 0
+    152c:	81 e4       	ldi	r24, 0x41	; 65
+    152e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 23: play_note('E', 0, 4, 2);
+       break;
+    case 24: play_rest(1);
+        break;
+    case 25: play_note('G', 0, 4, 2);
+    1532:	22 e0       	ldi	r18, 0x02	; 2
+    1534:	44 e0       	ldi	r20, 0x04	; 4
+    1536:	60 e0       	ldi	r22, 0x00	; 0
+    1538:	87 e4       	ldi	r24, 0x47	; 71
+    153a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    153e:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1540:	10 92 06 01 	sts	0x0106, r1
+    1544:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1548:	81 e0       	ldi	r24, 0x01	; 1
+    154a:	90 e0       	ldi	r25, 0x00	; 0
+    154c:	90 93 04 01 	sts	0x0104, r25
+    1550:	80 93 03 01 	sts	0x0103, r24
+    1554:	08 95       	ret
+       break;
+    case 21: play_note('A', 0, 3, 4);
+       break;
+    case 22: play_note('G' , 0, 3, 3);
+       break;
+    case 23: play_note('E', 0, 4, 2);
+    1556:	22 e0       	ldi	r18, 0x02	; 2
+    1558:	44 e0       	ldi	r20, 0x04	; 4
+    155a:	60 e0       	ldi	r22, 0x00	; 0
+    155c:	85 e4       	ldi	r24, 0x45	; 69
+    155e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 20: play_note('B', 1, 3, 2);
+       break;
+    case 21: play_note('A', 0, 3, 4);
+       break;
+    case 22: play_note('G' , 0, 3, 3);
+    1562:	23 e0       	ldi	r18, 0x03	; 3
+    1564:	43 e0       	ldi	r20, 0x03	; 3
+    1566:	60 e0       	ldi	r22, 0x00	; 0
+    1568:	87 e4       	ldi	r24, 0x47	; 71
+    156a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 19: play_rest(2);
+       break;
+    case 20: play_note('B', 1, 3, 2);
+       break;
+    case 21: play_note('A', 0, 3, 4);
+    156e:	24 e0       	ldi	r18, 0x04	; 4
+    1570:	43 e0       	ldi	r20, 0x03	; 3
+    1572:	60 e0       	ldi	r22, 0x00	; 0
+    1574:	81 e4       	ldi	r24, 0x41	; 65
+    1576:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+         break;
+    case 18: play_note('B', 0, 3, 2);
+       break;
+    case 19: play_rest(2);
+       break;
+    case 20: play_note('B', 1, 3, 2);
+    157a:	22 e0       	ldi	r18, 0x02	; 2
+    157c:	43 e0       	ldi	r20, 0x03	; 3
+    157e:	61 e0       	ldi	r22, 0x01	; 1
+    1580:	82 e4       	ldi	r24, 0x42	; 66
+    1582:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1586:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1588:	10 92 06 01 	sts	0x0106, r1
+    158c:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1590:	82 e0       	ldi	r24, 0x02	; 2
+    1592:	90 e0       	ldi	r25, 0x00	; 0
+    1594:	90 93 04 01 	sts	0x0104, r25
+    1598:	80 93 03 01 	sts	0x0103, r24
+    159c:	08 95       	ret
+       break;
+    case 16: play_note('A', 0, 3, 2);
+       break;
+    case 17: play_rest(2);
+         break;
+    case 18: play_note('B', 0, 3, 2);
+    159e:	22 e0       	ldi	r18, 0x02	; 2
+    15a0:	43 e0       	ldi	r20, 0x03	; 3
+    15a2:	60 e0       	ldi	r22, 0x00	; 0
+    15a4:	82 e4       	ldi	r24, 0x42	; 66
+    15a6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    15aa:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    15ac:	10 92 06 01 	sts	0x0106, r1
+    15b0:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    15b4:	82 e0       	ldi	r24, 0x02	; 2
+    15b6:	90 e0       	ldi	r25, 0x00	; 0
+    15b8:	90 93 04 01 	sts	0x0104, r25
+    15bc:	80 93 03 01 	sts	0x0103, r24
+    15c0:	08 95       	ret
+       break;
+    case 14: play_note('E', 0, 3, 4);
+       break;
+    case 15: play_rest(2);
+       break;
+    case 16: play_note('A', 0, 3, 2);
+    15c2:	22 e0       	ldi	r18, 0x02	; 2
+    15c4:	43 e0       	ldi	r20, 0x03	; 3
+    15c6:	60 e0       	ldi	r22, 0x00	; 0
+    15c8:	81 e4       	ldi	r24, 0x41	; 65
+    15ca:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    15ce:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    15d0:	10 92 06 01 	sts	0x0106, r1
+    15d4:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    15d8:	82 e0       	ldi	r24, 0x02	; 2
+    15da:	90 e0       	ldi	r25, 0x00	; 0
+    15dc:	90 93 04 01 	sts	0x0104, r25
+    15e0:	80 93 03 01 	sts	0x0103, r24
+    15e4:	08 95       	ret
+       break;
+    case 12: play_note('G', 0, 3, 2);
+       break;
+    case 13: play_rest(4);
+       break;
+    case 14: play_note('E', 0, 3, 4);
+    15e6:	24 e0       	ldi	r18, 0x04	; 4
+    15e8:	43 e0       	ldi	r20, 0x03	; 3
+    15ea:	60 e0       	ldi	r22, 0x00	; 0
+    15ec:	85 e4       	ldi	r24, 0x45	; 69
+    15ee:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    15f2:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    15f4:	10 92 06 01 	sts	0x0106, r1
+    15f8:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    15fc:	84 e0       	ldi	r24, 0x04	; 4
+    15fe:	90 e0       	ldi	r25, 0x00	; 0
+    1600:	90 93 04 01 	sts	0x0104, r25
+    1604:	80 93 03 01 	sts	0x0103, r24
+    1608:	08 95       	ret
+       break;
+    case 10: play_rest(8);
+       break;
+    case 11: play_note('C', 0, 4, 5);
+       break;
+    case 12: play_note('G', 0, 3, 2);
+    160a:	22 e0       	ldi	r18, 0x02	; 2
+    160c:	43 e0       	ldi	r20, 0x03	; 3
+    160e:	60 e0       	ldi	r22, 0x00	; 0
+    1610:	87 e4       	ldi	r24, 0x47	; 71
+    1612:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 9: play_note('G', 0, 2, 8);
+       break;
+    case 10: play_rest(8);
+       break;
+    case 11: play_note('C', 0, 4, 5);
+    1616:	25 e0       	ldi	r18, 0x05	; 5
+    1618:	44 e0       	ldi	r20, 0x04	; 4
+    161a:	60 e0       	ldi	r22, 0x00	; 0
+    161c:	83 e4       	ldi	r24, 0x43	; 67
+    161e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1622:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1624:	10 92 06 01 	sts	0x0106, r1
+    1628:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    162c:	88 e0       	ldi	r24, 0x08	; 8
+    162e:	90 e0       	ldi	r25, 0x00	; 0
+    1630:	90 93 04 01 	sts	0x0104, r25
+    1634:	80 93 03 01 	sts	0x0103, r24
+    1638:	08 95       	ret
+       break;
+    case 7: play_note('E', 0, 4, 4);
+       break;
+    case 8: play_note('G', 0, 4, 8);
+       break;
+    case 9: play_note('G', 0, 2, 8);
+    163a:	28 e0       	ldi	r18, 0x08	; 8
+    163c:	42 e0       	ldi	r20, 0x02	; 2
+    163e:	60 e0       	ldi	r22, 0x00	; 0
+    1640:	87 e4       	ldi	r24, 0x47	; 71
+    1642:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 6: play_note('C', 0, 4, 2);
+       break;
+    case 7: play_note('E', 0, 4, 4);
+       break;
+    case 8: play_note('G', 0, 4, 8);
+    1646:	28 e0       	ldi	r18, 0x08	; 8
+    1648:	44 e0       	ldi	r20, 0x04	; 4
+    164a:	60 e0       	ldi	r22, 0x00	; 0
+    164c:	87 e4       	ldi	r24, 0x47	; 71
+    164e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 5: play_rest(2);
+       break;
+    case 6: play_note('C', 0, 4, 2);
+       break;
+    case 7: play_note('E', 0, 4, 4);
+    1652:	24 e0       	ldi	r18, 0x04	; 4
+    1654:	44 e0       	ldi	r20, 0x04	; 4
+    1656:	60 e0       	ldi	r22, 0x00	; 0
+    1658:	85 e4       	ldi	r24, 0x45	; 69
+    165a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 4: play_note('E', 0, 4, 2);
+       break;
+    case 5: play_rest(2);
+       break;
+    case 6: play_note('C', 0, 4, 2);
+    165e:	22 e0       	ldi	r18, 0x02	; 2
+    1660:	44 e0       	ldi	r20, 0x04	; 4
+    1662:	60 e0       	ldi	r22, 0x00	; 0
+    1664:	83 e4       	ldi	r24, 0x43	; 67
+    1666:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    166a:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    166c:	10 92 06 01 	sts	0x0106, r1
+    1670:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1674:	82 e0       	ldi	r24, 0x02	; 2
+    1676:	90 e0       	ldi	r25, 0x00	; 0
+    1678:	90 93 04 01 	sts	0x0104, r25
+    167c:	80 93 03 01 	sts	0x0103, r24
+    1680:	08 95       	ret
+       break;
+    case 2: play_note('E', 0, 4, 3);
+       break;
+    case 3: play_rest(1);
+       break;
+    case 4: play_note('E', 0, 4, 2);
+    1682:	22 e0       	ldi	r18, 0x02	; 2
+    1684:	44 e0       	ldi	r20, 0x04	; 4
+    1686:	60 e0       	ldi	r22, 0x00	; 0
+    1688:	85 e4       	ldi	r24, 0x45	; 69
+    168a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    168e:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1690:	10 92 06 01 	sts	0x0106, r1
+    1694:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1698:	81 e0       	ldi	r24, 0x01	; 1
+    169a:	90 e0       	ldi	r25, 0x00	; 0
+    169c:	90 93 04 01 	sts	0x0104, r25
+    16a0:	80 93 03 01 	sts	0x0103, r24
+    16a4:	08 95       	ret
+switch (note) {
+    case 0: play_note('E', 0, 4, 1);
+       break;
+    case 1: play_rest(1);
+       break;
+    case 2: play_note('E', 0, 4, 3);
+    16a6:	23 e0       	ldi	r18, 0x03	; 3
+    16a8:	44 e0       	ldi	r20, 0x04	; 4
+    16aa:	60 e0       	ldi	r22, 0x00	; 0
+    16ac:	85 e4       	ldi	r24, 0x45	; 69
+    16ae:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    16b2:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    16b4:	10 92 06 01 	sts	0x0106, r1
+    16b8:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    16bc:	81 e0       	ldi	r24, 0x01	; 1
+    16be:	90 e0       	ldi	r25, 0x00	; 0
+    16c0:	90 93 04 01 	sts	0x0104, r25
+    16c4:	80 93 03 01 	sts	0x0103, r24
+    16c8:	08 95       	ret
+ }
+}//song1
+
+void song2(uint16_t note) { //Super Mario Bros Theme (Brian)
+switch (note) {
+    case 0: play_note('E', 0, 4, 1);
+    16ca:	21 e0       	ldi	r18, 0x01	; 1
+    16cc:	44 e0       	ldi	r20, 0x04	; 4
+    16ce:	60 e0       	ldi	r22, 0x00	; 0
+    16d0:	85 e4       	ldi	r24, 0x45	; 69
+    16d2:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    16d6:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    16d8:	10 92 06 01 	sts	0x0106, r1
+    16dc:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    16e0:	88 e0       	ldi	r24, 0x08	; 8
+    16e2:	90 e0       	ldi	r25, 0x00	; 0
+    16e4:	90 93 04 01 	sts	0x0104, r25
+    16e8:	80 93 03 01 	sts	0x0103, r24
+    16ec:	08 95       	ret
+
+000016ee <song3>:
+
+ }
+}//song2
+
+void song3(uint16_t note) { //(Max and Kellen)
+  switch (note) {
+    16ee:	8f 31       	cpi	r24, 0x1F	; 31
+    16f0:	91 05       	cpc	r25, r1
+    16f2:	20 f0       	brcs	.+8      	; 0x16fc <song3+0xe>
+       break;
+    case 29: play_note('G', 1, 5, 8);
+       break;
+    case 30: play_note('E', 0, 5, 8);
+       break;
+    default: notes=-1;
+    16f4:	8f ef       	ldi	r24, 0xFF	; 255
+    16f6:	80 93 01 01 	sts	0x0101, r24
+    16fa:	08 95       	ret
+
+ }
+}//song2
+
+void song3(uint16_t note) { //(Max and Kellen)
+  switch (note) {
+    16fc:	fc 01       	movw	r30, r24
+    16fe:	e8 55       	subi	r30, 0x58	; 88
+    1700:	fe 4f       	sbci	r31, 0xFE	; 254
+    1702:	0c 94 8d 0c 	jmp	0x191a	; 0x191a <__tablejump2__>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1706:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1708:	10 92 06 01 	sts	0x0106, r1
+    170c:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    1710:	81 e0       	ldi	r24, 0x01	; 1
+    1712:	90 e0       	ldi	r25, 0x00	; 0
+    1714:	90 93 04 01 	sts	0x0104, r25
+    1718:	80 93 03 01 	sts	0x0103, r24
+    171c:	08 95       	ret
+       break;
+    case 26: play_note('E', 0, 5, 3);
+       break;
+    case 27: play_rest(1); //rest 1
+       break;
+    case 28: play_note('E', 0, 5, 4);
+    171e:	24 e0       	ldi	r18, 0x04	; 4
+    1720:	45 e0       	ldi	r20, 0x05	; 5
+    1722:	60 e0       	ldi	r22, 0x00	; 0
+    1724:	85 e4       	ldi	r24, 0x45	; 69
+    1726:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 2: play_note('E', 0, 4, 7);
+       break;
+    case 3: play_rest(1);
+       break;
+    case 4: play_note('E', 0, 4, 7);
+    172a:	27 e0       	ldi	r18, 0x07	; 7
+    172c:	44 e0       	ldi	r20, 0x04	; 4
+    172e:	60 e0       	ldi	r22, 0x00	; 0
+    1730:	85 e4       	ldi	r24, 0x45	; 69
+    1732:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 17: play_note('E', 1, 4, 7);
+       break;
+    case 18: play_rest(1);
+       break;
+    case 19: play_note('E', 1, 4, 7);
+    1736:	27 e0       	ldi	r18, 0x07	; 7
+    1738:	44 e0       	ldi	r20, 0x04	; 4
+    173a:	61 e0       	ldi	r22, 0x01	; 1
+    173c:	85 e4       	ldi	r24, 0x45	; 69
+    173e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+}
+
+void play_rest(uint8_t duration) {
+  //mute for duration
+  //duration is in 64th notes at 120bpm
+  PORTD |= mute;
+    1742:	92 9a       	sbi	0x12, 2	; 18
+  beat=0;
+    1744:	10 92 06 01 	sts	0x0106, r1
+    1748:	10 92 05 01 	sts	0x0105, r1
+  max_beat = duration;
+    174c:	85 e0       	ldi	r24, 0x05	; 5
+    174e:	90 e0       	ldi	r25, 0x00	; 0
+    1750:	90 93 04 01 	sts	0x0104, r25
+    1754:	80 93 03 01 	sts	0x0103, r24
+    1758:	08 95       	ret
+       break;
+    case 28: play_note('E', 0, 5, 4);
+       break;
+    case 29: play_note('G', 1, 5, 8);
+       break;
+    case 30: play_note('E', 0, 5, 8);
+    175a:	28 e0       	ldi	r18, 0x08	; 8
+    175c:	45 e0       	ldi	r20, 0x05	; 5
+    175e:	60 e0       	ldi	r22, 0x00	; 0
+    1760:	85 e4       	ldi	r24, 0x45	; 69
+    1762:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 21: play_note('E', 1, 4, 3);
+       break;
+    case 22: play_rest(1);
+       break;
+    case 23: play_note('E', 1, 4, 3);
+    1766:	23 e0       	ldi	r18, 0x03	; 3
+    1768:	44 e0       	ldi	r20, 0x04	; 4
+    176a:	61 e0       	ldi	r22, 0x01	; 1
+    176c:	85 e4       	ldi	r24, 0x45	; 69
+    176e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 6: play_note('E', 0, 4, 3);
+       break;
+    case 7: play_rest(1);
+       break;
+    case 8: play_note('E', 0, 4, 3);
+    1772:	23 e0       	ldi	r18, 0x03	; 3
+    1774:	44 e0       	ldi	r20, 0x04	; 4
+    1776:	60 e0       	ldi	r22, 0x00	; 0
+    1778:	85 e4       	ldi	r24, 0x45	; 69
+    177a:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 11: play_note('G', 1, 5, 4);
+       break;
+    case 12: play_note('E', 0, 5, 4);
+       break;
+    case 13: play_note('G', 0, 5, 8);
+    177e:	28 e0       	ldi	r18, 0x08	; 8
+    1780:	45 e0       	ldi	r20, 0x05	; 5
+    1782:	60 e0       	ldi	r22, 0x00	; 0
+    1784:	87 e4       	ldi	r24, 0x47	; 71
+    1786:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 23: play_note('E', 1, 4, 3);
+       break;
+    case 24: play_rest(5);
+       break;
+    case 25: play_note('E', 1, 5, 4);
+    178a:	24 e0       	ldi	r18, 0x04	; 4
+    178c:	45 e0       	ldi	r20, 0x05	; 5
+    178e:	61 e0       	ldi	r22, 0x01	; 1
+    1790:	85 e4       	ldi	r24, 0x45	; 69
+    1792:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 26: play_note('E', 0, 5, 3);
+    1796:	23 e0       	ldi	r18, 0x03	; 3
+    1798:	45 e0       	ldi	r20, 0x05	; 5
+    179a:	60 e0       	ldi	r22, 0x00	; 0
+    179c:	85 e4       	ldi	r24, 0x45	; 69
+    179e:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 9: play_rest(5);
+       break;
+    case 10: play_note('E', 0, 5, 4);
+       break;
+    case 11: play_note('G', 1, 5, 4);
+    17a2:	24 e0       	ldi	r18, 0x04	; 4
+    17a4:	45 e0       	ldi	r20, 0x05	; 5
+    17a6:	61 e0       	ldi	r22, 0x01	; 1
+    17a8:	87 e4       	ldi	r24, 0x47	; 71
+    17aa:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+       break;
+    case 27: play_rest(1); //rest 1
+       break;
+    case 28: play_note('E', 0, 5, 4);
+       break;
+    case 29: play_note('G', 1, 5, 8);
+    17ae:	28 e0       	ldi	r18, 0x08	; 8
+    17b0:	45 e0       	ldi	r20, 0x05	; 5
+    17b2:	61 e0       	ldi	r22, 0x01	; 1
+    17b4:	87 e4       	ldi	r24, 0x47	; 71
+    17b6:	0c 94 e6 01 	jmp	0x3cc	; 0x3cc <play_note>
+
+000017ba <play_song>:
+}//song3
+
+void play_song(uint8_t song, uint8_t note) {
+  //if you add a song, you'll have to add it to this
+  //switch statement.
+  switch (song) {
+    17ba:	81 30       	cpi	r24, 0x01	; 1
+    17bc:	89 f0       	breq	.+34     	; 0x17e0 <play_song+0x26>
+    17be:	60 f0       	brcs	.+24     	; 0x17d8 <play_song+0x1e>
+    17c0:	82 30       	cpi	r24, 0x02	; 2
+    17c2:	31 f0       	breq	.+12     	; 0x17d0 <play_song+0x16>
+    17c4:	83 30       	cpi	r24, 0x03	; 3
+    17c6:	41 f4       	brne	.+16     	; 0x17d8 <play_song+0x1e>
+    break;
+  case 1: song1(note); //tetris theme
+    break;
+  case 2: song2(note); //super mario bros
+    break;
+  case 3: song3(note);
+    17c8:	86 2f       	mov	r24, r22
+    17ca:	90 e0       	ldi	r25, 0x00	; 0
+    17cc:	0c 94 77 0b 	jmp	0x16ee	; 0x16ee <song3>
+  switch (song) {
+  case 0: song0(note); //beaver fight song
+    break;
+  case 1: song1(note); //tetris theme
+    break;
+  case 2: song2(note); //super mario bros
+    17d0:	86 2f       	mov	r24, r22
+    17d2:	90 e0       	ldi	r25, 0x00	; 0
+    17d4:	0c 94 bb 06 	jmp	0xd76	; 0xd76 <song2>
+    break;
+  case 3: song3(note);
+    break;
+  default: song0(note); //defaults to beaver fight song
+    17d8:	86 2f       	mov	r24, r22
+    17da:	90 e0       	ldi	r25, 0x00	; 0
+    17dc:	0c 94 f3 04 	jmp	0x9e6	; 0x9e6 <song0>
+  //if you add a song, you'll have to add it to this
+  //switch statement.
+  switch (song) {
+  case 0: song0(note); //beaver fight song
+    break;
+  case 1: song1(note); //tetris theme
+    17e0:	86 2f       	mov	r24, r22
+    17e2:	90 e0       	ldi	r25, 0x00	; 0
+    17e4:	0c 94 d7 05 	jmp	0xbae	; 0xbae <song1>
+
+000017e8 <music_off>:
+  }
+}
+
+void music_off(void) {
+  //this turns the alarm timer off
+  notes=0;
+    17e8:	10 92 01 01 	sts	0x0101, r1
+  TCCR1B &= ~((1<<CS11)|(1<<CS10));
+    17ec:	8e b5       	in	r24, 0x2e	; 46
+    17ee:	8c 7f       	andi	r24, 0xFC	; 252
+    17f0:	8e bd       	out	0x2e, r24	; 46
+  //and mutes the output
+  PORTD |= mute;
+    17f2:	92 9a       	sbi	0x12, 2	; 18
+    17f4:	08 95       	ret
+
+000017f6 <music_on>:
+}
+
+void music_on(void) {
+  //this starts the alarm timer running
+  notes=0;
+    17f6:	10 92 01 01 	sts	0x0101, r1
+  TCCR1B |= (1<<CS11)|(1<<CS10);
+    17fa:	8e b5       	in	r24, 0x2e	; 46
+    17fc:	83 60       	ori	r24, 0x03	; 3
+    17fe:	8e bd       	out	0x2e, r24	; 46
+  //unmutes the output
+  PORTD &= unmute;
+    1800:	92 98       	cbi	0x12, 2	; 18
+  //and starts the selected song
+  play_song(song, notes);
+    1802:	60 91 01 01 	lds	r22, 0x0101
+    1806:	80 91 02 01 	lds	r24, 0x0102
+    180a:	0c 94 dd 0b 	jmp	0x17ba	; 0x17ba <play_song>
+
+0000180e <music_init>:
+}
+
+void music_init(void) {
+  //initially turned off (use music_on() to turn on)
+  DDRD |= (1<<PD7);
+    180e:	8f 9a       	sbi	0x11, 7	; 17
+  TIMSK |= (1<<OCIE1A) | (1<<TOIE0);  //enable timer interrupt 1 on compare
+    1810:	87 b7       	in	r24, 0x37	; 55
+    1812:	81 61       	ori	r24, 0x11	; 17
+    1814:	87 bf       	out	0x37, r24	; 55
+  TCCR1A = 0x00;         //TCNT1, normal port operation
+    1816:	1f bc       	out	0x2f, r1	; 47
+  TCCR1B |= (1<<WGM12);  //CTC, OCR1A = top, clk/64 (250kHz)
+    1818:	8e b5       	in	r24, 0x2e	; 46
+    181a:	88 60       	ori	r24, 0x08	; 8
+    181c:	8e bd       	out	0x2e, r24	; 46
+  TCCR1C = 0x00;         //no forced compare
+    181e:	10 92 7a 00 	sts	0x007A, r1
+  //TCCR0 = (1<<CS00);
+  OCR1A = 0x0033;        //(use to vary alarm frequency)
+    1822:	83 e3       	ldi	r24, 0x33	; 51
+    1824:	90 e0       	ldi	r25, 0x00	; 0
+    1826:	9b bd       	out	0x2b, r25	; 43
+    1828:	8a bd       	out	0x2a, r24	; 42
+  }
+}
+
+void music_off(void) {
+  //this turns the alarm timer off
+  notes=0;
+    182a:	10 92 01 01 	sts	0x0101, r1
+  TCCR1B &= ~((1<<CS11)|(1<<CS10));
+    182e:	8e b5       	in	r24, 0x2e	; 46
+    1830:	8c 7f       	andi	r24, 0xFC	; 252
+    1832:	8e bd       	out	0x2e, r24	; 46
+  //and mutes the output
+  PORTD |= mute;
+    1834:	92 9a       	sbi	0x12, 2	; 18
+  TCCR1B |= (1<<WGM12);  //CTC, OCR1A = top, clk/64 (250kHz)
+  TCCR1C = 0x00;         //no forced compare
+  //TCCR0 = (1<<CS00);
+  OCR1A = 0x0033;        //(use to vary alarm frequency)
+  music_off();
+  beat = 0;
+    1836:	10 92 06 01 	sts	0x0106, r1
+    183a:	10 92 05 01 	sts	0x0105, r1
+  max_beat = 0;
+    183e:	10 92 04 01 	sts	0x0104, r1
+    1842:	10 92 03 01 	sts	0x0103, r1
+  notes = 0;
+    1846:	10 92 01 01 	sts	0x0101, r1
+  song = 0;              //beaver fight song
+    184a:	10 92 02 01 	sts	0x0102, r1
+    184e:	08 95       	ret
+
+00001850 <__vector_16>:
+
+/*********************************************************************/
+/*                             TIMER1_COMPA                          */
+/*Oscillates pin7, PORTD for alarm tone output                       */
+/*********************************************************************/
+ISR(TIMER0_OVF_vect){
+    1850:	1f 92       	push	r1
+    1852:	0f 92       	push	r0
+    1854:	0f b6       	in	r0, 0x3f	; 63
+    1856:	0f 92       	push	r0
+    1858:	11 24       	eor	r1, r1
+    185a:	8f 93       	push	r24
+    185c:	9f 93       	push	r25
+    static uint8_t ms = 0;
+     ms++;
+    185e:	80 91 00 01 	lds	r24, 0x0100
+    1862:	8f 5f       	subi	r24, 0xFF	; 255
+    1864:	80 93 00 01 	sts	0x0100, r24
+    if(ms % 8 == 0) {
+    1868:	87 70       	andi	r24, 0x07	; 7
+    186a:	49 f4       	brne	.+18     	; 0x187e <__vector_16+0x2e>
+	//for note duration (64th notes) 
+	beat++;
+    186c:	80 91 05 01 	lds	r24, 0x0105
+    1870:	90 91 06 01 	lds	r25, 0x0106
+    1874:	01 96       	adiw	r24, 0x01	; 1
+    1876:	90 93 06 01 	sts	0x0106, r25
+    187a:	80 93 05 01 	sts	0x0105, r24
+    }
+}
+    187e:	9f 91       	pop	r25
+    1880:	8f 91       	pop	r24
+    1882:	0f 90       	pop	r0
+    1884:	0f be       	out	0x3f, r0	; 63
+    1886:	0f 90       	pop	r0
+    1888:	1f 90       	pop	r1
+    188a:	18 95       	reti
+
+0000188c <__vector_12>:
+ISR(TIMER1_COMPA_vect) {
+    188c:	1f 92       	push	r1
+    188e:	0f 92       	push	r0
+    1890:	0f b6       	in	r0, 0x3f	; 63
+    1892:	0f 92       	push	r0
+    1894:	11 24       	eor	r1, r1
+    1896:	0b b6       	in	r0, 0x3b	; 59
+    1898:	0f 92       	push	r0
+    189a:	2f 93       	push	r18
+    189c:	3f 93       	push	r19
+    189e:	4f 93       	push	r20
+    18a0:	5f 93       	push	r21
+    18a2:	6f 93       	push	r22
+    18a4:	7f 93       	push	r23
+    18a6:	8f 93       	push	r24
+    18a8:	9f 93       	push	r25
+    18aa:	af 93       	push	r26
+    18ac:	bf 93       	push	r27
+    18ae:	ef 93       	push	r30
+    18b0:	ff 93       	push	r31
+    PORTD ^= ALARM_PIN;      //flips the bit, creating a tone
+    18b2:	82 b3       	in	r24, 0x12	; 18
+    18b4:	80 58       	subi	r24, 0x80	; 128
+    18b6:	82 bb       	out	0x12, r24	; 18
+    PORTB |= (1<<PB0);
+    18b8:	c0 9a       	sbi	0x18, 0	; 24
+    if(beat >= max_beat) {   //if we've played the note long enough
+    18ba:	20 91 05 01 	lds	r18, 0x0105
+    18be:	30 91 06 01 	lds	r19, 0x0106
+    18c2:	80 91 03 01 	lds	r24, 0x0103
+    18c6:	90 91 04 01 	lds	r25, 0x0104
+    18ca:	28 17       	cp	r18, r24
+    18cc:	39 07       	cpc	r19, r25
+    18ce:	58 f0       	brcs	.+22     	; 0x18e6 <__vector_12+0x5a>
+	notes++;               //move on to the next note
+    18d0:	80 91 01 01 	lds	r24, 0x0101
+    18d4:	8f 5f       	subi	r24, 0xFF	; 255
+    18d6:	80 93 01 01 	sts	0x0101, r24
+	play_song(song, notes);//and play it
+    18da:	60 91 01 01 	lds	r22, 0x0101
+    18de:	80 91 02 01 	lds	r24, 0x0102
+    18e2:	0e 94 dd 0b 	call	0x17ba	; 0x17ba <play_song>
+    }
+}
+    18e6:	ff 91       	pop	r31
+    18e8:	ef 91       	pop	r30
+    18ea:	bf 91       	pop	r27
+    18ec:	af 91       	pop	r26
+    18ee:	9f 91       	pop	r25
+    18f0:	8f 91       	pop	r24
+    18f2:	7f 91       	pop	r23
+    18f4:	6f 91       	pop	r22
+    18f6:	5f 91       	pop	r21
+    18f8:	4f 91       	pop	r20
+    18fa:	3f 91       	pop	r19
+    18fc:	2f 91       	pop	r18
+    18fe:	0f 90       	pop	r0
+    1900:	0b be       	out	0x3b, r0	; 59
+    1902:	0f 90       	pop	r0
+    1904:	0f be       	out	0x3f, r0	; 63
+    1906:	0f 90       	pop	r0
+    1908:	1f 90       	pop	r1
+    190a:	18 95       	reti
+
+0000190c <main>:
+
+
+uint8_t main(){
+    DDRB |= (1<<PB0);
+    190c:	b8 9a       	sbi	0x17, 0	; 23
+    music_init();
+    190e:	0e 94 07 0c 	call	0x180e	; 0x180e <music_init>
+    sei();
+    1912:	78 94       	sei
+    music_on(); 
+    1914:	0e 94 fb 0b 	call	0x17f6	; 0x17f6 <music_on>
+    1918:	ff cf       	rjmp	.-2      	; 0x1918 <main+0xc>
+
+0000191a <__tablejump2__>:
+    191a:	ee 0f       	add	r30, r30
+    191c:	ff 1f       	adc	r31, r31
+
+0000191e <__tablejump__>:
+    191e:	05 90       	lpm	r0, Z+
+    1920:	f4 91       	lpm	r31, Z
+    1922:	e0 2d       	mov	r30, r0
+    1924:	09 94       	ijmp
+
+00001926 <_exit>:
+    1926:	f8 94       	cli
+
+00001928 <__stop_program>:
+    1928:	ff cf       	rjmp	.-2      	; 0x1928 <__stop_program>
