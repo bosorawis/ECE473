@@ -70,6 +70,7 @@ static uint8_t hour = 0;
 static uint8_t alarm_minute = 0;
 static uint8_t alarm_hour = 0;
 static uint8_t ticker = 0;
+uint8_t write = 0;
 uint8_t blink = 0;
 //******************************************************************************
 //                            chk_buttons                                      
@@ -159,7 +160,7 @@ void segsum(uint16_t sum) {
     //now move data to right place for misplaced colon position
     if(mode == 3){
 	//segment_data[4] = 0xFF;
-       // segment_data[3] = 0xFF;
+	// segment_data[3] = 0xFF;
 	segment_data[2] = 0xFF;
     }
 
@@ -175,7 +176,7 @@ void segsum(uint16_t sum) {
 }//segment_sum
 //***********************************************************************************
 void button_routine(){
-    uint8_t button;
+    uint8_t button = 0;
     int previous_mode;   
     DDRA  = 0x00; // PORTA input mode
     PORTA = 0xFF; //Pull ups
@@ -187,28 +188,21 @@ void button_routine(){
     __asm__ __volatile__ ("nop");
     //now check each button and increment the count as needed
     previous_mode = mode;
+
+    
     for (button = 0 ; button < BUTTON_COUNT ; button++){
 	if (chk_buttons(button)){
 	    //Check the state of buttons
-	    if(previous_mode == button + 1){
+	    if(previous_mode == button + 1 ){
 		mode = 0;
 		return;
 	    }
-	    if(button == 0){
-		mode = 1;   
+	    else{
+		mode = button+1;
 	    }
-	    else if(button == 1){  
-		mode = 2;
-	    }
-	    else if(button == 2){
-		mode = 3;
-	    } 
 	}
     }
-    DDRA = 0xFF;  //switch PORTA to output
-    __asm__ __volatile__ ("nop"); //Buffer
-    __asm__ __volatile__ ("nop"); //Buffer 
-
+    
 }
 /***************************************************************************
   Interrupt routine: set flag for checking button in main
@@ -231,18 +225,29 @@ ISR(TIMER0_OVF_vect){
 }
 
 ISR(TIMER2_OVF_vect){
-    button_routine();
-    check_knobs();
-    display_update(); 
-    //bar_graph();
-    //OCR2 = brightness[brightness_level];
-}
+    static int tc2_count = 0;
+    tc2_count++;
+    //tc2_count = tc2_count << 1;
+    switch(tc2_count%8){
+	case 1:
+	    check_knobs();
+            break;
+	case 2:
 
+	    button_routine();
+	    break;
+	case 3:
+	    //display_update(); 
+	    break;	    
+	default:
+	    break;
+    }
+}
 ISR(ADC_vect){
     //brightness_level = 255 - ADC;
-    
+
     if(ADCH < 100){
-       OCR2 = 100-ADCH;
+	OCR2 = 100-ADCH;
     }  
     else{
 	OCR2 = 1;// brightness_level;
@@ -272,16 +277,18 @@ void update_time(void){
     if(hour >= 24){
 	hour = 0;
     }    
-    if(alarm_minute >=60){
-	alarm_hour++;
-	minute = 0;
-    }
-    if(alarm_hour >= 24){
-	alarm_hour = 0;
-    }    
+    /*if(alarm_minute >=60){
+      alarm_hour++;
+      minute = 0;
+      }  */
+    /*if(alarm_hour >= 24){
+      alarm_hour = 0;
+      }*/    
 
     //update_number();
-    time = (minute * 100) + second;
+    //time = (minute * 100) + second;
+    time = (hour * 100) + minute;
+    //time = 100;  
     alarm_time = (alarm_hour * 100) + alarm_minute;
     //alarm_time = alarm_hour;
 }
@@ -320,9 +327,15 @@ uint8_t SPI_Receive(void){
 }
 void check_knobs(void){
     static uint8_t encoder;
+    static uint8_t knb_cnt = 0;
     encoder = SPI_Receive();
-    decode_spi_left_knob(encoder);
-    decode_spi_right_knob(encoder);
+    if(knb_cnt%2 == 0){
+	decode_spi_left_knob(encoder);
+    }
+    else{
+
+	decode_spi_right_knob(encoder);
+    }
 }
 /***************************************************************************
  *void bar_graph()
@@ -330,27 +343,15 @@ void check_knobs(void){
  **************************************************************************/
 void bar_graph(){
 
-    uint8_t write = 0;
-    //If mode A is selected -> xxxxxxx1
-    /*
-       if(modeA){
-       write |= 0x01;  
-       }
-
-    //If mode A is not selected -> xxxxxxx0
-    else if(!modeA){
-    write &= 0xFE;
+    if(mode == 0){
+	write = 0x00;
     }
-    //If mode b is selected -> xxxxxxx1x
-    if(modeB){
-    write |= 0x02;
+    else if(mode == 2){
+	write = 0xFF;
     }
-    //If mode b is not selected -> xxxxxxx0x
-    else if(!modeB){
-    write &= 0xFD;
+    else{
+	write = 1<<(mode-1);
     }
-     */
-    write = 0x01;
     //Write the bargraph to SPI
     SPI_Transmit(write);
     PORTD = (1 << PD2);  //Push data out of SPI
@@ -368,6 +369,10 @@ void bar_graph(){
 void display_update(){
     uint8_t display_segment = 0;
     static uint8_t rotate_7seg = 0;
+    DDRA = 0xFF;  //switch PORTA to output
+    __asm__ __volatile__ ("nop"); //Buffer
+    __asm__ __volatile__ ("nop"); //Buffer 
+
     switch(mode){
 	case 0:
 	    segsum(time);
@@ -385,22 +390,22 @@ void display_update(){
 	    //segsum(time);
 	    break;
     }
-    /*
-       for(display_segment = 0 ; display_segment < 5 ; display_segment++){
-       PORTB = display_segment << 4;
-       PORTA = segment_data[display_segment];
-       _delay_us(10);
-       PORTA = OFF;
-       }
-     */
-    if(rotate_7seg > 4){
-	rotate_7seg = 0;
+
+    for(display_segment = 0 ; display_segment < 5 ; display_segment++){
+	PORTB = display_segment << 4;
+	PORTA = segment_data[display_segment];
+	_delay_us(10);
+	PORTA = OFF;
     }
-    PORTB &= 0x8F;
-    PORTB |= rotate_7seg << 4;
-    PORTA = segment_data[rotate_7seg];	
-    rotate_7seg++;
-    _delay_us(10);
+
+    //if(rotate_7seg > 4){
+    //    rotate_7seg = 0;
+    //}
+    //PORTB &= 0x8F;
+    //PORTB |= rotate_7seg << 4;
+    //PORTA = segment_data[rotate_7seg];	
+    //rotate_7seg++;
+    //_delay_us(0);
 }
 /**************************************************************************
  *Decode the knobs encoder using table method
@@ -506,10 +511,11 @@ void right_inc(){
 	case 0: 
 	    break;
 	case 1:
-	    second++;
-	    if(second >= 60){
-		second = 0;	    
+	    minute++;
+	    if(minute >= 60){
+		minute = 0;	    
 	    }
+	    second++;
 	    break;
 	case 2: 
 	    alarm_minute++;
@@ -518,7 +524,6 @@ void right_inc(){
 	    }
 	    break;
 	case 3:
-	    set_brightness(1);
 	    break;
 	default:
 	    break;             
@@ -529,19 +534,18 @@ void right_dec(){
 	case 0: 
 	    break;
 	case 1:
-	    second--;
-	    if(second >= 240){
-		second = 59;	    
+	    minute--;
+	    if(minute >= 240){
+		minute = 59;	    
 	    }   
 	    break;
 	case 2: 
 	    alarm_minute--;
 	    if(alarm_minute >= 240){
 		alarm_minute = 59;	
-	    }
+	    } 
 	    break;
 	case 3:
-	    set_brightness(2);
 	    break;
 	default:
 	    break;
@@ -553,14 +557,14 @@ void left_inc(){
 	case 0: 
 	    break;
 	case 1:
-	    minute++;
-	    if(minute >= 60){
-		minute = 0;	    
+	    hour++;
+	    if(hour >= 24){
+		hour = 0;	    
 	    }   
 	    break;
 	case 2: 
 	    alarm_hour++;
-	    if(alarm_hour >= 23){
+	    if(alarm_hour >= 24){
 		alarm_hour = 0;
 	    }
 	    break;
@@ -573,9 +577,9 @@ void left_dec(){
 	case 0: 
 	    break;
 	case 1:
-	    minute--;    
-	    if(minute >= 240){
-		minute = 59;	    
+	    hour--;    
+	    if(hour >= 240){
+		hour = 23;	    
 	    }   
 	    break;
 	case 2:
@@ -587,6 +591,40 @@ void left_dec(){
 	default:
 	    break;
     }
+}
+
+void cleanup_alarm(){
+
+    if(alarm_minute >= 60){
+	alarm_minute = 0;	
+    }
+
+    if(alarm_minute >= 240){
+	alarm_minute = 59;	
+    }
+
+    if(alarm_hour >= 24){
+	alarm_hour = 0;
+    }
+
+    if(alarm_hour >= 240){
+	alarm_hour = 23;
+    }
+}
+
+void cleanup(){
+    if(hour >= 240){
+	hour = 23;	    
+    }
+    if(hour >= 24){
+	hour = 0;	    
+    }
+    if(minute >= 60){
+	minute = 0;
+    }
+    if(minute >= 240){
+	alarm_minute = 59;
+    }     
 }
 //******************************************************************
 /*******************************************************************
@@ -634,6 +672,7 @@ void ADC_init(void){
 int main()
 {
     //set port bits 4-7 B as outputs
+    uint8_t c = 0;
     DDRE = 0xc0;
     PORTE &= 0x7F;
     DDRB = 0xF7;
@@ -644,7 +683,10 @@ int main()
     ADC_init();
     sei();
     while(1){
-	//display_update();
+	bar_graph();
+	display_update();
+	//bar_graph();
+	minute = 9;
     }//while
     return 0;
 }//main
