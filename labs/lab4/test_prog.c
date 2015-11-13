@@ -235,7 +235,7 @@ ISR(TIMER0_OVF_vect){
     if((count%128)==0){
 	ticker++;     
 	second++;    
-	//snooze_second++;
+        snooze_second++;
 
     }
 
@@ -265,7 +265,6 @@ ISR(TIMER2_OVF_vect){
 	    check_knobs();
 	    break;
 	case 1:	
-	display_update();
 	    //display_update();
 	    break;
 	default:
@@ -337,10 +336,16 @@ uint8_t SPI_Receive(void){
 }
 void check_knobs(void){
     static uint8_t encoder;
+    static uint8_t cnt = 0;
+    cnt++;
     //TIFR |= (1<<TOV2);
     encoder = SPI_Receive();
-    decode_spi_left_knob(encoder);
-    decode_spi_right_knob(encoder);
+    if(cnt%2==0){
+	decode_spi_left_knob(encoder);
+    }
+    else{
+	decode_spi_right_knob(encoder);
+    }
 }
 /***************************************************************************
  *void bar_graph()
@@ -393,23 +398,23 @@ void display_update(){
 	    //segsum(time);
 	    break;
     }
-    
+
     for(display_segment = 0 ; display_segment < 5 ; display_segment++){
 	PORTB = display_segment << 4;
 	PORTA = segment_data[display_segment];
 	_delay_us(10);
 	PORTA = OFF;
-	}
-     
-    /*
-    if(rotate_7seg > 4){
-	rotate_7seg = 0;
     }
-    PORTB &= 0x8F;
-    PORTB |= rotate_7seg << 4;
-    PORTA = segment_data[rotate_7seg];	
-    rotate_7seg++;
-*/
+
+    /*
+       if(rotate_7seg > 4){
+       rotate_7seg = 0;
+       }
+       PORTB &= 0x8F;
+       PORTB |= rotate_7seg << 4;
+       PORTA = segment_data[rotate_7seg];	
+       rotate_7seg++;
+     */
     //_delay_us(40);
 }
 /**************************************************************************
@@ -644,6 +649,7 @@ int main()
     music_init();   
     sei();
     while(1){
+	display_update();
 	update_time();
 	//minute++;
 	//Alarm mode is on
