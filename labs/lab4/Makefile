@@ -1,7 +1,7 @@
 PRG            = test_prog
 
-OBJ            = $(PRG).o lcd_functions.o 
-SRCS	       = lcd_functions.c
+OBJ            = $(PRG).o LCDDriver.o 
+#SRCS	       = lcd_functions.c
 
 MCU_TARGET     = atmega128
 OPTIMIZE       = -O2    # options are 1, 2, 3, s

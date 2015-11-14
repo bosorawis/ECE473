@@ -24,7 +24,8 @@
 #include <util/delay.h>
 #include <math.h>
 #include "audio.c"
-#include "lcd_functions.h"
+//#include "lcd_functions.h"
+#include "LCDDriver.h"
 
 #define ONE	 0xf9
 #define TWO	 0xa4
@@ -52,15 +53,30 @@
 #define CW  1
 #define CCW 2                 
 
+void left_dec();
+void left_inc();
+void right_inc();
+void right_dec();
+void decode_spi_left_knob(uint8_t encoder1);
+void decode_spi_right_knob(uint8_t encoder2);
+void bar_graph();
+void check_knobs();
+
 //holds data to be sent to the segments. logic zero turns segment on
 uint8_t segment_data[5];
 uint8_t alarm_change = 1;
 //decimal to 7-segment LED display encodings, logic "0" turns on segment
 uint8_t dec_to_7seg[12];
 uint8_t brightness_level;
+uint8_t update_LCD = 0;
 //int delay_time[10] = {50, 60, 70, 80, 90, 100, 110, 120, 130, 150};
 uint16_t time = 0;
+char *str;
 uint16_t alarm_time = 0;
+uint16_t show_time = 0;
+uint8_t am_pm = 0;
+uint8_t show_ampm;
+uint16_t ampm_time;
 uint8_t snooze_offset = 0;
 static uint8_t mode = 0;
 static uint8_t sw_table[] = {0, 1, 2, 0, 2, 0, 0, 1, 1, 0, 0, 2, 0, 2, 1, 0};
@@ -78,7 +94,7 @@ static uint8_t alarm_hour = 0;
 uint8_t alarm_on = 0;
 uint8_t music_status = 0;
 static uint8_t ticker = 0;
-int volume = 0;
+uint8_t volume = 0;
 uint8_t blink = 0;
 //******************************************************************************
 //                            chk_buttons                                      
@@ -149,7 +165,7 @@ void segsum(uint16_t sum) {
     //determine how many digits there are 
     //int digit;
     // Break down the digits
-    
+
     if(ticker%2 == 1){
 	segment_data[2] = 0xFC;
     }
@@ -158,7 +174,7 @@ void segsum(uint16_t sum) {
     } 
     //When setting alarm is on)
     //break up decimal sum into 4 digit-segments
-    
+
     segment_data[0] = int2seg(sum % 10); //ones
     segment_data[1] = int2seg((sum % 100)/10); //tens
     //segment_data[2] = 1; //decimal
@@ -166,7 +182,12 @@ void segsum(uint16_t sum) {
     segment_data[4] = int2seg(sum/1000); //thousands
     //blank out leading zero digits 
     //now move data to right place for misplaced colon position
-
+    if(am_pm && show_ampm){
+	segment_data[0] &= 0x7F;
+    }
+    else{
+	segment_data[0] |= 0b10000000;
+    }
     if(mode == 1 && blink){
 	segment_data[4] = 0xFF;
 	segment_data[3] = 0xFF;
@@ -193,31 +214,86 @@ void button_routine(){
     for (button = 0 ; button < BUTTON_COUNT ; button++){
 	if (chk_buttons(button)){
 	    //Check the state of buttons
-	    if(previous_mode == button && button != 7){
-		mode = 0;
-		previous_mode = 0;
-		bar_graph();
-		return;
+	    switch(button){
+		case 0:  
+		    mode = 0;
+		    break;
+		case 1:
+		    if(mode == 1){
+			mode = 0;	
+		    }
+		    else{
+			mode = 1;
+		    }
+		    break;
+		case 2:
+		    if(mode == 2){
+			mode = 0;	
+		    }
+		    else{
+			mode = 2;
+		    }
+		    break;
+		case 3:
+		    if(mode == 3){
+			mode = 0;			
+		    }
+		    else{
+			mode = 3;
+		    }
+		    break;
+		case 4:
+		    break;
+		case 5:
+		    show_ampm = !show_ampm;
+		    break;
+		case 6:
+		    if(music_status){
+			snooze_flag = 1;
+			music_status = 0;
+			music_off();
+		    }
+		    break;
+		case 7:
+		    if(alarm_on && music_status){
+			music_off();
+			music_status = 0;
+		    }
+		    alarm_on = !alarm_on;
+		    update_LCD = 1;
+		    //alarm_change = 1; 
+		    break;
+		default:
+		    break;
 	    }
-	    else if(button == 6 && music_status){
-		snooze_flag = 1;
-		music_status = 0;
-		music_off();
-	    }
-	    else if(button == 7){
-		if(alarm_on && music_status){
-		    music_off();
-		    music_status = 0;
-		}
-		alarm_on = !alarm_on;
-		alarm_change = 1;
-	    }
-
-	    else{
-		mode = button;
-	    } 
 	    bar_graph();
-	    previous_mode = button;
+	    /*
+	       if(previous_mode == button && button != 7){
+	       mode = 0;
+	       previous_mode = 0;
+	       bar_graph();
+	       return;
+	       }
+	       else if(button == 6 && music_status){
+	       snooze_flag = 1;
+	       music_status = 0;
+	       music_off();
+	       }
+	       else if(button == 7){
+	       if(alarm_on && music_status){
+	       music_off();
+	       music_status = 0;
+	       }
+	       alarm_on = !alarm_on;
+	       alarm_change = 1;
+	       }
+
+	       else{
+	       mode = button;
+	       } 
+	       bar_graph();
+	       previous_mode = button;
+	     */
 	}
     }
     DDRA = 0xFF;  //switch PORTA to output
@@ -312,7 +388,7 @@ ISR(ADC_vect){
   Initialize SPI 
  ****************************************************************************/
 void update_time(void){
-
+    static int minute_change = 0;
     if (second >= 60){
 	minute++;
 	second = 0;
@@ -324,9 +400,38 @@ void update_time(void){
     if(hour >= 24){
 	hour = 0;
     } 
+    minute_change = 1;
 
-    time = (hour * 100) + minute;
     alarm_time = (alarm_hour * 100) + alarm_minute;
+    if(minute_change){
+	time = (hour * 100) + minute;
+	minute_change = 0;
+
+	if(show_ampm){
+	    if(hour>=12){
+		if(hour == 12){
+		    show_time = 1200 + minute;
+		}
+		else{
+		    show_time = (hour-12)*100 + minute;
+		    am_pm = 1;
+		}
+	    }
+	    else{           
+		if(hour == 0){
+		    show_time = 1200 + minute;
+		}
+		else{
+		    show_time = (hour)*100 + minute;
+		}
+		am_pm = 0;
+	    }
+	}
+	else{
+	    show_time = (hour * 100) + minute;
+	}
+
+    }
 }
 
 void SPI_init(){
@@ -392,7 +497,7 @@ void bar_graph(){
     if(alarm_on != 0){
 	write = 0xF0;
     }
-    write &= 0xF7;
+    //write &= 0xF7;
     //Write the bargraph to SPI
     SPI_Transmit(write);
     PORTD = (1 << PD2);  //Push data out of SPI
@@ -409,7 +514,7 @@ void bar_graph(){
  **************************************************************************/
 void display_update(){
     uint8_t display_segment = 0;
-    static uint8_t rotate_7seg = 0;
+    //static uint8_t rotate_7seg = 0;
     switch(mode){
 	case 2:
 	    segsum(alarm_time);
@@ -419,8 +524,10 @@ void display_update(){
 	    segsum(volume);
 	    segment_data[2] = 0xFF; //decimal
 	    break;
+	case 4:
+	    break;
 	default:
-	    segsum(time);
+	    segsum(show_time);
 	    break;
     }
 
@@ -579,6 +686,7 @@ void left_inc(){
 	    break;
 	case 3:
 	    volume++;
+	    OCR3A = volume;
 	default:
 	    break;
     }
@@ -601,6 +709,7 @@ void left_dec(){
 	    break;
 	case 3:
 	    volume--;
+	    OCR3A = volume;
 	default:
 	    break;
     }
@@ -626,16 +735,6 @@ void timer_init(void){
     ASSR  |= (1<<AS0);
     TCCR2 |= (1<<WGM21) | (1<<WGM20) | (1<<COM21) | (1<<COM20)|(0<<CS20)| (1<<CS21); //normal mode, prescale by 32
     TIMSK |= (1<<TOIE0)| (1<<TOIE2);// | (1<<OCIE2);             //enable interrupts
-    //TIFR  |= (1 << TOV2);
-    /*      
-    //TIMER 3 for dimming light
-    TCCR3A = 0;                             //normal mode
-    TCCR3B = (1 << CS31);                   //use clk/8  (15hz)  
-    TCCR3C = 0;                             //no forced compare 
-    ETIMSK = (1 << TOIE3);                  //enable timer 3 interrupt on TOV
-     */
-
-
 }
 
 
@@ -649,16 +748,12 @@ void ADC_init(void){
 }
 
 void volume_control_init(void){
+    DDRE |= (1<<PE1);
     TCCR3A  = (1<<WGM30) | (1<<COM3A1);
-    TCCR3B = (1<<WGM12) | (1<<CS30);
+    TCCR3B = (1<<WGM32) | (1<<CS30);
+    OCR3A = volume;
 }
 
-void update_volume(int val){
-    volume = volume+val;
-    if(volume<=0){
-	volume = 0;
-    }
-}
 
 int main()
 {
@@ -669,20 +764,31 @@ int main()
     DDRB = 0xF7;
     DDRD |= (1 << PB2);
 
-    SPI_init();
+    volume = 100;
     timer_init();
     ADC_init();
     music_init();   
-    lcd_init();
-    clear_display();
-    string2lcd("hello");
+    SPI_init();
+    LCD_SPIInit();
+    LCD_Init();
+    volume_control_init();
+    // lcd_init();
+    // clear_display();
+    // string2lcd("hello");
     sei();
     while(1){
 	display_update();
 	update_time();
-	//if(volume_change != 0){
-	//    update_volume(volume_change);
-	//}
+	if(update_LCD){
+		LCD_Clr();
+		if(alarm_on){
+               		LCD_PutStr("ALARM ON!!");
+		}
+		else{
+               		LCD_PutStr("ALARM OFF!!");
+		}
+		update_LCD = 0;
+	}
 	//minute++;
 	//Alarm mode is on
     }

@@ -3,17 +3,17 @@ thermo3_skel.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000006  00800100  000006c2  00000756  2**0
+  0 .data         0000000a  00800100  000005e4  00000678  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000006c2  00000000  00000000  00000094  2**1
+  1 .text         000005e4  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000002b  00800106  00800106  0000075c  2**0
+  2 .bss          0000002b  0080010a  0080010a  00000682  2**0
                   ALLOC
-  3 .stab         00001bf0  00000000  00000000  0000075c  2**2
+  3 .stab         00001b00  00000000  00000000  00000684  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      000010a2  00000000  00000000  0000234c  2**0
+  4 .stabstr      00001097  00000000  00000000  00002184  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      00000011  00000000  00000000  000033ee  2**0
+  5 .comment      00000011  00000000  00000000  0000321b  2**0
                   CONTENTS, READONLY
 
 Disassembly of section .text:
@@ -148,20 +148,20 @@ Disassembly of section .text:
  13a:	11 e0       	ldi	r17, 0x01	; 1
  13c:	a0 e0       	ldi	r26, 0x00	; 0
  13e:	b1 e0       	ldi	r27, 0x01	; 1
- 140:	e2 ec       	ldi	r30, 0xC2	; 194
- 142:	f6 e0       	ldi	r31, 0x06	; 6
+ 140:	e4 ee       	ldi	r30, 0xE4	; 228
+ 142:	f5 e0       	ldi	r31, 0x05	; 5
  144:	00 e0       	ldi	r16, 0x00	; 0
  146:	0b bf       	out	0x3b, r16	; 59
  148:	02 c0       	rjmp	.+4      	; 0x14e <__do_copy_data+0x14>
  14a:	07 90       	elpm	r0, Z+
  14c:	0d 92       	st	X+, r0
- 14e:	a6 30       	cpi	r26, 0x06	; 6
+ 14e:	aa 30       	cpi	r26, 0x0A	; 10
  150:	b1 07       	cpc	r27, r17
  152:	d9 f7       	brne	.-10     	; 0x14a <__do_copy_data+0x10>
 
 00000154 <__do_clear_bss>:
  154:	21 e0       	ldi	r18, 0x01	; 1
- 156:	a6 e0       	ldi	r26, 0x06	; 6
+ 156:	aa e0       	ldi	r26, 0x0A	; 10
  158:	b1 e0       	ldi	r27, 0x01	; 1
  15a:	01 c0       	rjmp	.+2      	; 0x15e <.do_clear_bss_start>
 
@@ -169,11 +169,11 @@ Disassembly of section .text:
  15c:	1d 92       	st	X+, r1
 
 0000015e <.do_clear_bss_start>:
- 15e:	a1 33       	cpi	r26, 0x31	; 49
+ 15e:	a5 33       	cpi	r26, 0x35	; 53
  160:	b2 07       	cpc	r27, r18
  162:	e1 f7       	brne	.-8      	; 0x15c <.do_clear_bss_loop>
  164:	0e 94 da 02 	call	0x5b4	; 0x5b4 <main>
- 168:	0c 94 5f 03 	jmp	0x6be	; 0x6be <_exit>
+ 168:	0c 94 f0 02 	jmp	0x5e0	; 0x5e0 <_exit>
 
 0000016c <__bad_interrupt>:
  16c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -844,7 +844,7 @@ ISR(TWI_vect){
     default:                            //Error occured, save TWSR 
       twi_state = TWSR;         
  468:	80 91 71 00 	lds	r24, 0x0071
- 46c:	80 93 2c 01 	sts	0x012C, r24
+ 46c:	80 93 30 01 	sts	0x0130, r24
       TWCR = TWCR_RST;                  //Reset TWI, disable interupts 
  470:	84 e0       	ldi	r24, 0x04	; 4
  472:	80 93 74 00 	sts	0x0074, r24
@@ -873,16 +873,16 @@ ISR(TWI_vect){
   switch (TWSR) {
  494:	ea 5b       	subi	r30, 0xBA	; 186
  496:	ff 4f       	sbci	r31, 0xFF	; 255
- 498:	0c 94 24 03 	jmp	0x648	; 0x648 <__tablejump2__>
+ 498:	0c 94 ea 02 	jmp	0x5d4	; 0x5d4 <__tablejump2__>
     case TW_MR_SLA_ACK:                 //SLA+R xmitted and ACK rcvd
       if (twi_buf_ptr < (twi_msg_size-1)){TWCR = TWCR_RACK;}  //ACK each byte
       else                               {TWCR = TWCR_RNACK;} //NACK last byte 
       break; 
     case TW_MR_DATA_NACK: //Data byte was rcvd and NACK xmitted
       twi_buf[twi_buf_ptr] = TWDR;      //save last byte to buffer
- 49c:	80 91 06 01 	lds	r24, 0x0106
- 4a0:	e0 91 2d 01 	lds	r30, 0x012D
- 4a4:	f0 91 2e 01 	lds	r31, 0x012E
+ 49c:	80 91 0a 01 	lds	r24, 0x010A
+ 4a0:	e0 91 31 01 	lds	r30, 0x0131
+ 4a4:	f0 91 32 01 	lds	r31, 0x0132
  4a8:	e8 0f       	add	r30, r24
  4aa:	f1 1d       	adc	r31, r1
  4ac:	80 91 73 00 	lds	r24, 0x0073
@@ -898,10 +898,10 @@ ISR(TWI_vect){
     case TW_START:          //START has been xmitted, fall thorough
     case TW_REP_START:      //Repeated START was xmitted
       TWDR = twi_bus_addr;  //load up the twi bus address
- 4ba:	80 91 2f 01 	lds	r24, 0x012F
+ 4ba:	80 91 33 01 	lds	r24, 0x0133
  4be:	80 93 73 00 	sts	0x0073, r24
       twi_buf_ptr = 0;      //initalize buffer pointer 
- 4c2:	10 92 06 01 	sts	0x0106, r1
+ 4c2:	10 92 0a 01 	sts	0x010A, r1
       TWCR = TWCR_SEND;     //send SLA+RW
  4c6:	85 e8       	ldi	r24, 0x85	; 133
  4c8:	80 93 74 00 	sts	0x0074, r24
@@ -910,16 +910,16 @@ ISR(TWI_vect){
     case TW_MT_SLA_ACK:     //SLA+W was xmitted and ACK rcvd, fall through 
     case TW_MT_DATA_ACK:                //Data byte was xmitted and ACK rcvd
       if (twi_buf_ptr < twi_msg_size){  //send data till done
- 4ce:	80 91 06 01 	lds	r24, 0x0106
- 4d2:	90 91 30 01 	lds	r25, 0x0130
+ 4ce:	80 91 0a 01 	lds	r24, 0x010A
+ 4d2:	90 91 34 01 	lds	r25, 0x0134
  4d6:	89 17       	cp	r24, r25
  4d8:	60 f7       	brcc	.-40     	; 0x4b2 <__vector_33+0x78>
         TWDR = twi_buf[twi_buf_ptr++];  //load next and postincrement index
- 4da:	e0 91 2d 01 	lds	r30, 0x012D
- 4de:	f0 91 2e 01 	lds	r31, 0x012E
+ 4da:	e0 91 31 01 	lds	r30, 0x0131
+ 4de:	f0 91 32 01 	lds	r31, 0x0132
  4e2:	91 e0       	ldi	r25, 0x01	; 1
  4e4:	98 0f       	add	r25, r24
- 4e6:	90 93 06 01 	sts	0x0106, r25
+ 4e6:	90 93 0a 01 	sts	0x010A, r25
  4ea:	e8 0f       	add	r30, r24
  4ec:	f1 1d       	adc	r31, r1
  4ee:	80 81       	ld	r24, Z
@@ -938,14 +938,14 @@ ISR(TWI_vect){
  4fe:	80 93 74 00 	sts	0x0074, r24
       break;
  502:	b9 cf       	rjmp	.-142    	; 0x476 <__vector_33+0x3c>
- 504:	20 91 06 01 	lds	r18, 0x0106
+ 504:	20 91 0a 01 	lds	r18, 0x010A
       else{TWCR = TWCR_STOP;}           //last byte sent, send STOP 
       break;
     case TW_MR_DATA_ACK:                //Data byte has been rcvd, ACK xmitted, fall through
       twi_buf[twi_buf_ptr++] = TWDR;    //fill buffer with rcvd data
     case TW_MR_SLA_ACK:                 //SLA+R xmitted and ACK rcvd
       if (twi_buf_ptr < (twi_msg_size-1)){TWCR = TWCR_RACK;}  //ACK each byte
- 508:	80 91 30 01 	lds	r24, 0x0130
+ 508:	80 91 34 01 	lds	r24, 0x0134
  50c:	30 e0       	ldi	r19, 0x00	; 0
  50e:	90 e0       	ldi	r25, 0x00	; 0
  510:	01 97       	sbiw	r24, 0x01	; 1
@@ -961,19 +961,19 @@ ISR(TWI_vect){
       break;
     case TW_MR_DATA_ACK:                //Data byte has been rcvd, ACK xmitted, fall through
       twi_buf[twi_buf_ptr++] = TWDR;    //fill buffer with rcvd data
- 520:	e0 91 2d 01 	lds	r30, 0x012D
- 524:	f0 91 2e 01 	lds	r31, 0x012E
- 528:	80 91 06 01 	lds	r24, 0x0106
+ 520:	e0 91 31 01 	lds	r30, 0x0131
+ 524:	f0 91 32 01 	lds	r31, 0x0132
+ 528:	80 91 0a 01 	lds	r24, 0x010A
  52c:	21 e0       	ldi	r18, 0x01	; 1
  52e:	28 0f       	add	r18, r24
- 530:	20 93 06 01 	sts	0x0106, r18
+ 530:	20 93 0a 01 	sts	0x010A, r18
  534:	e8 0f       	add	r30, r24
  536:	f1 1d       	adc	r31, r1
  538:	80 91 73 00 	lds	r24, 0x0073
  53c:	80 83       	st	Z, r24
     case TW_MR_SLA_ACK:                 //SLA+R xmitted and ACK rcvd
       if (twi_buf_ptr < (twi_msg_size-1)){TWCR = TWCR_RACK;}  //ACK each byte
- 53e:	80 91 30 01 	lds	r24, 0x0130
+ 53e:	80 91 34 01 	lds	r24, 0x0134
  542:	30 e0       	ldi	r19, 0x00	; 0
  544:	90 e0       	ldi	r25, 0x00	; 0
  546:	01 97       	sbiw	r24, 0x01	; 1
@@ -1015,12 +1015,12 @@ void twi_start_wr(uint8_t twi_addr, uint8_t *twi_data, uint8_t byte_cnt){
  564:	fc cf       	rjmp	.-8      	; 0x55e <twi_start_wr>
   twi_bus_addr = (twi_addr & ~TW_READ); //set twi bus address, mark as write 
  566:	8e 7f       	andi	r24, 0xFE	; 254
- 568:	80 93 2f 01 	sts	0x012F, r24
+ 568:	80 93 33 01 	sts	0x0133, r24
   twi_buf = twi_data;                   //load pointer to write buffer
- 56c:	70 93 2e 01 	sts	0x012E, r23
- 570:	60 93 2d 01 	sts	0x012D, r22
+ 56c:	70 93 32 01 	sts	0x0132, r23
+ 570:	60 93 31 01 	sts	0x0131, r22
   twi_msg_size = byte_cnt;              //load size of xfer 
- 574:	40 93 30 01 	sts	0x0130, r20
+ 574:	40 93 34 01 	sts	0x0134, r20
   TWCR = TWCR_START;                    //initiate START
  578:	85 ea       	ldi	r24, 0xA5	; 165
  57a:	80 93 74 00 	sts	0x0074, r24
@@ -1044,12 +1044,12 @@ void twi_start_rd(uint8_t twi_addr, uint8_t *twi_data, uint8_t byte_cnt){
  586:	fc cf       	rjmp	.-8      	; 0x580 <twi_start_rd>
   twi_bus_addr = (twi_addr | TW_READ); //set twi bus address, mark as read  
  588:	81 60       	ori	r24, 0x01	; 1
- 58a:	80 93 2f 01 	sts	0x012F, r24
+ 58a:	80 93 33 01 	sts	0x0133, r24
   twi_buf = twi_data;                  //load pointer to write buffer
- 58e:	70 93 2e 01 	sts	0x012E, r23
- 592:	60 93 2d 01 	sts	0x012D, r22
+ 58e:	70 93 32 01 	sts	0x0132, r23
+ 592:	60 93 31 01 	sts	0x0131, r22
   twi_msg_size = byte_cnt;             //load size of xfer 
- 596:	40 93 30 01 	sts	0x0130, r20
+ 596:	40 93 34 01 	sts	0x0134, r20
   TWCR = TWCR_START;                   //initiate START
  59a:	85 ea       	ldi	r24, 0xA5	; 165
  59c:	80 93 74 00 	sts	0x0074, r24
@@ -1064,199 +1064,55 @@ void twi_start_rd(uint8_t twi_addr, uint8_t *twi_data, uint8_t byte_cnt){
  5b2:	08 95       	ret
 
 000005b4 <main>:
-
-/***********************************************************************/
-/*                                main                                 */
-/***********************************************************************/
-int main ()
-{     
- 5b4:	cf 93       	push	r28
- 5b6:	df 93       	push	r29
- 5b8:	cd b7       	in	r28, 0x3d	; 61
- 5ba:	de b7       	in	r29, 0x3e	; 62
- 5bc:	60 97       	sbiw	r28, 0x10	; 16
- 5be:	0f b6       	in	r0, 0x3f	; 63
- 5c0:	f8 94       	cli
- 5c2:	de bf       	out	0x3e, r29	; 62
- 5c4:	0f be       	out	0x3f, r0	; 63
- 5c6:	cd bf       	out	0x3d, r28	; 61
 //                            spi_init                               
 //Initalizes the SPI port on the mega128. Does not do any further    
 // external device specific initalizations.                          
 //********************************************************************
 void spi_init(void){
     DDRB |=  0x07;  //Turn on SS, MOSI, SCLK
- 5c8:	87 b3       	in	r24, 0x17	; 23
- 5ca:	87 60       	ori	r24, 0x07	; 7
- 5cc:	87 bb       	out	0x17, r24	; 23
+ 5b4:	87 b3       	in	r24, 0x17	; 23
+ 5b6:	87 60       	ori	r24, 0x07	; 7
+ 5b8:	87 bb       	out	0x17, r24	; 23
     //mstr mode, sck=clk/2, cycle 1/2 phase, low polarity, MSB 1st, 
     //no interrupts, enable SPI, clk low initially, rising edge sample
     SPCR=(1<<SPE) | (1<<MSTR); 
- 5ce:	80 e5       	ldi	r24, 0x50	; 80
- 5d0:	8d b9       	out	0x0d, r24	; 13
+ 5ba:	80 e5       	ldi	r24, 0x50	; 80
+ 5bc:	8d b9       	out	0x0d, r24	; 13
     SPSR=(1<<SPI2X); //SPI at 2x speed (8 MHz)  
- 5d2:	81 e0       	ldi	r24, 0x01	; 1
- 5d4:	8e b9       	out	0x0e, r24	; 14
+ 5be:	81 e0       	ldi	r24, 0x01	; 1
+ 5c0:	8e b9       	out	0x0e, r24	; 14
 int main ()
 {     
     uint16_t lm73_temp;  //a place to assemble the temperature from the lm73
     char str[16];
     spi_init();//initalize SPI 
     lcd_init();   //initalize LCD (lcd_functions.h)
- 5d6:	0e 94 81 01 	call	0x302	; 0x302 <lcd_init>
-    init_twi();//initalize TWI (twi_master.h)  
- 5da:	0e 94 d1 02 	call	0x5a2	; 0x5a2 <init_twi>
-    //set LM73 mode for reading temperature by loading pointer register
-
-    //this is done outside of the normal interrupt mode of operation 
-
-    //load lm73_wr_buf[0] with temperature pointer address
-    lm73_wr_buf[0] = LM73_PTR_TEMP;
- 5de:	10 92 28 01 	sts	0x0128, r1
+ 5c2:	0e 94 81 01 	call	0x302	; 0x302 <lcd_init>
     //start the TWI write process (twi_start_wr())
 	//TODO
-    twi_start_wr(LM73_ADDRESS, lm73_wr_buf, 2); 
- 5e2:	42 e0       	ldi	r20, 0x02	; 2
- 5e4:	68 e2       	ldi	r22, 0x28	; 40
- 5e6:	71 e0       	ldi	r23, 0x01	; 1
- 5e8:	80 e9       	ldi	r24, 0x90	; 144
- 5ea:	0e 94 af 02 	call	0x55e	; 0x55e <twi_start_wr>
-    sei();             //enable interrupts to allow start_wr to finish
- 5ee:	78 94       	sei
+    //twi_start_wr(LM73_ADDRESS, lm73_wr_buf, 2); 
+    //sei();             //enable interrupts to allow start_wr to finish
 
     clear_display();   //clean up the display
- 5f0:	0e 94 c9 00 	call	0x192	; 0x192 <clear_display>
- 5f4:	2f ef       	ldi	r18, 0xFF	; 255
- 5f6:	81 ee       	ldi	r24, 0xE1	; 225
- 5f8:	94 e0       	ldi	r25, 0x04	; 4
- 5fa:	21 50       	subi	r18, 0x01	; 1
- 5fc:	80 40       	sbci	r24, 0x00	; 0
- 5fe:	90 40       	sbci	r25, 0x00	; 0
- 600:	e1 f7       	brne	.-8      	; 0x5fa <main+0x46>
- 602:	00 c0       	rjmp	.+0      	; 0x604 <main+0x50>
- 604:	00 00       	nop
+ 5c6:	0e 94 c9 00 	call	0x192	; 0x192 <clear_display>
+	string2lcd("Fuck y0u");
+ 5ca:	80 e0       	ldi	r24, 0x00	; 0
+ 5cc:	91 e0       	ldi	r25, 0x01	; 1
+ 5ce:	0e 94 53 01 	call	0x2a6	; 0x2a6 <string2lcd>
+ 5d2:	ff cf       	rjmp	.-2      	; 0x5d2 <main+0x1e>
 
-    while(1){          //main while loop
-	_delay_ms(100);  //tenth second wait
-	clear_display(); //wipe the display
- 606:	0e 94 c9 00 	call	0x192	; 0x192 <clear_display>
-	//read temperature data from LM73 (2 bytes)  (twi_start_rd())
-	twi_start_rd(LM73_ADDRESS, lm73_rd_buf, 2);
- 60a:	42 e0       	ldi	r20, 0x02	; 2
- 60c:	6a e2       	ldi	r22, 0x2A	; 42
- 60e:	71 e0       	ldi	r23, 0x01	; 1
- 610:	80 e9       	ldi	r24, 0x90	; 144
- 612:	0e 94 c0 02 	call	0x580	; 0x580 <twi_start_rd>
- 616:	8f e3       	ldi	r24, 0x3F	; 63
- 618:	9f e1       	ldi	r25, 0x1F	; 31
- 61a:	01 97       	sbiw	r24, 0x01	; 1
- 61c:	f1 f7       	brne	.-4      	; 0x61a <main+0x66>
- 61e:	00 c0       	rjmp	.+0      	; 0x620 <main+0x6c>
- 620:	00 00       	nop
-	_delay_ms(2);    //wait for it to finish
-	//now assemble the two bytes read back into one 16-bit value
-	//save high temperature byte into lm73_temp
-	lm73_temp = lm73_rd_buf[0] << 8;
- 622:	80 91 2a 01 	lds	r24, 0x012A
- 626:	90 e0       	ldi	r25, 0x00	; 0
- 628:	98 2f       	mov	r25, r24
- 62a:	88 27       	eor	r24, r24
-	//shift it into upper byte 
-	//"OR" in the low temp byte to lm73_temp 
-	lm73_temp |= lm73_rd_buf[1];
- 62c:	20 91 2b 01 	lds	r18, 0x012B
-    } else if (__radix < 2 || __radix > 36) {
-	*__s = 0;
-	return __s;
-    } else {
-	extern char *__itoa_ncheck (int, char *, unsigned char);
-	return __itoa_ncheck (__val, __s, __radix);
- 630:	42 e0       	ldi	r20, 0x02	; 2
- 632:	be 01       	movw	r22, r28
- 634:	6f 5f       	subi	r22, 0xFF	; 255
- 636:	7f 4f       	sbci	r23, 0xFF	; 255
- 638:	82 2b       	or	r24, r18
- 63a:	0e 94 2a 03 	call	0x654	; 0x654 <__itoa_ncheck>
-	//convert to string in array with itoa() from avr-libc                           
-	itoa(lm73_temp, str, 2);
-	//send the string to LCD (lcd_functions)
-	string2lcd("Fuck");
- 63e:	80 e0       	ldi	r24, 0x00	; 0
- 640:	91 e0       	ldi	r25, 0x01	; 1
- 642:	0e 94 53 01 	call	0x2a6	; 0x2a6 <string2lcd>
- 646:	d6 cf       	rjmp	.-84     	; 0x5f4 <main+0x40>
+000005d4 <__tablejump2__>:
+ 5d4:	ee 0f       	add	r30, r30
+ 5d6:	ff 1f       	adc	r31, r31
 
-00000648 <__tablejump2__>:
- 648:	ee 0f       	add	r30, r30
- 64a:	ff 1f       	adc	r31, r31
+000005d8 <__tablejump__>:
+ 5d8:	05 90       	lpm	r0, Z+
+ 5da:	f4 91       	lpm	r31, Z
+ 5dc:	e0 2d       	mov	r30, r0
+ 5de:	09 94       	ijmp
 
-0000064c <__tablejump__>:
- 64c:	05 90       	lpm	r0, Z+
- 64e:	f4 91       	lpm	r31, Z
- 650:	e0 2d       	mov	r30, r0
- 652:	09 94       	ijmp
+000005e0 <_exit>:
+ 5e0:	f8 94       	cli
 
-00000654 <__itoa_ncheck>:
- 654:	bb 27       	eor	r27, r27
- 656:	4a 30       	cpi	r20, 0x0A	; 10
- 658:	31 f4       	brne	.+12     	; 0x666 <__itoa_ncheck+0x12>
- 65a:	99 23       	and	r25, r25
- 65c:	22 f4       	brpl	.+8      	; 0x666 <__itoa_ncheck+0x12>
- 65e:	bd e2       	ldi	r27, 0x2D	; 45
- 660:	90 95       	com	r25
- 662:	81 95       	neg	r24
- 664:	9f 4f       	sbci	r25, 0xFF	; 255
- 666:	0c 94 36 03 	jmp	0x66c	; 0x66c <__utoa_common>
-
-0000066a <__utoa_ncheck>:
- 66a:	bb 27       	eor	r27, r27
-
-0000066c <__utoa_common>:
- 66c:	fb 01       	movw	r30, r22
- 66e:	55 27       	eor	r21, r21
- 670:	aa 27       	eor	r26, r26
- 672:	88 0f       	add	r24, r24
- 674:	99 1f       	adc	r25, r25
- 676:	aa 1f       	adc	r26, r26
- 678:	a4 17       	cp	r26, r20
- 67a:	10 f0       	brcs	.+4      	; 0x680 <__utoa_common+0x14>
- 67c:	a4 1b       	sub	r26, r20
- 67e:	83 95       	inc	r24
- 680:	50 51       	subi	r21, 0x10	; 16
- 682:	b9 f7       	brne	.-18     	; 0x672 <__utoa_common+0x6>
- 684:	a0 5d       	subi	r26, 0xD0	; 208
- 686:	aa 33       	cpi	r26, 0x3A	; 58
- 688:	08 f0       	brcs	.+2      	; 0x68c <__utoa_common+0x20>
- 68a:	a9 5d       	subi	r26, 0xD9	; 217
- 68c:	a1 93       	st	Z+, r26
- 68e:	00 97       	sbiw	r24, 0x00	; 0
- 690:	79 f7       	brne	.-34     	; 0x670 <__utoa_common+0x4>
- 692:	b1 11       	cpse	r27, r1
- 694:	b1 93       	st	Z+, r27
- 696:	11 92       	st	Z+, r1
- 698:	cb 01       	movw	r24, r22
- 69a:	0c 94 4f 03 	jmp	0x69e	; 0x69e <strrev>
-
-0000069e <strrev>:
- 69e:	dc 01       	movw	r26, r24
- 6a0:	fc 01       	movw	r30, r24
- 6a2:	67 2f       	mov	r22, r23
- 6a4:	71 91       	ld	r23, Z+
- 6a6:	77 23       	and	r23, r23
- 6a8:	e1 f7       	brne	.-8      	; 0x6a2 <strrev+0x4>
- 6aa:	32 97       	sbiw	r30, 0x02	; 2
- 6ac:	04 c0       	rjmp	.+8      	; 0x6b6 <strrev+0x18>
- 6ae:	7c 91       	ld	r23, X
- 6b0:	6d 93       	st	X+, r22
- 6b2:	70 83       	st	Z, r23
- 6b4:	62 91       	ld	r22, -Z
- 6b6:	ae 17       	cp	r26, r30
- 6b8:	bf 07       	cpc	r27, r31
- 6ba:	c8 f3       	brcs	.-14     	; 0x6ae <strrev+0x10>
- 6bc:	08 95       	ret
-
-000006be <_exit>:
- 6be:	f8 94       	cli
-
-000006c0 <__stop_program>:
- 6c0:	ff cf       	rjmp	.-2      	; 0x6c0 <__stop_program>
+000005e2 <__stop_program>:
+ 5e2:	ff cf       	rjmp	.-2      	; 0x5e2 <__stop_program>
