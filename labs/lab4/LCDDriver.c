@@ -201,7 +201,7 @@ void LCD_SPIInit(void) {
 	DDRB |= 0x07;  //Turn on SS, MOSI, SCLK
 	//Master mode, Clock=clk/2, Cycle half phase, Low polarity, MSB first
 	SPCR = 0x50;
-	SPSR = 0x01;
+	//SPSR = 0x01;
 }
 
 void LCD_Init(void) {

@@ -388,7 +388,7 @@ ISR(ADC_vect){
   Initialize SPI 
  ****************************************************************************/
 void update_time(void){
-    static int minute_change = 0;
+   // static int minute_change = 0;
     if (second >= 60){
 	minute++;
 	second = 0;
@@ -400,38 +400,37 @@ void update_time(void){
     if(hour >= 24){
 	hour = 0;
     } 
-    minute_change = 1;
 
     alarm_time = (alarm_hour * 100) + alarm_minute;
-    if(minute_change){
-	time = (hour * 100) + minute;
-	minute_change = 0;
+    // if(minute_change){
+    time = (hour * 100) + minute;
+    // minute_change = 0;
 
-	if(show_ampm){
-	    if(hour>=12){
-		if(hour == 12){
-		    show_time = 1200 + minute;
-		}
-		else{
-		    show_time = (hour-12)*100 + minute;
-		    am_pm = 1;
-		}
+    if(show_ampm){
+	if(hour>=12){
+	    if(hour == 12){
+		show_time = 1200 + minute;
 	    }
-	    else{           
-		if(hour == 0){
-		    show_time = 1200 + minute;
-		}
-		else{
-		    show_time = (hour)*100 + minute;
-		}
-		am_pm = 0;
+	    else{
+		show_time = (hour-12)*100 + minute;
+		am_pm = 1;
 	    }
 	}
-	else{
-	    show_time = (hour * 100) + minute;
+	else{           
+	    if(hour == 0){
+		show_time = 1200 + minute;
+	    }
+	    else{
+		show_time = (hour)*100 + minute;
+	    }
+	    am_pm = 0;
 	}
-
     }
+    else{
+	show_time = (hour * 100) + minute;
+    }
+
+    //}
 }
 
 void SPI_init(){
@@ -439,7 +438,7 @@ void SPI_init(){
     //DDRB = (1<<PB3)|(1<<PB1);
 
     /* Enable SPI, Master, set clock rate fck/16 */
-    SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);
+    SPCR = (1<<SPE)|(1<<MSTR);
     //SPSR = (1<<SPI2X);
 }
 
@@ -748,7 +747,7 @@ void ADC_init(void){
 }
 
 void volume_control_init(void){
-    DDRE |= (1<<PE1);
+    DDRE |= (1<<PE3);
     TCCR3A  = (1<<WGM30) | (1<<COM3A1);
     TCCR3B = (1<<WGM32) | (1<<CS30);
     OCR3A = volume;
@@ -769,7 +768,7 @@ int main()
     ADC_init();
     music_init();   
     SPI_init();
-    LCD_SPIInit();
+    //LCD_SPIInit();
     LCD_Init();
     volume_control_init();
     // lcd_init();
@@ -779,15 +778,15 @@ int main()
     while(1){
 	display_update();
 	update_time();
-	if(update_LCD){
-		LCD_Clr();
-		if(alarm_on){
-               		LCD_PutStr("ALARM ON!!");
-		}
-		else{
-               		LCD_PutStr("ALARM OFF!!");
-		}
-		update_LCD = 0;
+        if(update_LCD){
+	    LCD_Clr();
+	    if(alarm_on){
+		LCD_PutStr("ALARM ON!!");
+	    }
+	    else{
+		LCD_PutStr("ALARM OFF!!");
+	    }
+	    update_LCD = 0;
 	}
 	//minute++;
 	//Alarm mode is on
