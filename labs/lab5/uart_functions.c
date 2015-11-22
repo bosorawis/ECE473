@@ -6,8 +6,8 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include <avr/pgmspace.h>
-
-#define USART_BAUDRATE 57600  
+#define F_CPU 16000000UL
+#define USART_BAUDRATE 9600  
 //Compute baudvalue at compile time from USART_BAUDRATE and F_CPU
 #define BAUDVALUE  ((F_CPU/(USART_BAUDRATE * 16UL)) - 1 )
 

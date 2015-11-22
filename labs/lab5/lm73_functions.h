@@ -2,7 +2,7 @@
 // Roger Traylor 11.27.10
 //special defines and functions for the lm73 temperature sensor
 
-#define F_CPU 16000000UL
+//#define F_CPU 16000000UL
 #define TRUE  1
 #define FALSE 0
 
@@ -19,5 +19,6 @@
 #define LM73_CONFIG_VALUE1     0xE0          //no timeout, max resolution: for ctl/status reg
 
 //special functions for lm73 temperature sensor
-uint8_t  lm73_temp_convert(uint16_t lm73_temp, uint8_t f_not_c);
-  
+uint16_t  lm73_temp_convert(uint16_t lm73_temp, uint8_t f_not_c);
+void lm73_init(void);
+uint16_t get_local_temp(uint8_t f_not_c);

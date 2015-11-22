@@ -1,6 +1,6 @@
 PRG            = lab5
 
-OBJ            = $(PRG).o LCDDriver.o
+OBJ            = $(PRG).o LCDDriver.o twi_master.o uart_functions.o lm73_functions.o
 #SRCS	       = lcd_functions.c
 
 MCU_TARGET     = atmega128
@@ -27,7 +27,7 @@ clean:
 #setup for for USB programmer
 #may need to be changed depending on your programmer
 program: $(PRG).hex
-	sudo avrdude -c usbasp -p m128 -e -U flash:w:$(PRG).hex  -v
+	sudo avrdude -c osuisp2 -p m128 -e -U flash:w:$(PRG).hex  -v
 
 lst:  $(PRG).lst
 
