@@ -12,11 +12,10 @@
 #include <util/delay.h>
 #include <string.h>
 #include <stdlib.h>
-#include "lcd_functions.h"
 #include "lm73_functions_skel.h"
 #include "twi_master.h"
-
-char    lcd_string_array[16];  //holds a string to refresh the LCD
+#include "uart_functions.h"
+#include "lcd_functions.h"
 uint8_t i;                     //general purpose index
 
 //delclare the 2 byte TWI read and write buffers (lm73_functions_skel.c)
@@ -42,11 +41,15 @@ void spi_init(void){
 int main ()
 {     
     uint16_t lm73_temp;  //a place to assemble the temperature from the lm73
-    char str[16];
+    char str[2];
+    uint8_t lo, hi;
+	uint16_t tmp;
+    uint8_t temp_mode;
+    //uint8_t send_buff_low, send_buff_high;  //Buffer for sending
     spi_init();//initalize SPI 
-    lcd_init();   //initalize LCD (lcd_functions.h)
     init_twi();//initalize TWI (twi_master.h)  
-
+    uart_init();
+    lcd_init();
     //set LM73 mode for reading temperature by loading pointer register
 
     //this is done outside of the normal interrupt mode of operation 
@@ -54,32 +57,48 @@ int main ()
     //load lm73_wr_buf[0] with temperature pointer address
     lm73_wr_buf[0] = LM73_PTR_TEMP;
     //start the TWI write process (twi_start_wr())
-	//TODO
     twi_start_wr(LM73_ADDRESS, lm73_wr_buf, 2); 
     sei();             //enable interrupts to allow start_wr to finish
-
-    clear_display();   //clean up the display
-
+    //string2lcd("hello");
+    cursor_off();
     while(1){          //main while loop
-        _delay_ms(100);  //tenth second wait
+	_delay_ms(1000);  //tenth second wait
+	//clear_display();
+	//Keep reading UART until gets command to get temperature
+	// 0-do nothing
+	// 1-Send celcius
+	// 2-Send Farenheigh
 
-	clear_display(); //wipe the display
-	//read temperature data from LM73 (2 bytes)  (twi_start_rd())
-	twi_start_rd(LM73_ADDRESS, lm73_rd_buf, 2);
-	_delay_ms(2);    //wait for it to finish
+        clear_display();
+	uart_putc(2);
+	//str[0] = uart_getc();
+	//str[1] = uart_getc();
+        lo = uart_getc();
+	hi = uart_getc();
+        tmp = (hi<<8) |lo;
+	itoa(tmp, str, 10);
+		//str[1] = '1';
+	//str[0] = '2';
+	string2lcd(str);
+	//rad temperature data from LM73 (2 bytes)  (twi_start_rd())
+	//twi_start_rd(LM73_ADDRESS, lm73_rd_buf, 2);
+	//_delay_ms(2);    //wait for it to finish
 	//now assemble the two bytes read back into one 16-bit value
 	//save high temperature byte into lm73_temp
-	lm73_temp = lm73_rd_buf[0] << 8;
+	//lm73_temp = lm73_rd_buf[0] << 8;
 	//shift it into upper byte 
 	//"OR" in the low temp byte to lm73_temp 
-	lm73_temp |= lm73_rd_buf[1];
+	//lm73_temp |= lm73_rd_buf[1];
 	//convert to string in array with itoa() from avr-libc                           
-	lm73_temp = lm73_temp >> 7;
-	
-	itoa(lm73_temp, str, 10);
+	//lm73_temp = lm73_temp >> 7;
+	//lm73_temp = lm73_temp_convert(lm73_temp, temp_mode);
+
+	//itoa(lm73_temp, str, 10);
+
+	//uart_putc(str[0]);
+	//uart_putc(str[1]);
 
 
 	//send the string to LCD (lcd_functions)
-	string2lcd(str);    
     } //while
 } //main

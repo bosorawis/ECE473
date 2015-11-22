@@ -12,11 +12,10 @@
 #include <util/delay.h>
 #include <string.h>
 #include <stdlib.h>
-#include "lcd_functions.h"
 #include "lm73_functions_skel.h"
 #include "twi_master.h"
+#include "uart_functions.h"
 
-char    lcd_string_array[16];  //holds a string to refresh the LCD
 uint8_t i;                     //general purpose index
 
 //delclare the 2 byte TWI read and write buffers (lm73_functions_skel.c)
@@ -42,11 +41,13 @@ void spi_init(void){
 int main ()
 {     
     uint16_t lm73_temp;  //a place to assemble the temperature from the lm73
-    char str[16];
+    char str[2];
+    char temp_mode;
+    uint8_t lo, hi;
+    //uint8_t send_buff_low, send_buff_high;  //Buffer for sending
     spi_init();//initalize SPI 
-    lcd_init();   //initalize LCD (lcd_functions.h)
     init_twi();//initalize TWI (twi_master.h)  
-
+    uart_init();
     //set LM73 mode for reading temperature by loading pointer register
 
     //this is done outside of the normal interrupt mode of operation 
@@ -54,16 +55,19 @@ int main ()
     //load lm73_wr_buf[0] with temperature pointer address
     lm73_wr_buf[0] = LM73_PTR_TEMP;
     //start the TWI write process (twi_start_wr())
-	//TODO
     twi_start_wr(LM73_ADDRESS, lm73_wr_buf, 2); 
     sei();             //enable interrupts to allow start_wr to finish
 
-    clear_display();   //clean up the display
-
     while(1){          //main while loop
-        _delay_ms(100);  //tenth second wait
+	//_delay_ms(100);  //tenth second wait
 
-	clear_display(); //wipe the display
+	//Keep reading UART until gets command to get temperature
+	// 0-do nothing
+	// 1-Send celcius
+	// 2-Send Farenheigh
+	do{
+	    temp_mode = uart_getc();
+	}while(!temp_mode);
 	//read temperature data from LM73 (2 bytes)  (twi_start_rd())
 	twi_start_rd(LM73_ADDRESS, lm73_rd_buf, 2);
 	_delay_ms(2);    //wait for it to finish
@@ -74,12 +78,17 @@ int main ()
 	//"OR" in the low temp byte to lm73_temp 
 	lm73_temp |= lm73_rd_buf[1];
 	//convert to string in array with itoa() from avr-libc                           
-	lm73_temp = lm73_temp >> 7;
-	
-	itoa(lm73_temp, str, 10);
-
+        lm73_temp = lm73_temp_convert(lm73_temp, temp_mode);
+        lo = (uint8_t)lm73_temp &0x00FF;
+	hi = (uint8_t)(lm73_temp & 0xFF00) >> 8;
+	uart_putc(lo);
+	uart_putc(hi);
+	//itoa(lm73_temp, str, 16);
+	//strcpy(str,"74");
+	//uart_putc(3);
+	//uart_putc(39);
+	//uart_putc(0);
 
 	//send the string to LCD (lcd_functions)
-	string2lcd(str);    
     } //while
 } //main

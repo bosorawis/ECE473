@@ -24,7 +24,6 @@
 #include <util/delay.h>
 #include <math.h>
 #include "audio.c"
-//#include "lcd_functions.h"
 #include "LCDDriver.h"
 
 #define ONE	 0xf9
@@ -65,6 +64,7 @@ void check_knobs();
 //holds data to be sent to the segments. logic zero turns segment on
 uint8_t segment_data[5];
 uint8_t alarm_change = 1;
+uint8_t get_temp = 0;
 //decimal to 7-segment LED display encodings, logic "0" turns on segment
 uint8_t dec_to_7seg[12];
 uint8_t brightness_level;
@@ -74,6 +74,7 @@ uint16_t time = 0;
 char *str;
 uint16_t alarm_time = 0;
 uint16_t show_time = 0;
+uint8_t show_temp = 0;
 uint8_t am_pm = 0;
 uint8_t show_ampm;
 uint16_t ampm_time;
@@ -94,7 +95,7 @@ static uint8_t alarm_hour = 0;
 uint8_t alarm_on = 0;
 uint8_t music_status = 0;
 static uint8_t ticker = 0;
-uint8_t volume = 0;
+uint8_t volume = 100;
 uint8_t blink = 0;
 //******************************************************************************
 //                            chk_buttons                                      
@@ -200,7 +201,7 @@ void button_routine(){
     // L -> R
     // 3 2 1 0 7 6 5 4
     uint8_t button = 0;
-    static int previous_mode;   
+    //static int previous_mode;   
     DDRA  = 0x00; // PORTA input mode
     PORTA = 0xFF; //Pull ups
     __asm__ __volatile__ ("nop");
@@ -243,9 +244,11 @@ void button_routine(){
 		    }
 		    break;
 		case 4:
+		    //show_temp = !show_temp;
 		    break;
 		case 5:
-		    show_ampm = !show_ampm;
+		    //show_ampm = !show_ampm;
+		    show_temp = !show_temp;
 		    break;
 		case 6:
 		    if(music_status){
@@ -317,7 +320,8 @@ ISR(TIMER0_OVF_vect){
     }
     if((count%128)==0){
 	ticker++;     
-	second++;    
+	second++; 
+	get_temp = 1;   
 	if(alarm_on){
 	    if ((alarm_time == time) && !snooze_flag && !music_status){
 		//play music
@@ -349,26 +353,16 @@ ISR(TIMER2_OVF_vect){
     static uint8_t count = 0;
     count++;
     //display_update();
+
     if(count%64 == 0){
 	button_routine();
     }
-    if(count ==  255){
-    }
+
     switch(count%8){
 	case 0:
 	    check_knobs();
 	    break;
 	case 1:
-	    //display_update();
-	    /* if(alarm_change){
-	       if(alarm_on){
-	       string2lcd("Alarm On");
-	       }
-	       else{
-	       string2lcd("Alarm Off");
-	       }
-	       alarm_change = 0;
-	       }*/
 	    break;
 	default:
 	    break;
@@ -388,7 +382,7 @@ ISR(ADC_vect){
   Initialize SPI 
  ****************************************************************************/
 void update_time(void){
-   // static int minute_change = 0;
+    // static int minute_change = 0;
     if (second >= 60){
 	minute++;
 	second = 0;
@@ -520,7 +514,7 @@ void display_update(){
 	    segment_data[2] = 0x00;
 	    break;
 	case 3:
-	    segsum(volume);
+	    segsum(OCR3A);
 	    segment_data[2] = 0xFF; //decimal
 	    break;
 	case 4:
@@ -533,7 +527,7 @@ void display_update(){
     for(display_segment = 0 ; display_segment < 5 ; display_segment++){
 	PORTB = display_segment << 4;
 	PORTA = segment_data[display_segment];
-	_delay_us(40);
+	_delay_us(80);
 	PORTA = OFF;
     }
 
@@ -629,7 +623,7 @@ void right_inc(){
 	    minute++;
 	    if(minute >= 60){
 		minute = 0;	    
-	    }
+	    }     
 	    second++;
 	    break;
 	case 2: 
@@ -714,6 +708,19 @@ void left_dec(){
     }
 }
 
+
+//TODO
+// Pull temp functions from temp directory
+// Display temp
+
+void show_local_temp(){
+	
+	get_local_temp();
+}
+void show_remote_temp(){ 
+        get_remote_temp()
+
+}
 //******************************************************************
 /*******************************************************************
  * Alarm operation:
@@ -747,7 +754,7 @@ void ADC_init(void){
 }
 
 void volume_control_init(void){
-    DDRE |= (1<<PE3);
+    //DDRE |= (1<<PE3);
     TCCR3A  = (1<<WGM30) | (1<<COM3A1);
     TCCR3B = (1<<WGM32) | (1<<CS30);
     OCR3A = volume;
@@ -758,7 +765,7 @@ int main()
 {
     //set port bits 4-7 B as outputs
     //uint8_t c = 0;
-    DDRE = 0xc0;
+    DDRE = 0xFF;
     PORTE &= 0x7F;
     DDRB = 0xF7;
     DDRD |= (1 << PB2);
@@ -770,11 +777,12 @@ int main()
     SPI_init();
     LCD_Init();
     volume_control_init();
+
     sei();
     while(1){
 	display_update();
 	update_time();
-        if(update_LCD){
+	if(update_LCD){
 	    LCD_Clr();
 	    if(alarm_on){
 		LCD_PutStr("ALARM ON!!");

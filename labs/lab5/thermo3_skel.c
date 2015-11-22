@@ -12,7 +12,7 @@
 #include <util/delay.h>
 #include <string.h>
 #include <stdlib.h>
-#include "lcd_functions.h"
+#include "LDDDriver.h"
 #include "lm73_functions_skel.h"
 #include "twi_master.h"
 
@@ -44,7 +44,7 @@ int main ()
     uint16_t lm73_temp;  //a place to assemble the temperature from the lm73
     char str[16];
     spi_init();//initalize SPI 
-    lcd_init();   //initalize LCD (lcd_functions.h)
+    LCD_init();   //initalize LCD (lcd_functions.h)
     init_twi();//initalize TWI (twi_master.h)  
 
     //set LM73 mode for reading temperature by loading pointer register
@@ -54,7 +54,6 @@ int main ()
     //load lm73_wr_buf[0] with temperature pointer address
     lm73_wr_buf[0] = LM73_PTR_TEMP;
     //start the TWI write process (twi_start_wr())
-	//TODO
     twi_start_wr(LM73_ADDRESS, lm73_wr_buf, 2); 
     sei();             //enable interrupts to allow start_wr to finish
 
@@ -63,7 +62,7 @@ int main ()
     while(1){          //main while loop
         _delay_ms(100);  //tenth second wait
 
-	clear_display(); //wipe the display
+	LCD_Clr(); //wipe the display
 	//read temperature data from LM73 (2 bytes)  (twi_start_rd())
 	twi_start_rd(LM73_ADDRESS, lm73_rd_buf, 2);
 	_delay_ms(2);    //wait for it to finish
@@ -80,6 +79,6 @@ int main ()
 
 
 	//send the string to LCD (lcd_functions)
-	string2lcd(str);    
+	LCD_PutSte(str);    
     } //while
 } //main
