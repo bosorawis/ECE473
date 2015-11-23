@@ -723,7 +723,6 @@ uint16_t get_remote_temp(uint8_t f_or_c){
 	return tmp;	   //return tempearture
 }
 
-
 void generate_temp_str(){
 	uint16_t remote_temp, local_temp;
 	char local_buf[3];
@@ -732,24 +731,42 @@ void generate_temp_str(){
 		return;
 	}
 	//TODO
+
 	if(temp_mode){
 		remote_temp = get_remote_temp(1);
 		local_temp = get_local_temp(1);
+		loc_temp_str[15] = 'C';
+		rem_temp_str[15] = 'C';
+
 	}
-	else{
-		remote_temp = get_remote_temp(2);
+	else {
 		local_temp = get_local_temp(2);
+		remote_temp = get_remote_temp(2);
+		loc_temp_str[15] = 'F';
+		rem_temp_str[15] = 'F';
 	}
 	itoa(local_temp,local_buf, 10);
 	itoa(remote_temp,remote_buf, 10);
-
-	loc_temp_str[12] = local_buf[0];
-	loc_temp_str[13] = local_buf[1];
-
-
-	//rem_temp_str[11] = remote_buf[2];
-	rem_temp_str[12] = remote_buf[0];
-	rem_temp_str[13] = remote_buf[1];
+	
+	if(local_buf[2] == '1'){
+		loc_temp_str[12] = local_buf[0];
+		loc_temp_str[13] = local_buf[1];
+		loc_temp_str[14] = local_buf[2];
+	}
+	else{
+	loc_temp_str[13] = local_buf[0];
+	loc_temp_str[14] = local_buf[1];
+	}
+	if(remote_buf[2] == '1'){
+		//rem_temp_str[11] = remote_buf[2];
+		rem_temp_str[12] = remote_buf[0];
+		rem_temp_str[13] = remote_buf[1];
+		rem_temp_str[14] = remote_buf[2];
+	}
+	else{
+		rem_temp_str[13] = remote_buf[0];
+		rem_temp_str[14] = remote_buf[1];
+	}
 	//l_temp_str[13] = '3';
 	//loc_temp_str[12] = '2';
 	reset_temp = 0;
@@ -992,6 +1009,7 @@ int main()
 			bar_graph_flag = 0;
 		}
 		if(update_LCD){
+
 			show_temperature();
 			update_LCD = 0;
 		}

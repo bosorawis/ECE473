@@ -18,12 +18,11 @@ uint16_t lm73_temp_convert(uint16_t lm73_temp, uint8_t f_not_c){
     //given a temperature reading from an LM73, the address of a buffer
     //array, and a format (deg F or C) it formats the temperature into ascii in 
     //the buffer pointed to by the arguement.
-    lm73_temp = (lm73_temp >> 7);
     //temp_digits = 'C';
     //When f_not_c is 1 -> send F
     //when f_not_c is 2 -> send C
-    if(f_not_c == 1){
-	lm73_temp = (lm73_temp*5/9)+32;
+    if(f_not_c == 2){
+	lm73_temp = (lm73_temp*9/5)+32;
 	//temp_digits = 'F';
     }
     return lm73_temp;
@@ -49,7 +48,7 @@ uint16_t get_local_temp(uint8_t f_not_c){
 	lm73_temp |= lm73_rd_buf[1];
 	//convert to string in array with itoa() from avr-libc                           
 	lm73_temp = lm73_temp >> 7;
-	//ret = lm73_temp_convert(lm73_temp, f_not_c);
+	ret = lm73_temp_convert(lm73_temp, f_not_c);
 
-	return lm73_temp;
+	return ret;
 }
