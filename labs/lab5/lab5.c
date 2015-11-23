@@ -1,4 +1,4 @@
-// Sorawis Nilparuk
+	// Sorawis Nilparuk
 // 10/29/2015
 
 //  HARDWARE SETUP:
@@ -13,7 +13,7 @@
 //  PORTE bit 6 goes to SHIFT_LD_N on Encoder
 //  PORTE bit 7 goes to CLK_INT on Encoder  (always driven low)
 
-#define F_CPU 16000000 // cpu speed in hertz 
+#define F_CPU 16000000UL // cpu speed in hertz 
 #define TRUE 1
 #define FALSE 0
 #define INPUT 0xFF
@@ -26,8 +26,9 @@
 #include <string.h>
 #include <math.h>
 #include "audio.c"
-#include "LCDDriver.h"
+//#include "LCDDriver.h"
 
+#include "lcd_functions.h"
 #include "uart_functions.h"
 #include "twi_master.h"
 #include "lm73_functions.h"
@@ -71,8 +72,7 @@ void check_knobs();
 
 //holds data to be sent to the segments. logic zero turns segment on
 uint8_t segment_data[5];
-static char loc_temp_str[16];
-static char rem_temp_str[16];
+char *loc_temp_str;
 uint8_t alarm_change = 1;
 uint8_t get_temp = 0;
 //decimal to 7-segment LED display encodings, logic "0" turns on segment
@@ -80,6 +80,7 @@ uint8_t dec_to_7seg[12];
 uint8_t brightness_level;
 uint8_t update_LCD = 0;
 uint8_t reset_temp = 0;
+uint8_t temp_is_up = 0;
 //int delay_time[10] = {50, 60, 70, 80, 90, 100, 110, 120, 130, 150};
 uint16_t time = 0;
 char *str;
@@ -109,6 +110,7 @@ uint8_t volume = 100;
 uint8_t blink = 0;
 uint8_t temp_mode = 0;
 
+char *rem_temp_str;
 extern uint8_t lm73_rd_buf[2];
 extern uint8_t lm73_wr_buf[2];
 
@@ -259,7 +261,7 @@ void button_routine(){
 					}
 					break;
 				case 4:
-					//show_temp = !show_temp;
+					show_temp = !show_temp;
 					break;
 				case 5:
 					//show_ampm = !show_ampm;
@@ -303,6 +305,7 @@ ISR(TIMER0_OVF_vect){
 	static uint8_t count = 0;
 	count++;
 	//update_time();
+	update_LCD = 1;
 	if(count%8 == 0){
 		beat++;
 		blink = !blink;
@@ -352,7 +355,6 @@ ISR(TIMER2_OVF_vect){
 			check_knobs();
 			break;
 		case 1:
-			update_LCD = 1;
 			break;
 		default:
 			break;
@@ -423,7 +425,7 @@ void SPI_init(){
 
 	/* Enable SPI, Master, set clock rate fck/16 */
 	SPCR = (1<<SPE)|(1<<MSTR);
-	//SPSR = (1<<SPI2X);
+	//SPSR = 0x01;
 }
 
 /***************************************************************************
@@ -729,7 +731,7 @@ void generate_temp_str(){
 	reset_temp = 0;
 
 	itoa(local_temp,local_buf, 10);
-	loc_temp_str[10] = local_buf[2];
+	//loc_temp_str[10] = local_buf[2];
 	loc_temp_str[11] = local_buf[1];
 	loc_temp_str[12] = local_buf[0];
 }
@@ -746,24 +748,133 @@ itoa(temperature, buff, 10);
 LCD_PutStr("buff");
 }
  */
+
+void update_temp(){
+
+
+}
+void show_temperature(){
+	static uint8_t counter = 0;
+	//If temp string is not already displayed, diisplay it
+	//if(!temp_is_up){
+		if(counter <= 15){
+			char2lcd(rem_temp_str[counter]);
+			if(counter == 15){
+				home_line2();
+				//_delay_ms(1);
+			}
+			counter++;
+			//return;
+		}
+		else if (counter >=16 && counter <= 31){
+			//minute++;
+			char2lcd(loc_temp_str[counter-16]);
+			counter++;
+			//return;
+		}
+		
+		if(counter >= 32){
+			temp_is_up = 1;
+		}
+		/*
+		else if(counter >= 75){ 
+			//counter = 0;
+			//loc_temp_str = "";
+			//rem_temp_str = "";
+			//loc_temp_str = "Local  temp:   C";
+			//rem_temp_str = "Remote temp:   C";
+			counter++;
+			cursor_home();
+			//	return;
+		}
+		else if(counter >=100){
+			counter = 0;
+		}
+		else{
+			counter++;
+		}
+		*/
+	//}
+}
 void LCD_Display(){
 	static uint8_t counter = 0;
-	LCD_Clr();
-	//generate_temp_str();	
-	if(counter == 16){
-	//	LCD_MovCursorLn2();
+
+	if(counter <= 15){
+		char2lcd(rem_temp_str[counter]);
+		if(counter == 15){
+			home_line2();
+			//_delay_ms(1);
+		}
+		counter++;
+		//	return;
 	}
+	else if (counter >=16 && counter <= 31){
+		//minute++;
+		char2lcd(loc_temp_str[counter-16]);
+		counter++;
+		//return;
+	}
+	else if(counter >= 75){ 
+		//counter = 0;
+		//loc_temp_str = "";
+		//rem_temp_str = "";
+		//loc_temp_str = "Local  temp:   C";
+		//rem_temp_str = "Remote temp:   C";
+		counter++;
+		cursor_home();
+		//	return;
+	}
+	else if(counter >=100){
+		counter = 0;
+	}
+	else{
+		counter++;
+	}
+	/*
+	   if (counter >=16 && counter <32){
+	   char2lcd(rem_temp_str[counter]);
+	   counter++;
+	   return;
+	   }
+	 */	
+
+	//char2lcd(rem_temp_str[counter]);
+	//clear_display();
+	//generate_temp_str();	
+	/*if(counter >= 32){
+	  counter = 0;
+	  }
+	  if(counter < 16){
+	  char2lcd(loc_temp_str[counter]);
+	  counter++;
+	  return;
+	  }
+
+
+	  if(counter= == 16){
+
+	  home_line2();
+	  }
+
+	  char2lcd(rem_temp_str[counter]);
+	 */
+
+
 	//LCD_PutChar(temp_str[counter]);
-	strcpy(loc_temp_str, "Local  temp:   C");
+	//strcpy(loc_temp_str, "Local  temp:   C");
+	//strcpy(rem_temp_str, "Remote temp:   C");
 	//strcpy(rem_temp_str, "Remote temp:   C");
 	//strcpy(temp_str, "local temp:   Cremote temp:   C");
-	LCD_PutStr(loc_temp_str);
+	//string2lcd(loc_temp_str);
+	//string2lcd(rem_temp_str);
 	//LCD_MovCursorLn2();
 	//_delay_ms(2);
 	//LCD_PutStr(rem_temp_str);
 	//LCD_MovCursorLn1();
 	//_delay_ms(2);
-	counter++;
+
+	//	char2lcd(loc_temp_str[counter]);
+
 
 	//show_remote_temp();
 	//if(alarm_on){
@@ -813,40 +924,13 @@ void volume_control_init(void){
 }
 
 void initialize_string(){
-	loc_temp_str[0] = 'L';	
-	loc_temp_str[1] = 'o';	
-	loc_temp_str[2] = 'c';	
-	loc_temp_str[3] = 'a';	
-	loc_temp_str[4] = 'l';	
-	loc_temp_str[5] = ' ';	
-	loc_temp_str[6] = ' ';	
-	loc_temp_str[7] = 't';	
-	loc_temp_str[8] = 'e';	
-	loc_temp_str[9] = 'm';	
-	loc_temp_str[10] = 'p';	
-	loc_temp_str[11] = ' ';	
-	loc_temp_str[12] = ' ';	
-	loc_temp_str[13] = ' ';	
-	loc_temp_str[14] = 'C';	
-	loc_temp_str[15] = '\0';	
-
-	rem_temp_str[0] = 'R';
-	rem_temp_str[1] = 'e';
-	rem_temp_str[2] = 'm';
-	rem_temp_str[3] = 'o';
-	rem_temp_str[4] = 't';
-	rem_temp_str[5] = 'e';
-	rem_temp_str[6] = ' ';
-	rem_temp_str[7] = 't';
-	rem_temp_str[8] = 'e';
-	rem_temp_str[9] = 'm';
-	rem_temp_str[10] = 'p';
-	rem_temp_str[11] = ' ';
-	rem_temp_str[12] = ' ';
-	rem_temp_str[13] = ' ';
-	rem_temp_str[14] = 'C';
-	rem_temp_str[15] = '\0';
+	loc_temp_str = 0;
+	rem_temp_str = 0;
+	loc_temp_str = "Local  temp:   C";
+	rem_temp_str = "Remote temp:   C";
 }
+
+
 int main()
 {
 	//set port bits 4-7 B as outputs
@@ -861,33 +945,46 @@ int main()
 	ADC_init();
 	music_init();   
 	SPI_init();
-	LCD_Init();
+	lcd_init();
 	init_twi();
 	uart_init();
 	volume_control_init();
 	lm73_init();
-
+	cursor_off();
 	initialize_string();
 	//strcpy(loc_temp_str, "Local  temp:   C");
-
 	sei();
+	//string2lcd("hello");
 	while(1){
+		//_delay_ms(100);
+		//clear_display();
 		display_update();
 		update_time();
-		LCD_PutStr(loc_temp_str);
-		if(update_LCD){
-			update_LCD = 0;
-			//LCD_Display();
+		//string2lcd(loc_temp_str);
+		//home_line2();
+		//string2lcd(rem_temp_str);
+		//if(update_LCD){
+		//	update_LCD = 0;
+		//	LCD_Display();
+		//}
+		if(reset_temp){
+			generate_temp_str();
+			reset_temp = 0;
 		}
-		if(show_temp){
-
-		}
-		else{
-
-		}
-		//LCD_Display();
-		//minute++;
-		//Alarm mode is on
+		show_temperature();
+		/*
+		   else{
+		   if(alarm_on){
+		   clear_display();
+		   string2lcd("ALARM ON!!");
+		   }
+		   else{
+		   clear_display();
+		   string2lcd("ALARM OFF!!");
+		   }
+		   update_LCD = 0;
+		   }
+		 */
 	}
 	return 0;
 }

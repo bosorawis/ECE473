@@ -2,12 +2,15 @@
 //misc LCD functions for mega128 board
 //refactored by R. Traylor 10.7.09
 
+
+#define F_CPU 16000000UL
 #include <avr/io.h>
 #include <util/delay.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include "lcd_functions.h"
+
 
 char lcd_str[16];  //holds string to send to lcd  
 

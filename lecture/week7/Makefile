@@ -52,8 +52,8 @@ all_clean:
 #hacked the permissions for stinkin' Redhat box
 program: $(PRG).hex
 	chmod 644 $(PRG).hex
-	sudo avrdude -p $(PROGRAMMER_TARGET) -c usbasp -e -U flash:w:$(PRG).hex 
-#	avrdude -p $(PROGRAMMER_TARGET) -c osuisp2 -e -U flash:w:$(PRG).hex 
+	#sudo avrdude -p $(PROGRAMMER_TARGET) -c usbasp -e -U flash:w:$(PRG).hex 
+	sudo avrdude -p $(PROGRAMMER_TARGET) -c osuisp2 -e -U flash:w:$(PRG).hex 
 
 lst:  $(PRG).lst
 

@@ -57,10 +57,11 @@ int main ()
 	//TODO
     twi_start_wr(LM73_ADDRESS, lm73_wr_buf, 2); 
     sei();             //enable interrupts to allow start_wr to finish
-
-    clear_display();   //clean up the display
+   string2lcd("hello");
+    //clear_display();   //clean up the display
 
     while(1){          //main while loop
+	    /*
         _delay_ms(100);  //tenth second wait
 
 	clear_display(); //wipe the display
@@ -78,8 +79,8 @@ int main ()
 	
 	itoa(lm73_temp, str, 10);
 
-
+*/
 	//send the string to LCD (lcd_functions)
-	string2lcd(str);    
+//	string2lcd(str);    
     } //while
 } //main
