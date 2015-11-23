@@ -49,7 +49,7 @@ uint16_t get_local_temp(uint8_t f_not_c){
 	lm73_temp |= lm73_rd_buf[1];
 	//convert to string in array with itoa() from avr-libc                           
 	lm73_temp = lm73_temp >> 7;
-	ret = lm73_temp_convert(lm73_temp, f_not_c);
+	//ret = lm73_temp_convert(lm73_temp, f_not_c);
 
-	return ret;
+	return lm73_temp;
 }
