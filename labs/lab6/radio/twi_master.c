@@ -108,6 +108,5 @@ void init_twi(){
   TWDR = 0xFF;     //release SDA, default contents
   TWSR = 0x00;     //prescaler value = 1
   TWBR = TWI_TWBR; //defined in twi_master.h 
-  PORTD |= (1 << PD0) | (1 << PD1); 
 } 
 

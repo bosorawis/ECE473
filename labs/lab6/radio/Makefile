@@ -1,7 +1,7 @@
-PRG            = lab6
+PRG            = radio_test
 
-OBJ            = $(PRG).o  twi_master.o uart_functions.o lm73_functions.o lcd_functions.o
-SRCS	       = lcd_functions.c twi_master.c uart_functions.c lm73_functions.c
+OBJ            = $(PRG).o uart_functions.o twi_master.o si4734.o 
+SRCS	       = uart_functions.c twi_master.c  si4734.c 
 
 MCU_TARGET     = atmega128
 OPTIMIZE       = -O2    # options are 1, 2, 3, s

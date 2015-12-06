@@ -361,6 +361,7 @@ ISR(TIMER2_OVF_vect){
 			//check_knobs();
 			break;
 		case 1:
+			display_update();
 			break;
 		default:
 			break;
@@ -502,7 +503,7 @@ void bar_graph(){
  **************************************************************************/
 void display_update(){
 	uint8_t display_segment = 0;
-	//static uint8_t rotate_7seg = 0;
+	static uint8_t rotate_7seg = 0;
 	switch(mode){
 		case 2:
 			segsum(alarm_time);
@@ -518,13 +519,42 @@ void display_update(){
 			segsum(show_time);
 			break;
 	}
+	/*
+	   for(display_segment = 0 ; display_segment < 5 ; display_segment++){
+	   PORTB = display_segment << 4;
+	   PORTA = segment_data[display_segment];
+	   _delay_us(80);
+	   PORTA = OFF;
+	   }
+	 */
+	switch(rotate_7seg%5){
+		case 0:
+			PORTB = 0 << 4;
+			PORTA = segment_data[0];
+			break;
 
-	for(display_segment = 0 ; display_segment < 5 ; display_segment++){
-		PORTB = display_segment << 4;
-		PORTA = segment_data[display_segment];
-		_delay_us(80);
-		PORTA = OFF;
+		case 1:
+			PORTB = 1 << 4;
+			PORTA = segment_data[1];
+			break;
+		case 2:
+			PORTB = 2 << 4;
+			PORTA = segment_data[2];
+			break;
+		case 3:
+			PORTB = 3 << 4;
+			PORTA = segment_data[3];
+			break;
+		case 4:
+			PORTB = 4 << 4;
+			PORTA = segment_data[4];
+			break;
+		default:
+			break;
+
 	}
+	rotate_7seg++;
+
 }
 /**************************************************************************
  *Decode the knobs encoder using table method
@@ -747,15 +777,15 @@ void generate_temp_str(){
 	}
 	itoa(local_temp,local_buf, 10);
 	itoa(remote_temp,remote_buf, 10);
-	
+
 	if(local_buf[2] == '1'){
 		loc_temp_str[12] = local_buf[0];
 		loc_temp_str[13] = local_buf[1];
 		loc_temp_str[14] = local_buf[2];
 	}
 	else{
-	loc_temp_str[13] = local_buf[0];
-	loc_temp_str[14] = local_buf[1];
+		loc_temp_str[13] = local_buf[0];
+		loc_temp_str[14] = local_buf[1];
 	}
 	if(remote_buf[2] == '1'){
 		//rem_temp_str[11] = remote_buf[2];
@@ -987,7 +1017,7 @@ int main()
 	while(1){
 		//_delay_ms(100);
 		//clear_display();
-		display_update();
+		//display_update();
 		update_time();
 		//string2lcd(loc_temp_str);
 		//home_line2();
