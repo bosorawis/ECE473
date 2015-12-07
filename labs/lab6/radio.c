@@ -9,35 +9,31 @@
 #include "twi_master.h"
 #include "uart_functions.h"
 #include "si4734.h"
-
-
+#include "radio.h"
 //set to KRKT Albany at 99.9Mhz
 uint8_t si4734_wr_buf[9];          //buffer for holding data to send to the si4734 
 uint8_t si4734_rd_buf[15];         //buffer for holding data recieved from the si4734
 uint8_t si4734_tune_status_buf[8]; //buffer for holding tune_status data  
 uint8_t si4734_revision_buf[16];   //buffer for holding revision  data  
 
-volatile uint16_t  current_fm_freq =  9990; //0x2706, arg2, arg3; 99.9Mhz, 200khz steps
-volatile uint8_t STC_interrupt;     //indicates tune or seek is done
+extern volatile uint8_t STC_interrupt;     //indicates tune or seek is done
 
 uint8_t rssi;
-uint16_t eeprom_fm_freq;
-uint16_t eeprom_am_freq;
-uint16_t eeprom_sw_freq;
-uint8_t  eeprom_volume;
+//uint16_t eeprom_fm_freq;
+//uint16_t eeprom_am_freq;
+//uint16_t eeprom_sw_freq;
+//uint8_t  eeprom_volume;
+//enum radio_band{FM,AM,SW};
+extern volatile enum radio_band current_radio_band;
 
-enum radio_band{FM, AM, SW};
-volatile enum radio_band current_radio_band = FM;
-
-//uint16_t current_fm_freq;
+extern uint16_t  current_fm_freq; //0x2706, arg2, arg3; 99.9Mhz, 200khz steps
 uint16_t current_am_freq;
 uint16_t current_sw_freq;
-uint8_t  current_volume;
+extern uint8_t  current_volume;
 
 
 char uart_tx_buf[40];      //holds string to send to crt
 char uart_rx_buf[40];      //holds string that recieves data from uart
-
 
 //You will also need this:
 //******************************************************************************
@@ -56,7 +52,6 @@ char uart_rx_buf[40];      //holds string that recieves data from uart
 // rising edge of Port E bit 7.  The i/o clock must be running to detect the
 // edge (not asynchronouslly triggered)
 //******************************************************************************
-ISR(INT7_vect){STC_interrupt = TRUE;}
 //******************************************************************************
 
 
@@ -73,6 +68,7 @@ void radio_init(void){
 	DDRE  |= 0x08; //Port E bit 3 is TCNT3 PWM output for volume
 	PORTE |= 0x04; //radio reset is on at powerup (active high)
 	PORTE |= 0x40; //pulse low to load switch values, else its in shift mode
+	//PORTE = (1<<PE7);
 }
 //Given the hardware setup reflected above, here is the radio reset sequence.
 //hardware reset of Si4734
@@ -86,14 +82,15 @@ void radio_reset(void){
 	//Si code in "low" has 30us delay...no explaination in documentation
 	DDRE  &= ~(0x80);   //now Port E bit 7 becomes input from the radio interrupt
 }
-
 //Once its setup, you can tune the radio and get the received signal strength.
 void radio_powerUp(void){
 	while(twi_busy()){} //spin while TWI is busy
 	fm_pwr_up();        //power up radio
 }
 void radio_tune_freq(){
-	while(twi_busy()){} //spin while TWI is busy
+	while(twi_busy()){
+		//minute++;	
+	} //spin while TWI is busy
 	fm_tune_freq();     //tune to frequency
 }
 //retrive the receive strength and display on the bargraph display
@@ -114,41 +111,7 @@ void redefine_rssi(){
 	else if(rssi<=64) {rssi = 0x7F;}
 	else if(rssi>=64) {rssi = 0xFF;}
 }
-void interrupt_init(){
+void radio_interrupt_init(){
+	EICRB |= (1<<ISC71)|(0<<ISC70);
 	EIMSK |= (1<<INT7);
-	EICRB |= (1<<ISC71)|(1<<ISC70);
-	EIFR |= (1 << INTF7);
 }
-
-
-int main(void){
-	//redefine_rssi();
-	PORTE |= (0<<PE3);
-	interrupt_init();
-	sei();
-	init_twi();
-	lm73_init();
-	uart_init();
-	radio_init();
-	radio_reset();
-	radio_powerUp();
-	radio_tune_freq();
-
-	while(1){
-
-	};
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -582,26 +582,3 @@ void music_init(void) {
   notes = 0;
   song = 0;              //beaver fight song
 } 
-
-/*********************************************************************/
-/*                             TIMER1_COMPA                          */
-/*Oscillates pin7, PORTD for alarm tone output                       */
-/*********************************************************************/
-/*
-ISR(TIMER0_OVF_vect){
-    static uint8_t ms = 0;
-     ms++;
-    if(ms % 8 == 0) {
-	//for note duration (64th notes) 
-	beat++;
-    }
-}
-ISR(TIMER1_COMPA_vect) {
-    PORTD ^= ALARM_PIN;      //flips the bit, creating a tone
-    PORTB |= (1<<PB0);
-    if(beat >= max_beat) {   //if we've played the note long enough
-	notes++;               //move on to the next note
-	play_song(song, notes);//and play it
-    }
-}
-*/

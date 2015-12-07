@@ -1,4 +1,4 @@
-// Sorawis Nilparuk
+	// Sorawis Nilparuk
 // 10/29/2015
 
 //  HARDWARE SETUP:
@@ -32,8 +32,6 @@
 #include "uart_functions.h"
 #include "twi_master.h"
 #include "lm73_functions.h"
-#include "si4734.h"
-#include "radio.h"
 
 #define ONE	 0xf9
 #define TWO	 0xa4
@@ -72,10 +70,6 @@ void decode_spi_right_knob(uint8_t encoder2);
 void bar_graph();
 void check_knobs();
 
-void display_update();
-
-
-
 //holds data to be sent to the segments. logic zero turns segment on
 static char *loc_temp_str;
 static char *rem_temp_str;
@@ -90,7 +84,6 @@ uint8_t update_LCD = 0;
 uint8_t reset_temp = 0;
 uint8_t bar_graph_flag = 0;
 uint8_t temp_is_up = 0;
-uint8_t radio = 0;
 //int delay_time[10] = {50, 60, 70, 80, 90, 100, 110, 120, 130, 150};
 uint16_t time = 0;
 char *str;
@@ -119,17 +112,6 @@ static uint8_t ticker = 0;
 uint8_t volume = 100;
 uint8_t blink = 0;
 uint8_t temp_mode = 0;
-
-enum radio_band{FM,AM,SW}; 
-volatile enum radio_band current_radio_band = FM;
-
-volatile uint8_t STC_interrupt;  //flag bit to indicate tune or seek is done
-
-uint16_t eeprom_fm_freq;
-uint8_t  eeprom_volume;
-
-uint16_t current_fm_freq;
-uint8_t  current_volume;
 
 extern uint8_t lm73_rd_buf[2];
 extern uint8_t lm73_wr_buf[2];
@@ -254,7 +236,7 @@ void button_routine(){
 			//Check the state of buttons
 			switch(button){
 				case 0:  
-					radio = 1;
+					mode = 0;
 					break;
 				case 1:
 					if(mode == 1){
@@ -374,6 +356,7 @@ ISR(TIMER2_OVF_vect){
 
 	switch(count%8){
 		case 0:
+			//TODO
 			encode_flag = 1;
 			//check_knobs();
 			break;
@@ -384,12 +367,6 @@ ISR(TIMER2_OVF_vect){
 			break;
 	}    
 } 
-
-ISR(INT7_vect){
-	STC_interrupt = TRUE;
-	minute++;
-	time = 1919;
-}
 
 ISR(ADC_vect){
 
@@ -470,7 +447,7 @@ void SPI_Transmit(uint8_t data){
   Read data from SPI input (SPDR)
  ****************************************************************************/
 uint8_t SPI_Receive(void){
-	PORTE &= 0xBF;       //Write 0 to PE6 to trigger SPI on radio board
+	PORTE &= 0;       //Write 0 to PE6 to trigger SPI on radio board
 	__asm__ __volatile__ ("nop");
 	__asm__ __volatile__ ("nop");
 	// Wait until 8 clock cycles are done 
@@ -525,7 +502,7 @@ void bar_graph(){
  *Display the number (code from lab1)
  **************************************************************************/
 void display_update(){
-	//uint8_t display_segment = 0;
+	uint8_t display_segment = 0;
 	static uint8_t rotate_7seg = 0;
 	switch(mode){
 		case 2:
@@ -879,6 +856,7 @@ void show_temperature(){
 
 
 
+
 void LCD_Display(){
 	static uint8_t counter = 0;
 
@@ -1011,23 +989,19 @@ void initialize_string(){
 	rem_temp_str = "Remote temp:   C";
 }
 
-void encoder_init(){
-	DDRF &= 0xFC;
-	PORTF |= (1<<PF7);
-}
+
 int main()
 {
 	//set port bits 4-7 B as outputs
 	//uint8_t c = 0;
-	//DDRE = 0xFF;
-	//PORTE &= 0x7F;
+	DDRE = 0xFF;
+	PORTE &= 0x7F;
 	DDRB = 0xF7;
 	DDRD |= (1 << PB2);
 
 	volume = 100;
 	timer_init();
 	ADC_init();
-	//encoder_init();
 	music_init();   
 	SPI_init();
 	lcd_init();
@@ -1037,28 +1011,25 @@ int main()
 	lm73_init();
 	cursor_off();
 	initialize_string();
-	//Test radio
-	//_delay_ms(1000);
-	radio_interrupt_init();
-	radio_init();
-	 current_fm_freq = 10630;
-
-	//EIMSK |= (1<<INT7);
-	//EICRB |= (1<<ISC71);
-	sei();
-		/*radio_powerUp();
-	  radio_powerUp();
-	  radio_powerUp();
-	  radio_powerUp();
-	  radio_powerUp();
-	  radio_powerUp();
-	 */
-	//*******************************************
 	//strcpy(loc_temp_str, "Local  temp:   C");
+	sei();
 	//string2lcd("hello");
 	while(1){
-
+		//_delay_ms(100);
+		//clear_display();
+		//display_update();
 		update_time();
+		//string2lcd(loc_temp_str);
+		//home_line2();
+		//string2lcd(rem_temp_str);
+		//if(update_LCD){
+		//	update_LCD = 0;
+		//	LCD_Display();
+		//}
+		/*if(reset_temp){
+		  generate_temp_str();
+		  reset_temp = 0;
+		  }*/
 		if(encode_flag){
 			check_knobs();
 			encode_flag = 0;
@@ -1072,14 +1043,19 @@ int main()
 			show_temperature();
 			update_LCD = 0;
 		}
-		if(radio){
-			radio_reset();
-			radio_powerUp();
-			_delay_ms(1000);
-			radio_tune_freq();
-			//fm_tune_status();
-			radio = 0;
-		}
+		/*
+		   else{
+		   if(alarm_on){
+		   clear_display();
+		   string2lcd("ALARM ON!!");
+		   }
+		   else{
+		   clear_display();
+		   string2lcd("ALARM OFF!!");
+		   }
+		   update_LCD = 0;
+		   }
+		 */
 	}
 	return 0;
 }
