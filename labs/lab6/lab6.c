@@ -79,6 +79,8 @@ void display_update();
 //holds data to be sent to the segments. logic zero turns segment on
 static char *loc_temp_str;
 static char *rem_temp_str;
+static char *alrm_str;
+uint8_t clear_LCD;
 uint8_t segment_data[5];
 uint8_t encode_flag = 0;
 uint8_t alarm_change = 1;
@@ -119,12 +121,16 @@ static uint8_t ticker = 0;
 uint8_t volume = 100;
 uint8_t blink = 0;
 uint8_t temp_mode = 0;
+uint8_t LCD_mode=0;
+uint8_t alarm_mode_change = 0 ;
+
+uint8_t turn_radio_on = 0;
 
 enum radio_band{FM,AM,SW}; 
 volatile enum radio_band current_radio_band = FM;
 
 volatile uint8_t STC_interrupt;  //flag bit to indicate tune or seek is done
-
+uint8_t alarm_is_radio;
 uint16_t eeprom_fm_freq;
 uint8_t  eeprom_volume;
 
@@ -237,6 +243,7 @@ void segsum(uint16_t sum) {
 void button_routine(){
 	// L -> R
 	// 3 2 1 0 7 6 5 4
+	static uint8_t rotate_LCD_mode = 1;
 	uint8_t button = 0;
 	//static int previous_mode;   
 	DDRA  = 0x00; // PORTA input mode
@@ -281,7 +288,16 @@ void button_routine(){
 					}
 					break;
 				case 4:
-					temp_mode = !temp_mode;
+					//temp_mode = !temp_mode;
+					rotate_LCD_mode++;
+					clear_LCD = 1;
+					LCD_mode = rotate_LCD_mode%3;
+					if(!LCD_mode){
+						mode = 4;
+					}
+					else{
+						mode = 0;
+					}
 					break;
 				case 5:
 					show_ampm = !show_ampm;
@@ -338,9 +354,14 @@ ISR(TIMER0_OVF_vect){
 		reset_temp = 1;   
 		if(alarm_on){
 			if ((alarm_time == time) && !snooze_flag && !music_status){
-				//play music
-				music_on();
-				music_status = 1;
+				if(alarm_is_radio){
+					turn_radio_on = 1;
+				}
+				else{
+					//play music
+					music_on();
+					music_status = 1;
+				}
 			}
 			else if(snooze_flag){
 				snooze_second++;
@@ -350,6 +371,7 @@ ISR(TIMER0_OVF_vect){
 					snooze_second = 0;
 				}	
 			}
+
 		}
 	}
 }
@@ -719,7 +741,7 @@ void left_inc(){
 			OCR3A = volume;
 			break;
 		case 4: 
-			temp_mode = !temp_mode;
+			alarm_is_radio++;
 			break;
 		default:
 			break;
@@ -746,7 +768,7 @@ void left_dec(){
 			OCR3A = volume;
 			break;
 		case 4: 
-			temp_mode = !temp_mode;
+			alarm_is_radio++;
 			break;
 		default:
 			break;
@@ -824,28 +846,32 @@ void generate_temp_str(){
 	//loc_temp_str[12] = '2';
 	reset_temp = 0;
 }
-/*
-   void show_//local_temp(){
 
-//get_local_temp();
+void generate_alarm_string(){
+	if(alarm_is_radio%2){
+		//strcpy(alrm_string, "ALARM RADIO");		
+		alrm_str[7]  = 'R';
+		alrm_str[8]  = 'A';
+		alrm_str[9]  = 'D';
+		alrm_str[10] = 'I';
+		alrm_str[11] = 'O';
+	}
+	else{
+		//strcpy(alrm_string, "ALARM MUSIC");		
+		alrm_str[7]  = 'M';
+		alrm_str[8]  = 'U';
+		alrm_str[9]  = 'S';
+		alrm_str[10] = 'I';
+		alrm_str[11] = 'C';
+	}
+
+
+
 }
-void show_remote_temp(){ 
-uint16_t temperature;
-char buff[3];
-temperature = get_remote_temp();
-itoa(temperature, buff, 10);
-LCD_PutStr("buff");
-}
- */
 
 void show_temperature(){
 	static uint8_t counter = 0;
-	//loc_temp_str = "Local  temp:   C";
-	//rem_temp_str = "Remote temp:   C";
-	//loc_temp_str[13] = '3';
-	//loc_temp_str[12] = '2';
 	generate_temp_str();
-	//If temp string is not already displayed, diisplay it
 	if(counter <= 15){
 		char2lcd(loc_temp_str[counter]);
 		if(counter == 15){
@@ -873,101 +899,23 @@ void show_temperature(){
 		counter++;
 	}
 }
-
-
-
-
-
-
-void LCD_Display(){
+void show_alarm(){
 	static uint8_t counter = 0;
-
+	generate_alarm_string();
 	if(counter <= 15){
-		//	char2lcd(rem_temp_str[counter]);
-		if(counter == 15){
-			home_line2();
-			//_delay_ms(1);
-		}
+		char2lcd(alrm_str[counter]);
 		counter++;
-		//	return;
 	}
-	else if (counter >=16 && counter <= 31){
-		//	//minute++;
-		//	char2lcd(loc_temp_str[counter-16]);
-		counter++;
-		//return;
-	}
-	else if(counter >= 75){ 
-		//counter = 0;
-		//loc_temp_str = "";
-		//rem_temp_str = "";
-		//loc_temp_str = "Local  temp:   C";
-		//rem_temp_str = "Remote temp:   C";
-		counter++;
-		cursor_home();
-		//	return;
-	}
-	else if(counter >=100){
+	else if (counter >= 45){
 		counter = 0;
+		cursor_home();
 	}
 	else{
 		counter++;
 	}
-	/*
-	   if (counter >=16 && counter <32){
-	   char2lcd(rem_temp_str[counter]);
-	   counter++;
-	   return;
-	   }
-	 */	
-
-	//char2lcd(rem_temp_str[counter]);
-	//clear_display();
-	//generate_temp_str();	
-	/*if(counter >= 32){
-	  counter = 0;
-	  }
-	  if(counter < 16){
-	  char2lcd(loc_temp_str[counter]);
-	  counter++;
-	  return;
-	  }
-
-
-	  if(counter= == 16){
-
-	  home_line2();
-	  }
-
-	  char2lcd(rem_temp_str[counter]);
-	 */
-
-
-	//LCD_PutChar(temp_str[counter]);
-	//strcpy(loc_temp_str, "Local  temp:   C");
-	//strcpy(rem_temp_str, "Remote temp:   C");
-	//strcpy(rem_temp_str, "Remote temp:   C");
-	//strcpy(temp_str, "local temp:   Cremote temp:   C");
-	//string2lcd(loc_temp_str);
-	//string2lcd(rem_temp_str);
-	//LCD_MovCursorLn2();
-	//_delay_ms(2);
-	//LCD_PutStr(rem_temp_str);
-	//LCD_MovCursorLn1();
-	//_delay_ms(2);
-
-	//	char2lcd(loc_temp_str[counter]);
-
-
-	//show_remote_temp();
-	//if(alarm_on){
-	//	LCD_PutStr("ALARM ON!!");
-	//}
-	//else{
-	//	LCD_PutStr("ALARM OFF!!");
-	//}
-	//update_LCD = 0;
 }
+
+
 //******************************************************************
 /*******************************************************************
  * Alarm operation:
@@ -1009,12 +957,33 @@ void volume_control_init(void){
 void initialize_string(){
 	loc_temp_str = "Local  temp:   C";
 	rem_temp_str = "Remote temp:   C";
+	alrm_str     = "ALARM      *****";
 }
 
 void encoder_init(){
 	DDRF &= 0xFC;
 	PORTF |= (1<<PF7);
 }
+
+void LCD_handler(){
+	if(LCD_mode==0){
+		//alarm_mode_change = 1;
+		show_alarm();	
+		//show words;
+	}
+	else if(LCD_mode==1){
+		//Mode 2 => show temp in F
+		temp_mode = 0;	
+		show_temperature();
+	}
+	else if(LCD_mode==2){
+		//Mode 3 => show temp in C
+		temp_mode = 1;	
+		show_temperature();
+	}
+}
+
+
 int main()
 {
 	//set port bits 4-7 B as outputs
@@ -1041,12 +1010,12 @@ int main()
 	//_delay_ms(1000);
 	radio_interrupt_init();
 	radio_init();
-	 current_fm_freq = 10630;
+	current_fm_freq = 10630;
 
 	//EIMSK |= (1<<INT7);
 	//EICRB |= (1<<ISC71);
 	sei();
-		/*radio_powerUp();
+	/*radio_powerUp();
 	  radio_powerUp();
 	  radio_powerUp();
 	  radio_powerUp();
@@ -1068,17 +1037,23 @@ int main()
 			bar_graph_flag = 0;
 		}
 		if(update_LCD){
-
-			show_temperature();
+			//show_temperature();
+			LCD_handler();
 			update_LCD = 0;
 		}
-		if(radio){
+
+		if(clear_LCD){
+			clear_display();
+			clear_LCD = 0;
+		}
+		
+		if(turn_radio_on){
 			radio_reset();
 			radio_powerUp();
 			_delay_ms(1000);
 			radio_tune_freq();
 			//fm_tune_status();
-			radio = 0;
+			turn_radio_on = 0;
 		}
 	}
 	return 0;

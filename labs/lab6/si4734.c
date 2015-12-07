@@ -74,7 +74,7 @@ void fm_tune_freq(){
   STC_interrupt = FALSE;
  // set_property(GPO_IEN, GPO_IEN_STCIEN); //seek_tune complete interrupt
   twi_start_wr(SI4734_ADDRESS, si4734_wr_buf, 5);
-  while(!STC_interrupt ){}; //spin until the tune command finishes 
+ // while(!STC_interrupt ){}; //spin until the tune command finishes 
 }
 //********************************************************************************
 
