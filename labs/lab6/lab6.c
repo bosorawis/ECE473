@@ -77,10 +77,11 @@ void display_update();
 
 
 //holds data to be sent to the segments. logic zero turns segment on
-static char *loc_temp_str;
-static char *rem_temp_str;
-static char *alrm_str;
-uint8_t clear_LCD;
+static char *loc_temp_str; //Hold location string
+static char *rem_temp_str; //Hold remote string
+static char *alrm_str;	   //Hold Alarm string
+static char *alrm_snooze;  //Hold Alarm snooze
+uint8_t clear_LCD;		
 uint8_t segment_data[5];
 uint8_t encode_flag = 0;
 uint8_t alarm_change = 1;
@@ -93,6 +94,8 @@ uint8_t reset_temp = 0;
 uint8_t bar_graph_flag = 0;
 uint8_t temp_is_up = 0;
 uint8_t radio = 0;
+uint16_t radio_preset[5] = {9910, 8870, 10630, 10790, 10470};
+uint8_t preset_rotate = 0;
 //int delay_time[10] = {50, 60, 70, 80, 90, 100, 110, 120, 130, 150};
 uint16_t time = 0;
 char *str;
@@ -102,7 +105,6 @@ uint8_t show_temp = 0;
 uint8_t am_pm = 0;
 uint8_t show_ampm;
 uint16_t ampm_time;
-uint8_t snooze_offset = 0;
 static uint8_t mode = 0;
 static uint8_t sw_table[] = {0, 1, 2, 0, 2, 0, 0, 1, 1, 0, 0, 2, 0, 2, 1, 0};
 static uint8_t second = 0;
@@ -131,8 +133,9 @@ uint8_t radio_tuning = 0;
 uint8_t radio_change_time;
 uint8_t display_radio=0;
 enum radio_band{FM,AM,SW}; 
+uint8_t snooze_offset = 1;
+uint8_t snooze_offset_is_ten = 0;
 volatile enum radio_band current_radio_band = FM;
-
 volatile uint8_t STC_interrupt;  //flag bit to indicate tune or seek is done
 uint8_t alarm_is_radio;
 uint16_t eeprom_fm_freq;
@@ -243,7 +246,9 @@ void segsum(uint16_t sum) {
 		segment_data[1] &= 0x7F;	
 	}
 	else{
-		segment_data[1] |= (1<<7);
+		if(mode != 2){
+			segment_data[1] |= (1<<7);
+		}
 	}
 	if(mode == 1 && blink){
 		segment_data[4] = 0xFF;
@@ -273,7 +278,7 @@ void button_routine(){
 		if (chk_buttons(button)){
 			//Check the state of buttons
 			switch(button){
-				case 0:  
+				case 0:  //Play radio 
 					if(mode == 5){
 						mode = 0;
 						radio = 0;
@@ -283,7 +288,7 @@ void button_routine(){
 						radio = 1;
 					}
 					break;
-				case 1:
+				case 1: //Edit time
 					if(mode == 1){
 						mode = 0;	
 					}
@@ -291,7 +296,7 @@ void button_routine(){
 						mode = 1;
 					}
 					break;
-				case 2:
+				case 2: //Edit alarm
 					if(mode == 2){
 						mode = 0;	
 					}
@@ -320,23 +325,17 @@ void button_routine(){
 					}
 					break;
 				case 5:
-					/*
-					if(mode == 5){
-						mode = 0;
+					if(snooze_offset == 10){
+						snooze_offset = 1;
 					}
 					else{
-						mode = 5;
+						snooze_offset = 10;
 					}
-					*/
-					//show_temp = !show_temp;
 					break;
 				case 6:
 					if(playing){
 						alarm_stop = 1;
-						alarm_minute += 1;
-						//playing = 0;
-						//music_status = 0;
-						//music_off();
+						alarm_minute += snooze_offset;
 					}
 					break;
 				case 7:
@@ -558,6 +557,7 @@ void bar_graph(){
 	if(alarm_on != 0){
 		write = 0xFF;
 	}
+
 	SPI_Transmit(write);
 	PORTD = (1 << PD2);  //Push data out of SPI
 	__asm__ __volatile__ ("nop"); //Buffer
@@ -730,7 +730,13 @@ void right_inc(){
 				alarm_minute = 0;	
 			}
 			break;
-		case 3:
+		case 4:
+			snooze_offset_is_ten++;	
+			break;
+		case 5:
+			radio_change_time = second;
+			preset_rotate++;
+			new_fm_freq = radio_preset[preset_rotate%5];
 			break;
 		default:
 			break;             
@@ -752,7 +758,13 @@ void right_dec(){
 				alarm_minute = 59;	
 			} 
 			break;
-		case 3:
+		case 4:
+			snooze_offset_is_ten--;	
+			break;
+		case 5:
+			radio_change_time = second;
+			preset_rotate--;
+			new_fm_freq = radio_preset[preset_rotate%5];
 			break;
 		default:
 			break;
@@ -912,8 +924,14 @@ void generate_alarm_string(){
 		alrm_str[11] = 'C';
 	}
 
-
-
+	if(snooze_offset == 1){
+		alrm_snooze[7] = '0';
+		alrm_snooze[8] = '1';
+	}
+	else {
+		alrm_snooze[7] = '1';
+		alrm_snooze[8] = '0';
+	}
 }
 
 void show_temperature(){
@@ -946,14 +964,22 @@ void show_temperature(){
 		counter++;
 	}
 }
+
 void show_alarm(){
 	static uint8_t counter = 0;
 	generate_alarm_string();
 	if(counter <= 15){
 		char2lcd(alrm_str[counter]);
+		if(counter == 15){
+			home_line2();
+		}
 		counter++;
 	}
-	else if (counter >= 45){
+	else if (counter >=16 && counter <= 31){
+		char2lcd(alrm_snooze[counter-16]);
+		counter++;
+	}
+	else if (counter >= 75){
 		counter = 0;
 		cursor_home();
 	}
@@ -1005,6 +1031,7 @@ void initialize_string(){
 	loc_temp_str = "Local  temp:   C";
 	rem_temp_str = "Remote temp:   C";
 	alrm_str     = "ALARM      *****";
+	alrm_snooze  = "Snooze:   ******";
 }
 
 void encoder_init(){
@@ -1062,24 +1089,16 @@ int main()
 	//EIMSK |= (1<<INT7);
 	//EICRB |= (1<<ISC71);
 	sei();
-	/*radio_powerUp();
-	  radio_powerUp();
-	  radio_powerUp();
-	  radio_powerUp();
-	  radio_powerUp();
-	  radio_powerUp();
-	 */
-	//*******************************************
-	//strcpy(loc_temp_str, "Local  temp:   C");
-	//string2lcd("hello");
-//	radio_reset();
-//	radio_powerUp();
-//	_delay_ms(1000);
-//	radio_tune_freq();
 
 	while(1){
 
 		update_time();
+		if(snooze_offset_is_ten%2){
+			snooze_offset = 10;
+		}	
+		else{
+			snooze_offset = 1;
+		}
 		if(encode_flag){
 			check_knobs();
 			encode_flag = 0;
