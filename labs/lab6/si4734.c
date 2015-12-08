@@ -66,7 +66,7 @@ uint8_t get_int_status(){
 void fm_tune_freq(){
   si4734_wr_buf[0] = 0x20;  //fm tune command
   si4734_wr_buf[1] = 0x00;  //no FREEZE and no FAST tune
-  current_fm_freq = 10630;
+  //current_fm_freq = 10630;
   si4734_wr_buf[2] = (uint8_t)(current_fm_freq >> 8); //freq high byte
   si4734_wr_buf[3] = (uint8_t)(current_fm_freq);      //freq low byte
   si4734_wr_buf[4] = 0x00;  //antenna tuning capactior

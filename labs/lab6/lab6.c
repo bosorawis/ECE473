@@ -116,16 +116,20 @@ uint8_t snooze_flag = 0;
 static uint8_t alarm_minute = 0;
 static uint8_t alarm_hour = 0;
 uint8_t alarm_on = 0;
-uint8_t music_status = 0;
+uint8_t playing = 0;
 static uint8_t ticker = 0;
 uint8_t volume = 100;
 uint8_t blink = 0;
 uint8_t temp_mode = 0;
 uint8_t LCD_mode=0;
 uint8_t alarm_mode_change = 0 ;
-
+uint8_t alarm_go = 0;
+uint8_t alarm_stop = 0;
 uint8_t turn_radio_on = 0;
-
+uint8_t radio_is_on = 0;
+uint8_t radio_tuning = 0;
+uint8_t radio_change_time;
+uint8_t display_radio=0;
 enum radio_band{FM,AM,SW}; 
 volatile enum radio_band current_radio_band = FM;
 
@@ -135,6 +139,7 @@ uint16_t eeprom_fm_freq;
 uint8_t  eeprom_volume;
 
 uint16_t current_fm_freq;
+uint16_t new_fm_freq;
 uint8_t  current_volume;
 
 extern uint8_t lm73_rd_buf[2];
@@ -216,9 +221,11 @@ void segsum(uint16_t sum) {
 	else{
 		segment_data[2] = 0xFF;
 	} 
+	if(display_radio){
+		sum = sum/10;
+	}
 	//When setting alarm is on)
 	//break up decimal sum into 4 digit-segments
-
 	segment_data[0] = int2seg(sum % 10); //ones
 	segment_data[1] = int2seg((sum % 100)/10); //tens
 	//segment_data[2] = 1; //decimal
@@ -231,6 +238,12 @@ void segsum(uint16_t sum) {
 	}
 	else{
 		segment_data[0] |= 0b10000000;
+	}
+	if(display_radio){
+		segment_data[1] &= 0x7F;	
+	}
+	else{
+		segment_data[1] |= (1<<7);
 	}
 	if(mode == 1 && blink){
 		segment_data[4] = 0xFF;
@@ -261,7 +274,14 @@ void button_routine(){
 			//Check the state of buttons
 			switch(button){
 				case 0:  
-					radio = 1;
+					if(mode == 5){
+						mode = 0;
+						radio = 0;
+					}
+					else{
+						mode = 5;
+						radio = 1;
+					}
 					break;
 				case 1:
 					if(mode == 1){
@@ -300,20 +320,28 @@ void button_routine(){
 					}
 					break;
 				case 5:
-					show_ampm = !show_ampm;
+					/*
+					if(mode == 5){
+						mode = 0;
+					}
+					else{
+						mode = 5;
+					}
+					*/
 					//show_temp = !show_temp;
 					break;
 				case 6:
-					if(music_status){
-						snooze_flag = 1;
-						music_status = 0;
-						music_off();
+					if(playing){
+						alarm_stop = 1;
+						alarm_minute += 1;
+						//playing = 0;
+						//music_status = 0;
+						//music_off();
 					}
 					break;
 				case 7:
-					if(alarm_on && music_status){
-						music_off();
-						music_status = 0;
+					if(playing){
+						alarm_stop = 1;
 					}
 					alarm_on = !alarm_on;
 					//alarm_change = 1; 
@@ -353,25 +381,22 @@ ISR(TIMER0_OVF_vect){
 		second++; 
 		reset_temp = 1;   
 		if(alarm_on){
-			if ((alarm_time == time) && !snooze_flag && !music_status){
-				if(alarm_is_radio){
-					turn_radio_on = 1;
-				}
-				else{
-					//play music
-					music_on();
-					music_status = 1;
-				}
+			if (alarm_time == time){
+				alarm_go = 1;
 			}
-			else if(snooze_flag){
-				snooze_second++;
-				if(snooze_second >= 10){
-					snooze_flag = 0;
-					music_on();
-					snooze_second = 0;
-				}	
+			//else if(snooze_flag){
+			//alarm_go = 0;
+			//snooze_second++;
+			//if(snooze_second >= 10){
+			//	snooze_flag = 0;
+			//music_on();
+			//	alarm_go = 1;
+			//	snooze_second = 0;
+			//}	
+			//}
+			else if(alarm_time != time){
+				alarm_stop = 1;
 			}
-
 		}
 	}
 }
@@ -409,8 +434,8 @@ ISR(TIMER2_OVF_vect){
 
 ISR(INT7_vect){
 	STC_interrupt = TRUE;
-	minute++;
-	time = 1919;
+	//minute++;
+	//time = 1919;
 }
 
 ISR(ADC_vect){
@@ -551,14 +576,28 @@ void display_update(){
 	static uint8_t rotate_7seg = 0;
 	switch(mode){
 		case 2:
+			display_radio = 0;
 			segsum(alarm_time);
 			segment_data[2] = 0x00;
+
 			break;
 		case 3:
+			display_radio = 0;
 			segsum(OCR3A);
 			segment_data[2] = 0xFF; //decimal
+
 			break;
-		case 4:
+		case 5: 
+			if(abs(radio_change_time - second) <= 3){
+				segsum(current_fm_freq);
+				segment_data[2] = 0xFF;
+				display_radio = 1;
+			}
+			else{
+				segsum(show_time);
+				display_radio = 0;
+
+			}
 			break;
 		default:
 			segsum(show_time);
@@ -743,6 +782,10 @@ void left_inc(){
 		case 4: 
 			alarm_is_radio++;
 			break;
+		case 5:
+			radio_change_time = second;
+			new_fm_freq += 20;
+			break;
 		default:
 			break;
 	}
@@ -769,6 +812,10 @@ void left_dec(){
 			break;
 		case 4: 
 			alarm_is_radio++;
+			break;
+		case 5:
+			radio_change_time = second;
+			new_fm_freq -= 20;
 			break;
 		default:
 			break;
@@ -1011,7 +1058,7 @@ int main()
 	radio_interrupt_init();
 	radio_init();
 	current_fm_freq = 10630;
-
+	new_fm_freq = current_fm_freq;
 	//EIMSK |= (1<<INT7);
 	//EICRB |= (1<<ISC71);
 	sei();
@@ -1025,6 +1072,11 @@ int main()
 	//*******************************************
 	//strcpy(loc_temp_str, "Local  temp:   C");
 	//string2lcd("hello");
+//	radio_reset();
+//	radio_powerUp();
+//	_delay_ms(1000);
+//	radio_tune_freq();
+
 	while(1){
 
 		update_time();
@@ -1046,14 +1098,68 @@ int main()
 			clear_display();
 			clear_LCD = 0;
 		}
-		
-		if(turn_radio_on){
-			radio_reset();
-			radio_powerUp();
-			_delay_ms(1000);
-			radio_tune_freq();
-			//fm_tune_status();
-			turn_radio_on = 0;
+		if(radio){
+			if(mode != 5){
+				radio_pwr_dwn();
+				radio = 0;
+				radio_is_on = 0;
+			}
+			if(!radio_is_on){	
+				radio_reset();
+				radio_powerUp();
+				_delay_ms(1000);
+				radio_tune_freq();
+				//new_fm_freq = current_fm_freq;
+				radio_is_on = 1;
+			}
+
+			else{
+				if(current_fm_freq != new_fm_freq){
+					current_fm_freq = new_fm_freq;
+					radio_tune_freq();
+				}
+			}
+		}
+		else{
+			if(radio_is_on){
+				radio_pwr_dwn();
+				radio = 0;
+				radio_is_on = 0;
+			}
+		}
+
+		if(alarm_go){
+			alarm_go = 0;
+			if(!playing){
+				playing = 1;
+				if(alarm_is_radio){
+					radio_reset();
+					radio_powerUp();
+					_delay_ms(1000);
+					radio_tune_freq();
+					//fm_tune_status();
+					turn_radio_on = 0;
+				}
+				else{
+					music_on();
+				}
+			}
+			else{
+
+			}
+		}
+		if(alarm_stop){
+			alarm_stop = 0;
+			if(playing){
+				playing = 0;
+				if(alarm_is_radio){
+					radio_pwr_dwn();
+				}
+				else{
+					music_off();
+				}
+			}
+
 		}
 	}
 	return 0;
